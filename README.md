@@ -83,14 +83,8 @@
 
 | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@taeyuls</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@hyerin1228</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> | <a 
 |:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------:|
-|                홍길동                 |    김00     |                                                                            강00                                                                            |    송00     |
+|                김태율                 |    황혜린     |                                                                            김민영                                        
 
-
-### BE
-
-| <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/85716720?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/orioncsy><img src="https://avatars.githubusercontent.com/u/90237119?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/77969043?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|
-|                                                                            박00                                                                             |                                                                            이00                                                                             |                                          한00                                           |
 
 ## 📑 프로젝트 규칙
 
