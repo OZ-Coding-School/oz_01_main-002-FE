@@ -81,11 +81,9 @@
 
 ### FE
 
-| <a href=https://github.com/taeyuls><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@taeyuls</b></sub></a><br/> | <a href=https://github.com/hyerin1228><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@hyerin1228</b></sub></a><br/> | <a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> | <a 
-|:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------:|
-|                김태율                 |    황혜린     |                                                                            김민영 
-
-
+| <a href=https://github.com/taeyuls><img src="https://avatars.githubusercontent.com/u/153368987?v=4" width=100px/><br/><sub><b>@taeyuls</b></sub></a><br/> | <a href=https://github.com/hyerin1228><img src="https://avatars.githubusercontent.com/u/84621142?v=4" width=100px/><br/><sub><b>@hyerin1228</b></sub></a><br/> | <a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/77969043?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|
+|                                                                            김태율                                                                            |                                                                            황혜린                                                                             |                                          김민영                                          |
 
 
 ## 📑 프로젝트 규칙
