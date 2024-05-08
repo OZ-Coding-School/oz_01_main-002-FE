@@ -1,6 +1,18 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+
+const imageList = [
+  "/images/cat-5183427_1280.jpg",
+  "/images/cat-84621142.jpeg",
+  "/images/cat-birthday_cat_sad.jpg",
+];
 
 const ProductDetail = () => {
+  // 현재 표시할 메인 이미지를 관리할 상태
+  const [currentImage, setCurrentImage] = useState(imageList[0]);
+
   return (
     <main className="flex flex-col items-center p-8 space-y-8">
       <div className="flex w-full max-w-6xl gap-8">
@@ -8,32 +20,22 @@ const ProductDetail = () => {
         <section className="flex gap-4 w-3/5">
           {/* 썸네일 이미지 */}
           <div className="flex flex-col gap-4 basis-1/5">
-            <Image
-              src="/images/cat-5183427_1280.jpg"
-              alt=""
-              width={500}
-              height={300}
-              layout="responsive"
-            />
-            <Image
-              src="/images/cat-5183427_1280.jpg"
-              alt=""
-              width={500}
-              height={300}
-              layout="responsive"
-            />
-            <Image
-              src="/images/cat-5183427_1280.jpg"
-              alt=""
-              width={500}
-              height={300}
-              layout="responsive"
-            />
+            {imageList.map((src, index) => (
+              <div key={index} onClick={() => setCurrentImage(src)}>
+                <Image
+                  src={src}
+                  alt=""
+                  width={500}
+                  height={300}
+                  layout="responsive"
+                />
+              </div>
+            ))}
           </div>
           {/* 메인 이미지 */}
           <div className="flex-1">
             <Image
-              src="/images/cat-5183427_1280.jpg"
+              src={currentImage}
               alt=""
               width={500}
               height={300}
