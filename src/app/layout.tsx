@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local';
+import Footer from "./_components/Footer";
 import Nav from "./_components/Nav";
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );
