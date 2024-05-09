@@ -1,39 +1,61 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+
+const imageList = [
+  "/images/cat-5183427_1280.jpg",
+  "/images/cat-84621142.jpeg",
+  "/images/cat-birthday_cat_sad.jpg",
+];
 
 const ProductDetail = () => {
+  // 현재 표시할 메인 이미지를 관리할 상태
+  const [currentImage, setCurrentImage] = useState(imageList[0]);
+
+  // 이미지 전환 애니메이션을 위한 상태
+  const [opacity, setOpacity] = useState(1);
+
+  // 이미지 전환 애니메이션 적용 - 바로 이미지가 바뀌면 부자연스러우니까 0.5초 후에 변경, 서서히 나타남
+  const changeImage = (src: string) => {
+    setOpacity(0);
+    setTimeout(() => {
+      setCurrentImage(src);
+      setOpacity(1);
+    }, 500);
+  };
+
   return (
     <main className="flex flex-col items-center p-8 space-y-8">
       <div className="flex w-full max-w-6xl gap-8">
         {/* 이미지 갤러리 섹션 */}
         <section className="flex gap-4 w-3/5">
           {/* 썸네일 이미지 */}
-          <div className="flex flex-col gap-4 basis-1/5">
-            <Image
-              src="/images/cat-5183427_1280.jpg"
-              alt=""
-              width={500}
-              height={300}
-              layout="responsive"
-            />
-            <Image
-              src="/images/cat-5183427_1280.jpg"
-              alt=""
-              width={500}
-              height={300}
-              layout="responsive"
-            />
-            <Image
-              src="/images/cat-5183427_1280.jpg"
-              alt=""
-              width={500}
-              height={300}
-              layout="responsive"
-            />
+          <div className="flex flex-col gap-4 basis-1/5 hover:">
+            {imageList.map((src, index) => (
+              <div
+                key={index}
+                onClick={() => changeImage(src)}
+                className="cursor-pointer transform transition-transform duration-300 hover:scale-110 active:brightness-75"
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  width={500}
+                  height={300}
+                  layout="responsive"
+                />
+              </div>
+            ))}
           </div>
           {/* 메인 이미지 */}
-          <div className="flex-1">
+          <div
+            className={`flex-1 transition-opacity duration-300 ease-in-out ${
+              opacity === 1 ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <Image
-              src="/images/cat-5183427_1280.jpg"
+              src={currentImage}
               alt=""
               width={500}
               height={300}
