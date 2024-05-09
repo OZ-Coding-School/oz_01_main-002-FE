@@ -1,15 +1,13 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const imageList = [
-  "/images/cat-5183427_1280.jpg",
-  "/images/cat-84621142.jpeg",
-  "/images/cat-birthday_cat_sad.jpg",
-];
+interface ProductGalleryProps {
+  images: string[];
+}
 
-const ProductGallery = () => {
+const ProductGallery = ({ images }: ProductGalleryProps) => {
   // 현재 표시할 메인 이미지를 관리할 상태
-  const [currentImage, setCurrentImage] = useState(imageList[0]);
+  const [currentImage, setCurrentImage] = useState(images[0]);
 
   // 이미지 전환 애니메이션을 위한 상태
   const [opacity, setOpacity] = useState(1);
@@ -27,7 +25,7 @@ const ProductGallery = () => {
     <section className="flex gap-4 w-3/5">
       {/* 썸네일 이미지 */}
       <div className="flex flex-col gap-4 basis-1/5 relative">
-        {imageList.map((src, index) => (
+        {images.map((src, index) => (
           <div
             key={index}
             onClick={() => changeImage(src)}
