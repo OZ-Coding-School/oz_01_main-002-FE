@@ -4,13 +4,16 @@ import Link from "next/link";
 const Nav = () => {
   return (
     <div className="w-full h-[130px] flex justify-between  items-center my-0 mx-auto px-[100px]">
-      <Image
-        src="/images/logo.svg"
-        width={200}
-        height={200}
-        className="h-[200px] w-[200px]"
-        alt="로고 이미지"
-      />
+      <Link href='/'>
+        <Image
+          src="/images/logo.svg"
+          width={200}
+          height={200}
+          className="h-[200px] w-[200px]"
+          alt="로고 이미지"
+          priority
+        />
+      </Link>
       <div>
         <div className="text-right text-[rgba(0,0,0,0.4)]">
           <Link className="mr-[23px]" href="#">
@@ -30,10 +33,10 @@ const Nav = () => {
           </Link>
         </div>
         <div className="w-[550px] my-6 text-2xl">
-          <Link className="mr-24" href="/">
+          <Link className="mr-24" href="/productList">
             경매
           </Link>
-          <Link className="mr-24" href="/productList">
+          <Link className="mr-24" href="/">
             중고
           </Link>
           <Link href="/productList/id">커뮤니티</Link>
