@@ -31,35 +31,30 @@ const ProductDetail = () => {
         {/* 이미지 갤러리 섹션 */}
         <section className="flex gap-4 w-3/5">
           {/* 썸네일 이미지 */}
-          <div className="flex flex-col gap-4 basis-1/5 hover:">
+          <div className="flex flex-col gap-4 basis-1/5 relative">
             {imageList.map((src, index) => (
               <div
                 key={index}
                 onClick={() => changeImage(src)}
-                className="cursor-pointer transform transition-transform duration-300 hover:scale-110 active:brightness-75"
+                className="relative  w-full h-[100px] cursor-pointer transform transition-transform duration-300 hover:scale-110 active:brightness-75"
               >
-                <Image
-                  src={src}
-                  alt=""
-                  width={500}
-                  height={300}
-                  layout="responsive"
-                />
+                <Image src={src} alt="" layout="fill" objectFit="cover" />
               </div>
             ))}
           </div>
           {/* 메인 이미지 */}
           <div
-            className={`flex-1 transition-opacity duration-300 ease-in-out ${
+            className={`relative flex-1 h-[480px] transition-opacity duration-300 ease-in-out ${
               opacity === 1 ? "opacity-100" : "opacity-0"
             }`}
           >
             <Image
               src={currentImage}
               alt=""
-              width={500}
-              height={300}
-              layout="responsive"
+              // width={800}
+              // height={480}
+              layout="fill"
+              objectFit="cover"
             />
           </div>
         </section>
