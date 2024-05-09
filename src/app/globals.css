@@ -6,4 +6,13 @@
   .text-balance {
     text-wrap: balance;
   }
+  
+  .input_number_arrow_none::-webkit-inner-spin-button,
+  .input_number_arrow_none::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+ 
 }
+
+
