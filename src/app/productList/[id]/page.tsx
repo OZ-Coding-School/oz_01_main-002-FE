@@ -15,7 +15,11 @@ const dummyProductDetail = {
   product: {
     description: "작성자가 작성한 설명 - Product Detail",
   },
-  seller: {},
+  seller: {
+    nickname: "고양이 바니",
+    content: "츄르를 좋아합니다.",
+    profileImage: "/images/cat-84621142.jpeg", //
+  },
   notice: "주의사항 안내 \n - Product Detail ",
 };
 
@@ -30,7 +34,7 @@ const ProductDetail = () => {
       </div>
       <hr className="w-full max-w-6xl border-t-2" />
       {/* 작성자 정보 섹션 */}
-      <ProductSellerInfo />
+      <ProductSellerInfo seller={dummyProductDetail.seller} />
       <hr className="w-full max-w-6xl border-t-2" />
       {/* 상품 설명 섹션 */}
       <ProductDescription
