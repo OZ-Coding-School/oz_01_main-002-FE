@@ -1,7 +1,9 @@
-import Image from "next/image"
-
+'use client';
+import Image from "next/image";
+import { useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 const MainThree = () => {
-
+  const [likes, setLikes] = useState(false);
   const data = [
     {
       id: 1,
@@ -49,6 +51,11 @@ const MainThree = () => {
     },
   ]
 
+  const handleLike = async (index: number) => {
+    console.log(`${index}좋아요 클릭`);
+    setLikes(!likes);
+  }
+
 
   return (
     <div className="w-full flex items-center">
@@ -57,9 +64,16 @@ const MainThree = () => {
           <p className="text-5xl ml-[14px]">경매 상품</p>
         </div>
         <div className="flex flex-wrap my-[130px]">
-          {data.map((item) => (
-            <div key={item.id} className="w-[252px] h-[361px] m-[14px]">
-              <Image src={item.image} width={252} height={252} className="w-full h-[252px] rounded-xl" alt="경매 아이템 사진" priority />
+          {data.map((item, index) => (
+            <div key={item.id} className="w-[252px] m-[14px] cursor-pointer">
+              <div className="relative">
+                <div className="w-[252px] h-[252px] rounded-xl bg-[rgba(0,0,0,0.5)] absolute opacity-0 hover:opacity-100 transition-all duration-[0.3s] ease-out">
+                  <div className="w-[30px] h-[30px] absolute right-2 top-2 rounded-full bg-white flex items-center justify-center" onClick={() => handleLike(index)}>
+                    {likes ? <FaHeart className="text-[red]" /> : <FaRegHeart className="text-[#D6D6D6]" />}
+                  </div>
+                </div>
+                <Image src={item.image} width={252} height={252} className="w-full h-[252px] rounded-xl object-cover" alt="경매 아이템 사진" priority />
+              </div>
               <div className="mt-[15px] flex items-center justify-between">
                 <p className="text-base">{item.name}</p>
                 <div className="flex items-center">
@@ -67,13 +81,13 @@ const MainThree = () => {
                   <div className="w-[60px] h-[29px] rounded-[20px] bg-[#685BFF] flex justify-center items-center">{item.grade}</div>
                 </div>
               </div>
-              <div className="mt-[8px]">
-                <p className="leading-none mt-[2px]">최소 입찰가 {item.minPrice}원</p>
-                <p className="leading-none  mt-[2px]">현재 입찰가 {item.price}원</p>
+              <div className="mt-[20px]">
+                <p className="leading-none mt-[5px]">최소 입찰가 {item.minPrice}원</p>
+                <p className="leading-none  mt-[5px]">현재 입찰가 {item.price}원</p>
               </div>
-              <div className="flex items-center text-[#A19C9C]">
-                <p className="leading-none mt-[2px]">조회수 {item.views}</p>
-                <p className="leading-none mt-[2px]">찜 {item.likes}</p>
+              <div className="flex items-center mt-[20px] text-[#A19C9C]">
+                <p className="leading-none mt-[5px]">조회수 {item.views}</p>
+                <p className="leading-none mt-[5px]">찜 {item.likes}</p>
               </div>
             </div>
           ))}

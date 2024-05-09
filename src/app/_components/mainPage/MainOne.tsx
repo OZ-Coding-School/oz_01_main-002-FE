@@ -48,10 +48,10 @@ const MainOne = () => {
         <div className="w-[1300px]">
           <div className="w-full h-full flex justify-between">
             <div className="text-4xl relative">
-              <div className="leading-[80px] text-[80px]">
-                <div>Watch.</div>
-                <div>Learn.</div>
-                <div>Grow.</div>
+              <div className="leading-[80px] text-[80px] text-nowrap">
+                <div>오늘의</div>
+                <div>경매</div>
+                <div>물품</div>
               </div>
               <div className="absolute bottom-[60px] h-[120px] w-[450px] z-10 flex items-center justify-between transition-all duration-[0.4s] ease-out shadow-lg hover:transition-all hover:ease-linear hover:shadow-lg">
                 <input className="grow h-[120px] outline-none border-none pl-12 text-xl placeholder:text-xl 
@@ -64,7 +64,7 @@ const MainOne = () => {
                 hover:bg-left-bottom hover:transition-all hover:duration-[0.3s] hover:ease-out">Go</button>
               </div>
             </div>
-            <div className="flex flex-row items-stretch overflow-hidden min-w-[600px] max-w-[960px] w-[calc(100%-100px)] h-[600px]">
+            <div className="flex flex-row items-stretch overflow-hidden min-w-[600px] max-w-[960px] w-[calc(100%-100px)] h-[70vh]">
               {
                 data.map((item) => (
                   <div
