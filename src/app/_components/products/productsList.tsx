@@ -103,6 +103,10 @@ const ProductList = () => {
   );
 };
 
+const formatPrice = (price) => {
+  return new Intl.NumberFormat().format(price);
+};
+
 const ProductCard = ({ product }) => {
   const { name, price, minPrice, image, date, grade, views, likes } = product;
   return (
@@ -113,15 +117,7 @@ const ProductCard = ({ product }) => {
           alt={name}
           className="w-full h-56 object-cover rounded-lg hover:filter"
         />
-        <div className="absolute top-0 h-56 w-full bg-black bg-opacity-50 py-2 px-4 text-white text-center opacity-0 transition-opacity duration-300 hover:opacity-100 text-gray-300 ">
-          <p className="text-start">조회수 : {views}</p>
-          <p className="text-start">좋아요 : {likes}</p>
 
-          <div className="mt-[100px] text-lg">
-            <p>입찰시작가 : {minPrice.toLocaleString()}원</p>
-            <p>즉시입찰가 : {price.toLocaleString()}원</p>
-          </div>
-        </div>
         <div className="flex justify-between m-1">
           <h3 className="text-xl font-semibold">{name}</h3>
           <div className=" flex">
@@ -149,6 +145,14 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="text-lg mt-1">
+        <p>입찰시작가 : {formatPrice(minPrice)}원</p>
+        <p>즉시입찰가 : {formatPrice(price)}원</p>
+      </div>
+      <div className="flex justify-around text-slate-500">
+        <p className="text-start">조회수 : {views}</p>
+        <p className="text-start">좋아요 : {likes}</p>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const Nav = () => {
           <Link className="mr-[23px]" href="#">
             고객센터
           </Link>
-          <Link className="mr-[23px]" href="#">
+          <Link className="mr-[23px]" href="/mypage">
             마이페이지
           </Link>
           <Link className="mr-[23px]" href="#">
@@ -25,7 +25,7 @@ const Nav = () => {
           <Link className="mr-[23px]" href="#">
             알림
           </Link>
-          <Link className="mr-[23px]" href="#">
+          <Link className="mr-[23px]" href="/login">
             로그인
           </Link>
         </div>
