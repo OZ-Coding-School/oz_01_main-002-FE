@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Nav = () => {
   return (
-    <div className="w-full h-[130px] flex justify-between  items-center my-0 mx-auto px-[100px]">
+    <div className="w-full h-[130px] flex justify-between  items-center my-0 mx-auto px-[100px] shadow-sm">
       <Link href='/'>
         <Image
           src="/images/logo.svg"

@@ -43,7 +43,7 @@ const MainOne = () => {
     setaActiveItem(1);
   }
   return (
-    <div>
+    <div className="mt-[3px]">
       <section className="relative w-full h-[calc(100vh-130px)] flex justify-center items-center bg-[#fcfbfb]">
         <div className="w-[1300px]">
           <div className="w-full h-full flex justify-between">
