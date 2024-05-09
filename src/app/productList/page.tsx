@@ -1,8 +1,14 @@
+import ProductBanner from "../_components/products/productsBanner";
+import ProductList from "../_components/products/productsList";
 
-const ProductList = () => {
+const productPage = () => {
   return (
-    <div>ProductList</div>
-  )
-}
+    <div>
+      <ProductBanner />
+      <div className="mt-[550px]"></div>
+      <ProductList />
+    </div>
+  );
+};
 
-export default ProductList
+export default productPage;
