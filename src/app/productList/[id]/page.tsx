@@ -13,6 +13,12 @@ const dummyProductDetail = {
     "/images/cat-birthday_cat_sad.jpg",
   ],
   product: {
+    grade: "S",
+    name: "나이키 에어 맥스",
+    category: "신발",
+    startingPrice: 120000,
+    currentPrice: 135000,
+    closingTime: "2024-05-15T18:00:00Z",
     description: "작성자가 작성한 설명 - Product Detail",
   },
   seller: {
@@ -30,7 +36,7 @@ const ProductDetail = () => {
         {/* 이미지 갤러리 섹션 */}
         <ProductGallery images={dummyProductDetail.images} />
         {/* 상품 정보 섹션 */}
-        <ProductInfo />
+        <ProductInfo product={dummyProductDetail.product} />
       </div>
       <hr className="w-full max-w-6xl border-t-2" />
       {/* 작성자 정보 섹션 */}
