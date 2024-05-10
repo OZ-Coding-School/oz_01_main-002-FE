@@ -50,7 +50,7 @@ const Bidding = () => {
           <div>
             <div className="w-[200px] h-[460px] bg-white border m-3 rounded-lg p-2 text-center">
               <div className="w-full h-[40px] flex justify-center items-center border">접속자</div>
-              <div className="flex h-[410px] flex-col w-full overflow-auto">
+              <div className="flex h-[410px] flex-col w-full overflow-auto no_scrollbar">
                 {people.map((person, index) => (
                   <div key={index} className="w-full leading-10 flex justify-center items-center">{person}</div>
                 ))}
@@ -65,7 +65,7 @@ const Bidding = () => {
           </div>
         </div>
         <div className="px-[12px]">
-          <div className="box-border w-full h-[500px] border border-b-0 mt-10 rounded-t-xl overflow-auto flex flex-col-reverse">
+          <div className="box-border w-full h-[500px] border border-b-0 mt-10 rounded-t-xl overflow-auto no_scrollbar flex flex-col-reverse">
             <div className=" w-full flex flex-col relative">
               <div className="p-3 h-full">
                 {chats.map((chat, index) => (
