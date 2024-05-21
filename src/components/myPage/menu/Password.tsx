@@ -1,12 +1,12 @@
 'use client';
 
-import { useProductStore } from "@/store";
+import { useMenuNumberStore } from "@/store";
 import { useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Password = () => {
   const [isPasswordChecked, setIsPasswordChecked] = useState(false);
-  const { setMenuNumber } = useProductStore();
+  const { setMenuNumber } = useMenuNumberStore();
   const handlePasswordChange = () => {
     setIsPasswordChecked(true);
   }

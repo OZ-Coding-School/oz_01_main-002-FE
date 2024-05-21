@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductStore } from '@/store';
+import { useMenuNumberStore } from '@/store';
 import { IoIosArrowForward } from "react-icons/io";
 
 type MyPageContentProps = {
@@ -13,7 +13,7 @@ type MyPageContentProps = {
 }
 
 const MyPageRoute = ({ myPageMenuList }: MyPageContentProps) => {
-  const { menuNumber } = useProductStore();
+  const { menuNumber } = useMenuNumberStore();
   return (
     <div className={` -mt-8  ${menuNumber === 0 ? 'hidden' : 'block'}`}>
       <div className="flex items-center mb-2">

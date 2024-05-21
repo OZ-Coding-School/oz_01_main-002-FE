@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductStore } from '@/store';
+import { useMenuNumberStore } from '@/store';
 
 type SideMenuButtonProps = {
   menu: {
@@ -12,7 +12,7 @@ type SideMenuButtonProps = {
 }
 
 const SideMenuButton = ({ menu }: SideMenuButtonProps) => {
-  const { menuNumber, setMenuNumber } = useProductStore();
+  const { menuNumber, setMenuNumber } = useMenuNumberStore();
   return (
     <div className={`box-border my-2 px-8 w-full h-[72px] ${menuNumber === menu.id ? 'bg-white' : ''} cursor-pointer flex items-center rounded-xl hover:bg-white`} onClick={() => setMenuNumber(menu.id)}>
       {menu.icon}

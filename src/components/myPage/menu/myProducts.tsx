@@ -1,10 +1,10 @@
 'use client';
 
-import { useProductStore } from "@/store";
+import { useMenuNumberStore } from "@/store";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 const MyProducts = () => {
-  const { setMenuNumber } = useProductStore();
+  const { setMenuNumber } = useMenuNumberStore();
   return (
     <div className="w-full max-w-[900px] h-[1000px] bg-white rounded-xl px-10">
       <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>

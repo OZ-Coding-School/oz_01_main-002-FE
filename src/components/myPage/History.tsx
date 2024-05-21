@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductStore } from "@/store";
+import { useMenuNumberStore } from "@/store";
 import { useState } from "react";
 import { LuArrowDownUp } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -11,7 +11,7 @@ type HistoryProps = {
 
 const History = ({ title }: HistoryProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  const { setMenuNumber } = useProductStore();
+  const { setMenuNumber } = useMenuNumberStore();
   return (
     <div className="w-full border rounded-xl px-8 py-4 bg-white mb-5">
       <div className="flex items-center">

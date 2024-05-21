@@ -7,12 +7,12 @@ import WishList from "@/components/myPage/menu/WishList";
 import MyProducts from "@/components/myPage/menu/myProducts";
 import Orders from "@/components/myPage/menu/order/Orders";
 import Profile from "@/components/myPage/menu/profile/Profile";
-import { useProductStore } from "@/store";
+import { useMenuNumberStore } from "@/store";
 import MoreButton from "./MoreButton";
 import ProfileButton from "./ProfileButton";
 
 const MyPageContent = () => {
-  const { menuNumber } = useProductStore();
+  const { menuNumber } = useMenuNumberStore();
   return (
     <>
       {menuNumber === 0 ?

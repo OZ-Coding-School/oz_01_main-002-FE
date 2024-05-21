@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductStore } from "@/store";
+import { useMenuNumberStore } from "@/store";
 import { MouseEvent, useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
@@ -19,7 +19,7 @@ const Address = () => {
     bname: '',
     detailAddress: '',
   })
-  const { setMenuNumber } = useProductStore();
+  const { setMenuNumber } = useMenuNumberStore();
 
   const [userAddressList, setUserAddressList] = useState([
     { id: 1, addressName: '우리집', address: '서울특별시 서대문구 신촌동', check: true },
