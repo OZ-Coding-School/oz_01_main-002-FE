@@ -1,11 +1,12 @@
+'use client';
+
 import { useEffect, useState } from "react";
 
-type CountDownProps = {
-  day: string;
-}
-
-const useCountDown = ({ day }: CountDownProps) => {
+const CountDown = () => {
   const [dDay, setDDay] = useState<string>();
+
+  const day = '2024-05-30';
+
   const targetDate = new Date(day);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const useCountDown = ({ day }: CountDownProps) => {
     return () => clearInterval(timer);
   }, [])
 
-  return dDay;
+  return <p className="text-4xl text-white">입찰까지 {dDay} 남았습니다.</p>;
 }
 
-export default useCountDown
+export default CountDown
