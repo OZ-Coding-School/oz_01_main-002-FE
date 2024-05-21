@@ -68,7 +68,7 @@
   
   ## :busts_in_silhouette: 팀 동료
   
-  | <a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/95726561?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> | <a href=https://github.com/hayeon010904><img src="https://avatars.githubusercontent.com/u/153696152?v=4" width=100px/><br/><sub><b>@hayeon010904</b></sub></a><br/> |<a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/95726561?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> |
+  | <a href=https://github.com/taeyuls><img src="https://avatars.githubusercontent.com/u/153368987?v=4" width=100px/><br/><sub><b>@taeyuls</b></sub></a><br/> | <a href=https://github.com/hyerin1228><img src="https://avatars.githubusercontent.com/u/84621142?v=4" width=100px/><br/><sub><b>@hyerin1228</b></sub></a><br/> |<a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/95726561?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> |
   |:-----------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
   |                                          김태율                     |                         황혜린                                           |                         김민영                                           |
   
