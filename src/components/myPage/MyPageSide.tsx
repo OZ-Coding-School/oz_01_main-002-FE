@@ -12,7 +12,7 @@ type MyPageSideBarProps = {
   }[]
 }
 
-const MyPageSideBar = ({ myPageMenuList }: MyPageSideBarProps) => {
+const MyPageSide = ({ myPageMenuList }: MyPageSideBarProps) => {
   const { menuNumber, setMenuNumber } = useProductStore();
   return (
     <div className="flex flex-col items-center w-[260px]  mr-[40px] max-[1200px]:hidden">
@@ -35,4 +35,4 @@ const MyPageSideBar = ({ myPageMenuList }: MyPageSideBarProps) => {
   )
 }
 
-export default MyPageSideBar
+export default MyPageSide

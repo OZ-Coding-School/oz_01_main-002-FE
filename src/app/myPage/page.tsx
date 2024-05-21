@@ -1,5 +1,6 @@
 import MyPageContent from "@/components/myPage/MyPageContent";
-import MyPageSideBar from "@/components/myPage/MypageSideBar";
+import MyPageSide from "@/components/myPage/MyPageSide";
+
 import { BsPerson } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 
@@ -18,7 +19,7 @@ const MyPage = () => {
     <div className="w-full bg-[#222]">
       <div className="h-[100px]"></div>
       <div className="flex w-full justify-center max-w-[1200px] mx-auto bg-[#222]">
-        <MyPageSideBar myPageMenuList={myPageMenuList} />
+        <MyPageSide myPageMenuList={myPageMenuList} />
         <MyPageContent myPageMenuList={myPageMenuList} />
       </div>
     </div>
