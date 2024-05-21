@@ -1,13 +1,16 @@
-import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
+'use client';
+
+import { useProductStore } from "@/store";
+import { MouseEvent, useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
 import { FaHouse } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { RiArrowGoBackFill } from "react-icons/ri";
-type AddressProps = Dispatch<SetStateAction<number>>;
 
-const Address = ({ setMenuNumber }: { setMenuNumber: AddressProps }) => {
+
+const Address = () => {
   const [userAddress, setUserAddress] = useState({
     addressName: '',
     zoneCode: '',
@@ -16,6 +19,7 @@ const Address = ({ setMenuNumber }: { setMenuNumber: AddressProps }) => {
     bname: '',
     detailAddress: '',
   })
+  const { setMenuNumber } = useProductStore();
 
   const [userAddressList, setUserAddressList] = useState([
     { id: 1, addressName: '우리집', address: '서울특별시 서대문구 신촌동', check: true },

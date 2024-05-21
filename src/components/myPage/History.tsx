@@ -1,16 +1,17 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { useProductStore } from "@/store";
+import { useState } from "react";
 import { LuArrowDownUp } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 type HistoryProps = {
   title: string,
-  setMenuNumber?: Dispatch<SetStateAction<number>>;
 }
 
-const History = ({ title, setMenuNumber }: HistoryProps) => {
+const History = ({ title }: HistoryProps) => {
   const [isChecked, setIsChecked] = useState(false);
+  const { setMenuNumber } = useProductStore();
   return (
     <div className="w-full border rounded-xl px-8 py-4 bg-white mb-5">
       <div className="flex items-center">

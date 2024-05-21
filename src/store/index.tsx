@@ -13,12 +13,16 @@ type Product = {
 }
 
 type State = {
+  menuNumber: number;
+  setMenuNumber: (number: number) => void;
   paymentUserProducts: Product[];
   setPaymentUserProducts: (products: Product[]) => void;
 }
 
 export const useProductStore = create<State>()(
   devtools(persist((set) => ({
+    menuNumber: 0,
+    setMenuNumber: (number) => set({ menuNumber: number }),
     paymentUserProducts: [],
     setPaymentUserProducts: (products) => set({ paymentUserProducts: products }),
   }), {

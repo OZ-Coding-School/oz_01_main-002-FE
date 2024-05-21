@@ -1,10 +1,12 @@
-import { Dispatch, SetStateAction, useState } from "react";
+'use client';
+
+import { useProductStore } from "@/store";
+import { useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
-type PasswordProps = Dispatch<SetStateAction<number>>;
-
-const Password = ({ setMenuNumber }: { setMenuNumber: PasswordProps }) => {
+const Password = () => {
   const [isPasswordChecked, setIsPasswordChecked] = useState(false);
+  const { setMenuNumber } = useProductStore();
   const handlePasswordChange = () => {
     setIsPasswordChecked(true);
   }

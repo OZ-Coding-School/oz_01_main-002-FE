@@ -1,4 +1,4 @@
-import { useProductStore } from "@/_store";
+import { useProductStore } from "@/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";

@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
-import { RiArrowGoBackFill } from "react-icons/ri";
-type AddressProps = Dispatch<SetStateAction<number>>;
+'use client';
 
-const WishList = ({ setMenuNumber }: { setMenuNumber: AddressProps }) => {
+import { useProductStore } from "@/store";
+import { RiArrowGoBackFill } from "react-icons/ri";
+
+const WishList = () => {
+  const { setMenuNumber } = useProductStore();
   return (
     <div className="w-full max-w-[900px] h-[1000px] bg-white rounded-xl px-10">
       <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>

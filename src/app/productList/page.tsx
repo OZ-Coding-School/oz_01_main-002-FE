@@ -1,5 +1,5 @@
-import ProductListCategory from "@/_components/product/ProductListCategory";
-import ProductListItem from "@/_components/product/ProductListItem";
+import ProductListCategory from "@/components/product/ProductListCategory";
+import ProductListItem from "@/components/product/ProductListItem";
 import Link from "next/link";
 
 const ProductList = () => {

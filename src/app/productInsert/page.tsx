@@ -1,6 +1,6 @@
 'use client';
 
-import { useOnclickOutside, useOnclickOutside2 } from "@/_hooks/useOnClickOutSide";
+import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
 import axios from "axios";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";

@@ -1,11 +1,13 @@
+'use client';
+
+import { useProductStore } from "@/store";
 import Image from "next/image";
-import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import UserInfoInput from "./UserInfoInput";
 
-type ProfileProps = Dispatch<SetStateAction<number>>;
-
-const Profile = ({ setMenuNumber }: { setMenuNumber: ProfileProps }) => {
+const Profile = () => {
+  const { setMenuNumber } = useProductStore();
   const [isNicknameDisabled, setIsNicknameDisabled] = useState(true);
   const [isPhoneDisabled, setIsPhoneDisabled] = useState(true);
   const fileInput = useRef<HTMLInputElement>(null);
