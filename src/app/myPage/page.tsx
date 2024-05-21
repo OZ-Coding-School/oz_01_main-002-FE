@@ -1,9 +1,8 @@
 import MyPageContent from "@/components/myPage/MyPageContent";
-import MyPageSide from "@/components/myPage/MyPageSide";
-
+import MyPageRoute from "@/components/myPage/MyPageRoute";
+import MyPageSide from "@/components/myPage/sideBar/MyPageSide";
 import { BsPerson } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
-
 import { PiShoppingCartLight, PiTruckLight } from "react-icons/pi";
 import { RiKey2Line } from "react-icons/ri";
 const MyPage = () => {
@@ -20,7 +19,11 @@ const MyPage = () => {
       <div className="h-[100px]"></div>
       <div className="flex w-full justify-center max-w-[1200px] mx-auto bg-[#222]">
         <MyPageSide myPageMenuList={myPageMenuList} />
-        <MyPageContent myPageMenuList={myPageMenuList} />
+        <div className="w-[900px]">
+          <MyPageRoute myPageMenuList={myPageMenuList} />
+          <MyPageContent />
+        </div>
+
       </div>
     </div>
   )
