@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MouseEvent, useEffect, useRef, useState } from "react";
-import { useOnclickOutside } from "../hooks/useOnClickOutSide";
+import { useOnclickOutside } from "../../hooks/useOnClickOutSide";
 
 const Nav = () => {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -12,7 +12,7 @@ const Nav = () => {
   const [isChecked, setIsChecked] = useState(false);
   const prams = usePathname();
   const ref = useRef(null);
-  console.log('params', prams)
+
   const menu = [
     { id: 1, name: '경매', link: '/productList' },
     { id: 2, name: '커뮤니티', link: '/' },
@@ -77,7 +77,6 @@ const Nav = () => {
   }
   );
 
-  console.log('isChecked', isChecked)
   return (
     <div>
       <div className="w-full h-[40px] flex justify-end items-center pr-[150px] bg-[#222] max-[1200px]:hidden">
