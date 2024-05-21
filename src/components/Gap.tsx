@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from "react";
-import { useScrollEvent } from "../_hooks/useScrollEvent";
+import { useScrollEvent } from "../hooks/useScrollEvent";
 
 const Gap = () => {
   const targetRef = useRef<HTMLDivElement>(null);

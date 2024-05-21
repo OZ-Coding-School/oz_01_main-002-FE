@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MouseEvent, useEffect, useRef, useState } from "react";
-import { useOnclickOutside } from "../_hooks/useOnClickOutSide";
+import { useOnclickOutside } from "../hooks/useOnClickOutSide";
 
 const Nav = () => {
   const targetRef = useRef<HTMLDivElement>(null);

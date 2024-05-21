@@ -1,5 +1,5 @@
-import MainCarousel from "@/_components/main/MainCarousel";
-import ProductItem from "@/_components/product/ProductItem";
+import MainCarousel from "@/components/main/MainCarousel";
+import ProductItem from "@/components/product/ProductItem";
 import Image from "next/image";
 import Link from "next/link";
 

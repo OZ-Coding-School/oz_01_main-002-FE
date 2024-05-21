@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useProductStore } from "@/store";
+import { useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import Bidding from "./Bidding";
 import Sale from "./Sale";
 
-type OrdersProps = Dispatch<SetStateAction<number>>;
-
-const Orders = ({ setMenuNumber }: { setMenuNumber: OrdersProps }) => {
+const Orders = () => {
   const [orderIndex, setOrderIndex] = useState(0);
+  const { setMenuNumber } = useProductStore();
   const categories = ['판매', '입찰'];
   return (
     <div className="w-full max-w-[900px] h-[1000px] bg-white rounded-xl px-10">

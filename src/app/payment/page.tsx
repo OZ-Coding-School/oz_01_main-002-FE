@@ -1,5 +1,5 @@
 "use client";
-import { useProductStore } from "@/_store";
+import { useProductStore } from "@/store";
 import Image from "next/image";
 
 function PaymentPage() {

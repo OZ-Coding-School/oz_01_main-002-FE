@@ -1,6 +1,6 @@
 'use client';
 
-import { useOnclickOutside } from "@/_hooks/useOnClickOutSide";
+import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { IoIosArrowDown } from "react-icons/io";

@@ -1,6 +1,6 @@
-import Chat from "@/_components/productDetail/Chat";
-import CountDown from "@/_components/productDetail/CountDown";
-import DetailImage from "@/_components/productDetail/DetailImage";
+import Chat from "@/components/productDetail/Chat";
+import CountDown from "@/components/productDetail/CountDown";
+import DetailImage from "@/components/productDetail/DetailImage";
 
 const ProductDetail = () => {
   return (
