@@ -1,18 +1,28 @@
 'use client';
 
+import { useBiddingStore } from "@/store";
 import { useEffect, useState } from "react";
 
 const CountDown = () => {
   const [dDay, setDDay] = useState<string>();
-
-  const day = '2024-05-30';
-
+  const day = '2024-05-22 12:07:00';
   const targetDate = new Date(day);
+  const { setIsBidding } = useBiddingStore();
 
   useEffect(() => {
     const timer = setInterval(() => {
       const currentDate = new Date();
       const timeDifference = targetDate.getTime() - currentDate.getTime();
+
+      if (timeDifference <= 0) {
+        clearInterval(timer);
+        setDDay('0일 0시간 0분 0초');
+        if (!localStorage.getItem('isBiddingSet')) {
+          setIsBidding(true);
+          localStorage.setItem('isBiddingSet', 'true');
+        }
+        return;
+      }
 
       const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -24,7 +34,8 @@ const CountDown = () => {
     return () => clearInterval(timer);
   }, [])
 
-  return <p className="text-4xl text-white">입찰까지 {dDay} 남았습니다.</p>;
+  console.log(dDay);
+  return <p className="text-4xl text-white">{dDay !== '0일 0시간 0분 0초' ? `입찰까지 ${dDay} 남았습니다.` : '입찰 종료'}</p>;
 }
 
 export default CountDown
