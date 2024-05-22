@@ -15,7 +15,7 @@ type Product = {
   winner_bid_price: number;
   category: string;
   commission?: number;
-}
+};
 
 const Bidding = () => {
   const [productItem, setProductItem] = useState<Product[]>([]);
@@ -30,14 +30,14 @@ const Bidding = () => {
     } else {
       setProductItem(productItem.filter((p) => p.id !== product.id));
     }
-  }
+  };
 
   const totalCommission = productItem.reduce((acc, product) => acc + product.commission!, 0);
   const totalPrice = productItem.reduce((acc, product) => acc + product.winner_bid_price, 0);
 
   useEffect(() => {
     setTotalAmount(totalPrice + totalCommission);
-  }, [productItem])
+  }, [productItem]);
 
   const handleMovePayment = () => {
     setPaymentUserProducts(productItem);
@@ -50,7 +50,11 @@ const Bidding = () => {
           {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
             <div key={product.id} className="flex items-center justify-between max-[650px]:justify-start border-b last:border-b-0">
               <div className="mr-2">
-                <input type="checkbox" className="w-[20px] h-[20px] accent-[#D1B383]" onChange={(e) => handleCheck(e, product)} />
+                <input
+                  type="checkbox"
+                  className="w-[20px] h-[20px] accent-[#D1B383]"
+                  onChange={(e) => handleCheck(e, product)}
+                />
               </div>
               <div className="flex items-center mt-6 mb-4">
                 <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
@@ -112,13 +116,18 @@ const Bidding = () => {
               </div>
             </div>
             <div>
-              <button className="w-full h-[50px] mt-3 border rounded-lg" onClick={() => handleMovePayment()}>결제하기</button>
+              <button
+                className="w-full h-[50px] mt-3 border rounded-lg"
+                onClick={() => handleMovePayment()}
+              >
+                결제하기
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Bidding
+export default Bidding;
