@@ -2,10 +2,13 @@
 import { useProductStore } from "@/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function PaymentPage() {
-  const { paymentUserProducts } = useProductStore();
   const router = useRouter();
+  const { paymentUserProducts } = useProductStore();
+  const [totalCoins, setTotalCoins] = useState(100000); // 보유한 코인
+  const [usedCoins, setUsedCoins] = useState(0); // 입력된 코인 금액
 
   const handleMoveConfirmation = () => {
     router.push("/payment/confirmation");
@@ -17,7 +20,6 @@ function PaymentPage() {
     phone: "01012345678",
   };
 
-  const coins = 1000; // 보유 코인
   const totalPrice = paymentUserProducts.reduce(
     (total, item) => total + item.price,
     0
@@ -28,6 +30,38 @@ function PaymentPage() {
     0
   ); // 수수료
   const totalAmount = totalPrice + totalShipping; // 총 결제 금액
+
+  // 내 코인 전액 사용 버튼 클릭시 실행
+  const handleClickUseAllCoins = () => {
+    // alert("전액 사용");
+
+    // 사용자가 보유한 코인이 결제 금액과 같거나 보다 큰 경우, 결제 금액에 맞도록 수정
+    if (totalCoins >= totalAmount) {
+      setUsedCoins(totalAmount);
+    } else {
+      // 사용자가 보유한 코인이 결제 금액보다 작은 경우, 보유한 코인 수량을 전부 사용하는 것으로 해야하는데 코인 충전에 대한 기능 구현은 보류이므로 일단 이것도 보류해야할듯!
+      setUsedCoins(totalCoins);
+    }
+  };
+
+  // 사용할 코인 금액 변경시 실행
+  const handleChangeUsedCoins = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // alert("사용할 코인 금액 변경");
+    const value = e.target.value.replace(/[^0-9]/g, ""); // 숫자 이외의 문자를 제거
+    const numericValue = value === "" ? 0 : parseInt(value, 10); // 빈 문자열을 0으로 처리
+
+    if (numericValue > totalCoins) {
+      alert("보유 코인보다 많은 금액을 사용할 수 없습니다.");
+      setUsedCoins(totalCoins);
+    } else {
+      setUsedCoins(numericValue);
+    }
+  };
+
+  // 사용한 코인 취소 버튼 클릭시 실행
+  const handleCancelUsedCoins = () => {
+    setUsedCoins(0);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -109,15 +143,30 @@ function PaymentPage() {
               <p className="font-bold text-lg flex items-center pl-4 pr-4">
                 내 코인
               </p>
-              <p className="text-gray-600 pr-4">보유: {coins}원</p>
+              <p className="text-gray-600 pr-4">보유: {totalCoins}원</p>
             </div>
             <div className="flex justify-between items-center mb-2  pl-4 pr-4">
-              <input
-                type="text"
-                className="w-2/3 border p-2 rounded text-black-600"
-                placeholder="사용할 코인을 입력해 주세요."
-              />
-              <button className="ml-2 border p-2 rounded text-black-500">
+              <div className="relative flex-grow">
+                <input
+                  type="text"
+                  className="w-full border p-2 rounded text-black-600 text-right pr-10 relative"
+                  placeholder="사용할 코인을 입력해 주세요."
+                  value={usedCoins ? `${usedCoins.toLocaleString()}원` : ""}
+                  onChange={handleChangeUsedCoins}
+                />
+                <button
+                  className={`absolute right-6 top-2 text-red-500 ${
+                    usedCoins ? "block" : "hidden"
+                  }`}
+                  onClick={handleCancelUsedCoins}
+                >
+                  X
+                </button>
+              </div>
+              <button
+                className="ml-2 border p-2 rounded text-black-500"
+                onClick={handleClickUseAllCoins}
+              >
                 전액사용
               </button>
             </div>
