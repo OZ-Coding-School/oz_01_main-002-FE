@@ -58,6 +58,11 @@ function PaymentPage() {
     }
   };
 
+  // 사용한 코인 취소 버튼 클릭시 실행
+  const handleCancelUsedCoins = () => {
+    setUsedCoins(0);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto p-8 max-w-screen-lg px-4 md:px-8">
@@ -141,13 +146,23 @@ function PaymentPage() {
               <p className="text-gray-600 pr-4">보유: {totalCoins}원</p>
             </div>
             <div className="flex justify-between items-center mb-2  pl-4 pr-4">
-              <input
-                type="text"
-                className="w-2/3 border p-2 rounded text-black-600 text-right"
-                placeholder="사용할 코인을 입력해 주세요."
-                value={`${usedCoins.toLocaleString()}원`}
-                onChange={handleChangeUsedCoins}
-              />
+              <div className="relative flex-grow">
+                <input
+                  type="text"
+                  className="w-full border p-2 rounded text-black-600 text-right pr-10 relative"
+                  placeholder="사용할 코인을 입력해 주세요."
+                  value={usedCoins ? `${usedCoins.toLocaleString()}원` : ""}
+                  onChange={handleChangeUsedCoins}
+                />
+                <button
+                  className={`absolute right-6 top-2 text-red-500 ${
+                    usedCoins ? "block" : "hidden"
+                  }`}
+                  onClick={handleCancelUsedCoins}
+                >
+                  X
+                </button>
+              </div>
               <button
                 className="ml-2 border p-2 rounded text-black-500"
                 onClick={handleClickUseAllCoins}
