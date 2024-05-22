@@ -12,7 +12,7 @@ const Password = () => {
   }
   console.log(isPasswordChecked);
   return (
-    <div className="w-full max-w-[900px] h-[674px] bg-white rounded-xl px-10">
+    <div className="w-full max-w-[900px] h-[674px] bg-white rounded-xl px-10 pb-10">
       <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>
         <RiArrowGoBackFill />
       </div>
@@ -45,7 +45,6 @@ const Password = () => {
             <div className="my-10">
               <button className="w-[100px] h-[50px] border rounded-lg">변경하기</button>
             </div>
-            <div className="h-[42px]" />
           </div>}
       </div>
     </div>
