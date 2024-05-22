@@ -78,7 +78,7 @@ const Address = () => {
 
   console.log(userAddressList);
   return (
-    <div className="w-full max-w-[900px] bg-white rounded-xl px-10">
+    <div className="w-full max-w-[900px] bg-white rounded-xl px-10 pb-10">
       <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>
         <RiArrowGoBackFill />
       </div>
@@ -157,7 +157,7 @@ const Address = () => {
       <div className="my-10 text-center">
         <button className="w-[100px] h-[50px] border text-black rounded-lg" onClick={handleUserAddressInsert}>등록</button>
       </div>
-      <div className="h-[100px]" />
+      <div className="h-[60px]" />
     </div >
   )
 }
