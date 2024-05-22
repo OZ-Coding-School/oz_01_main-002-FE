@@ -13,6 +13,20 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      animation: {
+        "scale-up": "scale-up 0.3s ease-out",
+      },
+
+      keyframes: {
+        "scale-up": {
+          "0%": {
+            transform: "scale(0.3)",
+          },
+          "100%": {
+            transform: "scale(1)",
+          },
+        },
+      },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],

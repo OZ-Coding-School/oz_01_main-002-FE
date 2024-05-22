@@ -1,6 +1,7 @@
 import Chat from "@/components/productDetail/Chat";
 import CountDown from "@/components/productDetail/CountDown";
 import DetailImage from "@/components/productDetail/DetailImage";
+import ModalContainer from "@/components/productDetail/ModalContainer";
 
 const ProductDetail = () => {
   return (
@@ -71,6 +72,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+      <ModalContainer />
     </div>
   )
 }
