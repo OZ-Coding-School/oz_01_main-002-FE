@@ -1,17 +1,25 @@
 'use client';
 
-import Link from "next/link";
 import { useState } from "react";
 
 const Chat = () => {
   const [isChat, setIsChat] = useState('');
   const [chats, setChats] = useState<string[]>([]);
-
+  const [isBidding, setIsBidding] = useState(5000);
   const buttonMenu = [
-    { id: 1, name: '관심', link: '/' },
-    { id: 2, name: '입찰', link: '/' },
-    { id: 3, name: '충전', link: '/payment' },
+    { id: 1, name: '관심' },
+    { id: 2, name: '입찰' },
+    { id: 3, name: '충전' },
   ];
+
+  const handleButton = (name: string) => {
+    if (name === '관심') {
+      console.log('관심');
+    } else if (name === '입찰') {
+      setIsBidding(prev => prev + 5000);
+      console.log(isBidding);
+    } else if (name === '충전') { }
+  }
 
 
   const handleChats = async () => {
@@ -48,11 +56,9 @@ const Chat = () => {
       </div>
       <div className="flex justify-between items-center my-4">
         {buttonMenu.map((item) => (
-          <Link key={item.id} href={item.link}>
-            <div className="w-[170px] h-[48px] bg-[#D1B383] border border-[#D1B383] hover:bg-white hover:text-[#D1B383] flex justify-center items-center text-white rounded-[10px]">
-              <p className="text-[20px] leading-none">{item.name}</p>
-            </div>
-          </Link>
+          <div key={item.id} className="w-[170px] h-[48px] bg-[#D1B383] border border-[#D1B383] hover:bg-white hover:text-[#D1B383] flex justify-center items-center text-white rounded-[10px]" onClick={() => handleButton(item.name)}>
+            <p className="text-[20px] leading-none">{item.name}</p>
+          </div>
         ))}
       </div>
     </div>
