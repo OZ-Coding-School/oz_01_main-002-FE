@@ -1,31 +1,71 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+interface OrderInfo {
+  orderNumber: string; // 주문 번호
+  recipient: {
+    // 받는 사람 정보
+    name: string;
+    phone: string;
+    address: string;
+  };
+  paymentMethod: string; // 결제 방법
+  products: {
+    // 상품 목록
+    title: string;
+    category: string;
+    price: number;
+    originalPrice: number;
+    shippingFee: number;
+    commission: number;
+    image: string;
+  }[];
+  totalPrice: number; // 총 상품 금액
+  totalCommission: number; // 수수료
+  totalAmount: number; // 총 결제 금액
+  paymentDetails: {
+    deductedAmount: number; // 차감 금액
+    remainingCoins: number; // 잔여 코인
+  };
+}
+
 const ConfirmationPage = () => {
-  const orderInfo = {
-    orderNumber: "2022020428178381",
-    name: "김료니",
-    phone: "01012345678",
-    address: "서울특별시 서대문구 성산로",
-    points: {
-      total: 478,
-      basic: 289,
-      extra: 189,
-      review: 350,
-    },
-  };
+  const [orderInfo, setOrderInfo] = useState<OrderInfo>();
 
-  const productInfo = {
-    title: "나이키 블랙",
-    category: "",
-    price: 18900,
-    originalPrice: 201900,
-    discount: 183000,
-    image: "https://placehold.co/50x50",
-  };
+  useEffect(() => {
+    const mockOrderInfo = {
+      orderNumber: "2022020428178381",
+      recipient: {
+        name: "김료니",
+        phone: "01012345678",
+        address: "서울특별시 서대문구 성산로",
+      },
+      paymentMethod: "보유 코인으로 결제",
+      products: [
+        {
+          title: "나이키 블랙",
+          category: "운동화",
+          price: 18900,
+          originalPrice: 201900,
+          shippingFee: 0,
+          commission: 183000,
+          image: "/images/item05.jpg",
+        },
+      ],
+      totalPrice: 18900, // 상품 총 금액
+      totalCommission: 1890, // 수수료
+      totalAmount: 20790, // 총 결제 금액
+      paymentDetails: {
+        deductedAmount: 20790,
+        remainingCoins: 79210,
+      },
+    };
+    setOrderInfo(mockOrderInfo);
+  }, []);
 
-  const paymentDetails = {
-    amount: 18900,
-  };
+  if (!orderInfo) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -47,19 +87,15 @@ const ConfirmationPage = () => {
             <p className="text-black-500 mb-4 pl-4">{orderInfo.orderNumber}</p>
             <h3 className="text-lg font-semibold mb-2">받는 사람 정보</h3>
             <p className="text-gray-800 mb-4 pl-4">
-              {orderInfo.name}
+              {orderInfo.recipient.name}
               <br />
-              {orderInfo.phone}
+              {orderInfo.recipient.phone}
               <br />
-              {orderInfo.address}
+              {orderInfo.recipient.address}
             </p>
             <h3 className="text-lg font-semibold mb-2">결제 방식</h3>
             <div className="text-gray-800">
               <p className="mb-2 pl-4">보유 코인으로 결제 </p>
-              <p className="mb-2 pl-4 w-1/5">
-                내 보유 코인{" "}
-                <span className="float-right">{orderInfo.points.basic}원</span>
-              </p>
             </div>
           </div>
           {/* 오른쪽 영역 결제 완료 정보 */}
@@ -67,28 +103,33 @@ const ConfirmationPage = () => {
             <div className="flex items-center mb-4">
               <h3 className="ml-2 text-lg font-semibold">결제 상품</h3>
             </div>
-            <div className="flex items-center mb-4">
-              <img
-                src={productInfo.image}
-                alt="product"
-                className="w-12 h-12 rounded mr-4"
-              />
-              <div>
-                <p className="text-gray-800">{productInfo.title}</p>
-                <p className="text-gray-500 text-sm">{productInfo.category}</p>
+            {orderInfo.products.map((product) => (
+              <div className="flex items-center mb-4  pl-4" key={product.title}>
+                <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden relative">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+                <div className="ml-4">
+                  <p className="text-gray-800">{product.title}</p>
+                  <p className="text-gray-500 text-sm">{product.category}</p>
+                </div>
               </div>
-            </div>
+            ))}
             <div className="mb-4">
               <p className="text-gray-800">
-                주문금액{" "}
+                총 상품 금액{" "}
                 <span className="float-right font-bold text-[#D1B383]">
-                  {productInfo.price.toLocaleString()}원
+                  {orderInfo.totalPrice.toLocaleString()}원
                 </span>
               </p>
               <p className="text-gray-500 text-sm pl-4">
-                총 상품가격{" "}
+                총 결제 금액{" "}
                 <span className="float-right">
-                  {productInfo.originalPrice.toLocaleString()}원
+                  {orderInfo.totalAmount.toLocaleString()}원
                 </span>
               </p>
               <p className="text-gray-500 text-sm pl-4">
@@ -97,7 +138,7 @@ const ConfirmationPage = () => {
               <p className="text-gray-500 text-sm pl-4">
                 수수료{" "}
                 <span className="float-right">
-                  {productInfo.discount.toLocaleString()}원
+                  {orderInfo.totalCommission.toLocaleString()}원
                 </span>
               </p>
             </div>
@@ -106,13 +147,13 @@ const ConfirmationPage = () => {
               <p className="text-gray-500 text-sm pl-4">
                 보유 코인으로 결제{" "}
                 <span className="float-right">
-                  -{paymentDetails.amount.toLocaleString()}원
+                  -{orderInfo.paymentDetails.deductedAmount.toLocaleString()}원
                 </span>
               </p>
               <p className="text-gray-500 text-sm pl-4">
-                남은 코인
+                잔여 코인
                 <span className="float-right">
-                  {paymentDetails.amount.toLocaleString()}원
+                  {orderInfo.paymentDetails.remainingCoins.toLocaleString()}원
                 </span>
               </p>
             </div>
