@@ -27,6 +27,11 @@ type BiddingState = {
   setIsBidding: (isBidding: boolean) => void;
 }
 
+type ProductIdState = {
+  productId: number;
+  setProductId: (productId: number) => void;
+};
+
 export const useProductStore = create<State>()(
   devtools(persist((set) => ({
     paymentUserProducts: [],
@@ -45,4 +50,9 @@ export const useMenuNumberStore = create<NumberState>((set) => ({
 export const useBiddingStore = create<BiddingState>((set) => ({
   isBidding: false,
   setIsBidding: (isBidding: boolean) => set({ isBidding }),
+}))
+
+export const useProductIdStore = create<ProductIdState>((set) => ({
+  productId: 0,
+  setProductId: (productId: number) => set({ productId }),
 }))

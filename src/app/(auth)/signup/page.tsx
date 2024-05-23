@@ -1,26 +1,41 @@
 'use client';
 
+import { useSignUpUser } from "@/api/userApi";
+import TermCheck from "@/components/\bsignup/TermCheck";
 import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
+import { SignUpUser } from "@/type/UserType";
+import axios from "axios";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-
 import { IoIosArrowDown } from "react-icons/io";
+
+type Terms = {
+  content: string
+  created_at: string
+  id: number
+  is_active: boolean
+  is_required: boolean
+  name: string
+  updated_at: string
+}
+
 const SignUp = () => {
   const [gender, setGender] = useState('성별');
   const [isClicked, setIsClicked] = useState(false);
-  const [signUpUser, setSignUpUser] = useState({
-    email: '',
-    password: '',
-    name: '',
-    nickname: '',
-    gender: 0,
-    phoneNumber: '',
-    birth: '',
-    checked1: false,
-    checked2: false,
-    checked3: false,
-    checked4: false,
-  });
+  const [terms, setTerms] = useState<Terms[]>([]);
   const [checkedPassword, setCheckedPassword] = useState('');
+  const [useDate, setUseDate] = useState<string>('');
+  const [signUpUser, setSignUpUser] = useState<SignUpUser>({
+    request_data: {
+      email: '',
+      password: '',
+      name: '',
+      nickname: '',
+      gender: '',
+      contact: '',
+      age: 0,
+    },
+    term_data: []
+  });
   const [error, setError] = useState({
     email: '',
     password: '',
@@ -29,7 +44,7 @@ const SignUp = () => {
     nickname: '',
     gender: '',
     phoneNumber: '',
-    birth: '',
+    age: '',
     checked1: '',
     checked2: '',
     checked3: '',
@@ -52,7 +67,10 @@ const SignUp = () => {
 
     setSignUpUser({
       ...signUpUser,
-      email: e.target.value
+      request_data: {
+        ...signUpUser.request_data,
+        email: e.target.value
+      }
     })
   }
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +90,10 @@ const SignUp = () => {
 
     setSignUpUser({
       ...signUpUser,
-      password: e.target.value
+      request_data: {
+        ...signUpUser.request_data,
+        password: e.target.value
+      }
     })
   }
   const handlePassword1 = (e: ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +128,10 @@ const SignUp = () => {
     }
     setSignUpUser({
       ...signUpUser,
-      name: e.target.value
+      request_data: {
+        ...signUpUser.request_data,
+        name: e.target.value
+      }
     })
   }
   const handleNickname = (e: ChangeEvent<HTMLInputElement>) => {
@@ -126,11 +150,14 @@ const SignUp = () => {
     }
     setSignUpUser({
       ...signUpUser,
-      nickname: e.target.value
+      request_data: {
+        ...signUpUser.request_data,
+        nickname: e.target.value
+      }
     })
   }
-  const handleGender = (gender: number) => {
-    if (gender !== 0) {
+  const handleGender = (gender: string) => {
+    if (gender !== '') {
       setError({
         ...error,
         gender: ''
@@ -139,7 +166,10 @@ const SignUp = () => {
 
     setSignUpUser({
       ...signUpUser,
-      gender,
+      request_data: {
+        ...signUpUser.request_data,
+        gender
+      }
     })
   }
 
@@ -160,27 +190,37 @@ const SignUp = () => {
 
     setSignUpUser({
       ...signUpUser,
-      phoneNumber: e.target.value
+      request_data: {
+        ...signUpUser.request_data,
+        contact: e.target.value
+      }
     })
   }
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
+    setUseDate(e.target.value);
+    const dateValue = e.target.value;
     if (e.target.value === '') {
       setError({
         ...error,
-        birth: ''
+        age: ''
       })
     }
 
     if (e.target.value.length !== 0) {
       setError({
         ...error,
-        birth: ''
+        age: ''
       })
     }
+    const formattedDate = dateValue.replace(/-/g, ''); // 'yyyy-MM-dd' -> 'yyyyMMdd'
+    const numericDate = parseInt(formattedDate, 10);
 
     setSignUpUser({
       ...signUpUser,
-      birth: e.target.value
+      request_data: {
+        ...signUpUser.request_data,
+        age: numericDate
+      }
     })
   }
 
@@ -188,15 +228,15 @@ const SignUp = () => {
     const emailRegEx = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
     const nicknameRegEx = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/;
-    const phoneRegEx = /^01([0])-?([0-9]{4})-([0-9]{4})$/;
-    if (signUpUser.email === '') {
+    const phoneRegEx = /^01([0])?([0-9]{4})([0-9]{4})$/;
+    if (signUpUser.request_data.email === '') {
       setError({
         ...error,
         email: '이메일을 입력해주세요.'
       })
       return true;
     }
-    if (!emailRegEx.test(signUpUser.email)) {
+    if (!emailRegEx.test(signUpUser.request_data.email)) {
       setError({
         ...error,
         email: '이메일 형식이 올바르지 않습니다.'
@@ -204,7 +244,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.password === '') {
+    if (signUpUser.request_data.password === '') {
       setError({
         ...error,
         password: '비밀번호를 입력해주세요.'
@@ -212,7 +252,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (!passwordRegEx.test(signUpUser.password)) {
+    if (!passwordRegEx.test(signUpUser.request_data.password)) {
       setError({
         ...error,
         password: '비밀번호는 8~15자리의 영문, 숫자, 특수문자 조합이어야 합니다.'
@@ -228,7 +268,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.password !== checkedPassword) {
+    if (signUpUser.request_data.password !== checkedPassword) {
       setError({
         ...error,
         password1: '비밀번호가 일치하지 않습니다.'
@@ -236,7 +276,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.name === '') {
+    if (signUpUser.request_data.name === '') {
       setError({
         ...error,
         name: '이름을 입력해주세요.'
@@ -244,7 +284,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.name.length < 2) {
+    if (signUpUser.request_data.name.length < 2) {
       setError({
         ...error,
         name: '이름을 2자 이상 입력해주세요.'
@@ -252,7 +292,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.nickname === '') {
+    if (signUpUser.request_data.nickname === '') {
       setError({
         ...error,
         nickname: '닉네임을 입력해주세요.'
@@ -260,7 +300,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.nickname.length < 2) {
+    if (signUpUser.request_data.nickname.length < 2) {
       setError({
         ...error,
         nickname: '닉네임을 2자 이상 입력해주세요.'
@@ -268,7 +308,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (!nicknameRegEx.test(signUpUser.nickname)) {
+    if (!nicknameRegEx.test(signUpUser.request_data.nickname)) {
       setError({
         ...error,
         nickname: '닉네임은 한글, 영문, 숫자만 입력 가능합니다.'
@@ -276,7 +316,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.gender === 0) {
+    if (signUpUser.request_data.gender === '') {
       setError({
         ...error,
         gender: '성별을 선택해주세요.'
@@ -284,7 +324,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.phoneNumber === '') {
+    if (signUpUser.request_data.contact === '') {
       setError({
         ...error,
         phoneNumber: '휴대폰 번호를 입력해주세요.'
@@ -292,7 +332,7 @@ const SignUp = () => {
       return true;
     }
 
-    if (!phoneRegEx.test(signUpUser.phoneNumber)) {
+    if (!phoneRegEx.test(signUpUser.request_data.contact)) {
       setError({
         ...error,
         phoneNumber: '휴대폰 번호 형식이 올바르지 않습니다.'
@@ -300,15 +340,15 @@ const SignUp = () => {
       return true;
     }
 
-    if (signUpUser.birth === '') {
+    if (signUpUser.request_data.age === 0) {
       setError({
         ...error,
-        birth: '생년월일을 입력해주세요.'
+        age: '생년월일을 입력해주세요.'
       })
       return true;
     }
 
-    if (!signUpUser.checked1 || !signUpUser.checked2 || !signUpUser.checked3) {
+    if (!signUpUser.term_data[0] || !signUpUser.term_data[1] || !signUpUser.term_data[2]) {
       setError({
         ...error,
         checked1: '필수 항목에 동의해주세요.'
@@ -318,13 +358,42 @@ const SignUp = () => {
     return false;
   }
 
-  const handleSignUp = async () => {
+  const handleTerms = async () => {
     try {
-      const error = handleError();
-      if (error) return;
-      console.log('회원가입 성공');
+      const response = await axios.get('http://localhost:8000/api/v1/terms/');
+      console.log(response);
+      setTerms(response.data);
     } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    handleTerms();
+  }, [])
 
+  const handlePhoneChecked = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/users/contact/verify', {
+        contact: signUpUser.request_data.contact
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleUserSignUp = useSignUpUser();
+
+  const handleSignUpUser = () => {
+    const error = handleError();
+    if (!error) {
+      handleUserSignUp(signUpUser);
+    } else {
+      return;
     }
   }
 
@@ -338,14 +407,17 @@ const SignUp = () => {
     setIsClicked(false);
   })
 
-  useEffect(() => {
-    if (signUpUser.phoneNumber.length === 11) {
-      setSignUpUser({
-        ...signUpUser,
-        phoneNumber: signUpUser.phoneNumber.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
-      })
-    }
-  }, [signUpUser.phoneNumber]);
+  // useEffect(() => {
+  //   if (signUpUser.request_data.contact.length === 11) {
+  //     setSignUpUser({
+  //       ...signUpUser,
+  //       request_data: {
+  //         ...signUpUser.request_data,
+  //         contact: signUpUser.request_data.contact.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+  //       }
+  //     })
+  //   }
+  // }, [signUpUser.request_data.contact]);
 
   console.log(signUpUser)
   return (
@@ -355,24 +427,28 @@ const SignUp = () => {
       </div>
       <div className="w-full max-w-[518px] mx-auto">
         <div className="flex items-center justify-between mb-[10px]">
-          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="이메일" value={signUpUser.email} onChange={(e) => handleEmail(e)} />
+          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="이메일" value={signUpUser.request_data.email} onChange={(e) => handleEmail(e)} />
           <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none">이메일 확인</button>
         </div>
         <p className="text-red-700">{error.email}</p>
         <div className="my-[10px]">
-          <input type="password" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="비밀번호" value={signUpUser.password} onChange={(e) => handlePassword(e)} />
+          <form>
+            <input type="password" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="비밀번호" autoComplete="off" value={signUpUser.request_data.password} onChange={(e) => handlePassword(e)} />
+          </form>
         </div>
         <p className="text-red-700">{error.password}</p>
         <div className="my-[10px]">
-          <input type="password" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="비밀번호 확인" value={checkedPassword} onChange={(e) => handlePassword1(e)} />
+          <form>
+            <input type="password" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="비밀번호 확인" autoComplete="off" value={checkedPassword} onChange={(e) => handlePassword1(e)} />
+          </form>
         </div>
         <p className="text-red-700">{error.password1}</p>
         <div className="my-[10px]">
-          <input type="text" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="이름" value={signUpUser.name} onChange={(e) => handleName(e)} />
+          <input type="text" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="이름" value={signUpUser.request_data.name} onChange={(e) => handleName(e)} />
         </div>
         <p className="text-red-700">{error.name}</p>
         <div className="flex items-center justify-between my-[10px]">
-          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="닉네임" value={signUpUser.nickname} onChange={(e) => handleNickname(e)} />
+          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="닉네임" value={signUpUser.request_data.nickname} onChange={(e) => handleNickname(e)} />
           <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none">닉네임 확인</button>
         </div>
         <p className="text-red-700">{error.nickname}</p>
@@ -386,7 +462,7 @@ const SignUp = () => {
             {genderOptions.map((gender) => (
               <li key={gender.id} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white border-[#D1B383] text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer `} onClick={() => {
                 setGender(gender.label);
-                handleGender(gender.value);
+                handleGender(gender.label);
                 setIsClicked(false);
               }}>{gender.label}</li>
             ))}
@@ -394,49 +470,20 @@ const SignUp = () => {
         </div>
         <p className="text-red-700">{error.gender}</p>
         <div className="flex items-center justify-between my-[10px]">
-          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4 input_number_arrow_none" placeholder="연락처" maxLength={11} value={signUpUser.phoneNumber} onChange={(e) => handlePhone(e)} />
-          <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none">휴대폰 인증</button>
+          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4 input_number_arrow_none" placeholder="연락처" maxLength={11} value={signUpUser.request_data.contact} onChange={(e) => handlePhone(e)} />
+          <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none" onClick={handlePhoneChecked}>휴대폰 인증</button>
         </div>
         <p className="text-red-700">{error.phoneNumber}</p>
         <div className="mt-[10px]">
-          <input type="date" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="생년월일" value={signUpUser.birth} onChange={(e) => handleDate(e)} />
+          <input type="date" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="생년월일" value={useDate} onChange={(e) => handleDate(e)} />
         </div>
-        <p className="text-red-700">{error.birth}</p>
+        <p className="text-red-700">{error.age}</p>
         <div className="h-[60px]" />
-        <div className="text-white">
-          <div className="flex items-center my-7">
-            <input type="checkbox" className="w-[30px] h-[30px] accent-[#D1B383]" onChange={(e) => setSignUpUser({
-              ...signUpUser,
-              checked1: e.target.checked,
-            })} />
-            <p className="ml-5">만 14세 이상 동의(필수)</p>
-          </div>
-          <div className="flex items-center my-7">
-            <input type="checkbox" className="w-[30px] h-[30px] accent-[#D1B383]" onChange={(e) => setSignUpUser({
-              ...signUpUser,
-              checked2: e.target.checked,
-            })} />
-            <p className="ml-5">이용약관 동의(필수)</p>
-          </div>
-          <div className="flex items-center my-7">
-            <input type="checkbox" className="w-[30px] h-[30px] accent-[#D1B383]" onChange={(e) => setSignUpUser({
-              ...signUpUser,
-              checked3: e.target.checked,
-            })} />
-            <p className="ml-5">정보제공 동의(필수)</p>
-          </div>
-          <div className="flex items-center my-7">
-            <input type="checkbox" className="w-[30px] h-[30px] accent-[#D1B383]" onChange={(e) => setSignUpUser({
-              ...signUpUser,
-              checked4: e.target.checked,
-            })} />
-            <p className="ml-5">마케팅 활용 동의(선택)</p>
-          </div>
-        </div>
+        <TermCheck setSignUpUser={setSignUpUser} />
         <p className="text-red-700">{error.checked1 || error.checked2 || error.checked3}</p>
         <div className="h-[60px]" />
         <div>
-          <button className="w-[518px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-lg" onClick={handleSignUp}>회원가입</button>
+          <button className="w-[518px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-lg" onClick={handleSignUpUser}>회원가입</button>
         </div>
       </div>
     </div>

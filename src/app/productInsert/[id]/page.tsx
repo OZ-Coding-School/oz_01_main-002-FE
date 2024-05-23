@@ -1,6 +1,7 @@
 'use client';
 
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
+import { useProductIdStore } from "@/store";
 import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -20,6 +21,7 @@ const ProductInsert = () => {
   const params = useParams();
   console.log('파람스 아이디', params.id);
 
+  const { productId } = useProductIdStore();
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [error, setError] = useState({
@@ -229,14 +231,29 @@ const ProductInsert = () => {
       formData.append('category_id', productItem.category.toString());
       formData.append('bid_price', productItem.min_price.toString());
       formData.append('content', productItem.content);
+      formData.append('status', '검수중');
+      formData.append('modify', 'true');
       formData.append('duration', productItem.date.toString());
       formData.append('grade', productItem.grade);
-      formData.append('image', JSON.stringify(images));
+      // formData.append('image', JSON.stringify(images));
       // 이미지 수정해야됨.. 생각해보자
+      const data = {
+        user_id: 2,
+        name: productItem.title,
+        category_id: productItem.category,
+        bid_price: productItem.min_price,
+        content: productItem.content,
+        status: '검수중',
+        modify: true,
+        duration: productItem.date,
+        grade: productItem.grade,
+      }
+      console.log('aaazzzxx', data);
       try {
-        const response = await axios.post('', formData, {
+        const response = await axios.post('http://localhost:8000/api/v1/products/', data, {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'multipart/form-data',
           }
         });
         console.log(response);
@@ -247,16 +264,63 @@ const ProductInsert = () => {
     }
   }
   // ============================================= 검수 완료 후 =======================================================//
+  const handleGetProduct = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/products/${productId}`)
+      console.log('아이템 불러오기', response);
+      setProductItem({
+        title: response.data.name,
+        category: response.data.category_id,
+        min_price: response.data.bid_price,
+        content: response.data.content,
+        date: response.data.duration,
+        grade: response.data.grade
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (params.id === '1') return;
+    handleGetProduct();
+  }, [])
+
   const handleFinalSubmit = async () => {
     console.log('최종등록');
   }
 
-  const handleUpdate = async () => {
-    console.log('수정');
+  const handleUpdate = async (id: number) => {
+    try {
+      const response = await axios.put(`http://localhost:8000/api/v1/products/${id}`, {
+        content: productItem.content,
+        bid_price: productItem.min_price,
+        duration: productItem.date,
+        status: '경매중',
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      console.log(response);
+      if (response.status === 200) {
+        console.log('수정완료');
+      }
+    } catch (error) {
+
+    }
   }
 
-  const handleDelete = async () => {
-    console.log('삭제');
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/api/v1/products/${id}`)
+      console.log(response);
+      if (response.status === 200) {
+        console.log('삭제완료');
+      }
+    } catch (error) {
+
+    }
   }
   // ============================================= 검수 완료 후 =======================================================//
 
@@ -311,14 +375,14 @@ const ProductInsert = () => {
         </div>
         <div className=" mx-5 mt-8">
           <div className="flex items-center">
-            <input type="text" id="title" disabled={params.id === '1' ? false : true} className="w-[518px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
+            <input type="text" id="title" disabled={params.id === '1' ? false : true} value={productItem.title} className="w-[518px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
           </div>
         </div>
         <div className="mx-5 mt-2 text-red-700">
           {error.title}
         </div>
         <div className="flex items-center mx-5 mt-8">
-          <input type="number" id="min_price" className="w-[518px] h-[72px] border-[#D1B383] focus:border-white border rounded-xl pl-4 input_number_arrow_none outline-none bg-[#222] text-white" placeholder="시작가" onChange={(e) => handlePrice(e)} />
+          <input type="number" id="min_price" value={productItem.min_price} className="w-[518px] h-[72px] border-[#D1B383] focus:border-white border rounded-xl pl-4 input_number_arrow_none outline-none bg-[#222] text-white" placeholder="시작가" onChange={(e) => handlePrice(e)} />
         </div>
         <div className="mx-5 mt-2 text-red-700">
           {error.min_price}
@@ -326,7 +390,7 @@ const ProductInsert = () => {
         <div className="flex mx-5 mt-8 items-center">
           <div className={`w-[259px] h-[72px] cursor-pointer px-4 text-white border-[#D1B383] focus:border-white flex items-center justify-between rounded-xl border text-center relative ${isDateClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => setIsDateClicked(!isDateClicked)}>
             <IoIosArrowDown className="opacity-0" />
-            {dateName}
+            {productItem.date}
             <IoIosArrowDown />
             {isDateClicked ? <ul className="bg-white absolute border w-[259px] left-0 top-[72px] h-[200px] overflow-auto rounded-xl scrollbar-hide" ref={ref2}>
               {dateOptions.map((date, index) => (
@@ -343,7 +407,7 @@ const ProductInsert = () => {
           </div>
         </div>
         <div>
-          <textarea className="w-[830px] bg-[#222]  text-white h-[200px] border rounded-xl p-4 resize-none mx-5 mt-8 px-2 outline-none border-[#D1B383] focus:border-white" onChange={(e) => handleContent(e)} placeholder={`상품등급: 자신이 생각하는 등급(검수 후 반영여부 결정)\n상품설명:\n`} />
+          <textarea className="w-[830px] bg-[#222]  text-white h-[200px] border rounded-xl p-4 resize-none mx-5 mt-8 px-2 outline-none border-[#D1B383] focus:border-white" value={productItem.content} onChange={(e) => handleContent(e)} placeholder={`상품등급: 자신이 생각하는 등급(검수 후 반영여부 결정)\n상품설명:\n`} />
         </div>
         <div className="mx-5 mt-2 text-red-700">
           {error.content}
@@ -354,8 +418,8 @@ const ProductInsert = () => {
           :
           <div className="flex justify-center items-center py-10">
             <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleFinalSubmit()}>등록</button>
-            <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleUpdate()}>수정</button>
-            <button className="w-[200px] mx-2 h-[72px] bg-red-700 text-white text-[20px] rounded-xl" onClick={() => handleDelete()}>삭제</button>
+            <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleUpdate(productId)}>수정</button>
+            <button className="w-[200px] mx-2 h-[72px] bg-red-700 text-white text-[20px] rounded-xl" onClick={() => handleDelete(productId)}>삭제</button>
           </div>}
       </div>
     </div>

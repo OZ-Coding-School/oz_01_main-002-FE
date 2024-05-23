@@ -1,3 +1,4 @@
+import ReactQueryProvider from "@/reactQuery/Provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "../components/Footer";
@@ -27,7 +28,9 @@ export default function RootLayout({
       >
         <Nav />
         <Gap />
-        {children}
+        <ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
         <Footer />
       </body>
     </html>
