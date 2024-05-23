@@ -1,5 +1,6 @@
 'use client';
 
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
 
 const LoginForm = () => {
@@ -81,18 +82,25 @@ const LoginForm = () => {
       })
       return true;
     }
-
     return false;
 
   }
 
   const handleLogin = async () => {
+    const response = await axios.post('http://localhost:8000/api/v1/users/login', userInfo, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    console.log(response);
+    if (response.status === 200) {
+      localStorage.setItem('access_token', response.data.access_token);
+    }
     try {
       const error = handleError();
       if (error) return;
       console.log('로그인 성공');
     } catch (error) {
-
     }
   }
 

@@ -1,7 +1,8 @@
 'use client';
 
 import { useMenuNumberStore } from "@/store";
-import { MouseEvent, useState } from "react";
+import axios from "axios";
+import { MouseEvent, useEffect, useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
 import { FaHouse } from "react-icons/fa6";
@@ -9,6 +10,16 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
+type Address = {
+  address: string,
+  created_at: string,
+  detail_address: string,
+  id: number
+  is_main: boolean,
+  name: string,
+  updated_at: string,
+  zip_code: string,
+}
 
 const Address = () => {
   const [userAddress, setUserAddress] = useState({
@@ -21,11 +32,7 @@ const Address = () => {
   })
   const { setMenuNumber } = useMenuNumberStore();
 
-  const [userAddressList, setUserAddressList] = useState([
-    { id: 1, addressName: '우리집', address: '서울특별시 서대문구 신촌동', check: true },
-    { id: 2, addressName: '친구집', address: '서울특별시 서대문구 아현동', check: false },
-    { id: 3, addressName: '친척집', address: '서울특별시 마포구', check: false },
-  ])
+  const [userAddressList, setUserAddressList] = useState<Address[]>([])
 
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
@@ -42,38 +49,91 @@ const Address = () => {
       })
   }
 
+  const handleGetAddress = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/v1/address/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      console.log(response);
+      const sortedData = response.data.sort((a: Address, b: Address) => {
+        if (a.is_main === b.is_main) return 0;
+        return a.is_main ? -1 : 1;
+      });
+      setUserAddressList(sortedData);
+    } catch (error) {
+    }
+  }
+  useEffect(() => {
+    handleGetAddress();
+  }, [])
+
   const handleClick = () => {
     open({ onComplete: handleComplete });
-
   }
 
+
   const handleUserAddressInsert = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/address/', {
+        name: userAddress.addressName,
+        address: userAddress.address + userAddress.buildingName + userAddress.bname,
+        detail_address: userAddress.detailAddress,
+        zip_code: userAddress.zoneCode,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      console.log(response);
+      if (response.status === 201) {
+        handleGetAddress();
+      }
+    } catch (error) {
+
+    }
     console.log('주소 등록');
   }
 
-  const handleAddressUpdate = async (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>, id: number) => {
-    e.stopPropagation();
-    console.log('주소 업데이트');
-    const updatedList = userAddressList.map((item) => {
-      if (item.id === id) {
-        return { ...item, check: true };
-      } else {
-        return { ...item, check: false };
+  const handleAddressUpdate = async (id: number) => {
+    try {
+      const response = await axios.put(`http://localhost:8000/api/v1/address/${id}`, {
+        is_main: true,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      console.log(response);
+      if (response.status === 200) {
+        handleGetAddress();
       }
-    });
+    } catch (error) {
 
-    const trueItem = updatedList.find((item) => item.check);
-    const restItems = updatedList.filter((item) => item.id !== id);
-
-    if (trueItem) {
-      setUserAddressList([trueItem, ...restItems]);
     }
   }
 
   const handleAddressDelete = async (e: MouseEvent<HTMLButtonElement>, id: number) => {
     e.stopPropagation();
-    confirm('주소를 삭제하시겠습니까?');
-    console.log(id, '주소 삭제');
+    const deleteAddress = confirm('주소를 삭제하시겠습니까?');
+    if (!deleteAddress) return;
+    try {
+      const response = await axios.delete(`http://localhost:8000/api/v1/address/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      console.log(response);
+      if (response.status === 200) {
+        handleGetAddress();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
   };
 
   console.log(userAddressList);
@@ -89,21 +149,21 @@ const Address = () => {
       <div className="border-2 border-[#D1B383]" />
       <div className="w-full max-w-[700px] mx-auto my-5">
         {userAddressList.map((address) => (
-          <div key={address.id} className={`${!address.check ? 'cursor-pointer' : null}`} onClick={(e) => !address.check ? handleAddressUpdate(e, address.id) : null}>
-            <div className={`py-4 ${address.check ? 'border-b' : null}`}>
+          <div key={address.id} className={`${!address.is_main ? 'cursor-pointer' : null}`} onClick={() => !address.is_main ? handleAddressUpdate(address.id) : null}>
+            <div className={`py-4 ${address.is_main ? 'border-b' : null}`}>
               <div>
                 <div className="flex items-center">
-                  <p className="ml-6 text-xl font-bold">{address.addressName}</p>
-                  {address.check ? <div className="border rounded-full text-[#0060ff] bg-[#edf7ff] ml-1 px-1">
+                  <p className="ml-6 text-xl font-bold">{address.name}</p>
+                  {address.is_main ? <div className="border rounded-full text-[#0060ff] bg-[#edf7ff] ml-1 px-1">
                     <p className="text-xs">현재 설정된 주소</p>
                   </div> : null}
                 </div>
                 <div className=" flex justify-between items-center">
                   <div className="flex items-center">
-                    {address.check ? <FaHouse className="text-lg" /> : <HiOutlineLocationMarker />}
+                    {address.is_main ? <FaHouse className="text-lg" /> : <HiOutlineLocationMarker />}
                     <p className="ml-2 text-lg">{address.address}</p>
                   </div>
-                  {address.check ? <IoCheckmarkOutline className="text-xl font-bold text-[#D1B383]" /> : <button className="border rounded-lg w-[100px] h-[35px]" onClick={(e) => handleAddressDelete(e, address.id)}>삭제</button>}
+                  {address.is_main ? <IoCheckmarkOutline className="text-xl font-bold text-[#D1B383]" /> : <button className="border rounded-lg w-[100px] h-[35px]" onClick={(e) => handleAddressDelete(e, address.id)}>삭제</button>}
                 </div>
               </div>
             </div>
