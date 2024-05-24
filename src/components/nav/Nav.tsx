@@ -12,15 +12,19 @@ const Nav = () => {
   const [isChecked, setIsChecked] = useState(false);
   const prams = usePathname();
   const ref = useRef(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('access_token'));
+  }, [prams])
 
   const menu = [
     { id: 1, name: '경매', link: '/productList' },
     { id: 2, name: '커뮤니티', link: '/' },
     { id: 3, name: '마이페이지', link: '/myPage' },
     { id: 4, name: '관심', link: '/' },
-    { id: 5, name: '로그인', link: '/login' },
+    ...(!accessToken ? [{ id: 5, name: '로그인', link: '/login' }] : [])
   ];
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,7 +41,7 @@ const Nav = () => {
     const scrollY = window.scrollY;
     // console.log(`Current scroll position: ${scrollY}`);
     if (targetRef.current === null) return;
-    if (window.scrollY >= 37) {
+    if (window.scrollY >= 36.5) {
       targetRef.current.style.position = "fixed";
       targetRef.current.style.top = '0';
     } else {
@@ -82,8 +86,8 @@ const Nav = () => {
       <div className="w-full h-[40px] flex justify-end items-center pr-[150px] bg-[#222] max-[1200px]:hidden">
         <div className="flex text-white">
           {menu.slice(2, 5).map((item) => (
-            <Link key={item.id} href={item.link}>
-              <p className="mx-[10px] hover:text-[#D1B383]">{item.name}</p>
+            <Link key={item?.id} href={item!.link}>
+              <p className="mx-[10px] hover:text-[#D1B383]">{item?.name}</p>
             </Link>
           ))}
         </div>
@@ -106,19 +110,19 @@ const Nav = () => {
               </div>
             </div>
           </div>
-          <div className={`absolute left-0 bottom-[-200px] w-full hidden max-[1200px]:${isChecked ? 'block' : 'hidden'}`} ref={ref}>
+          <div className={`absolute left-0 ${accessToken ? '-bottom-[160px]' : '-bottom-[200px]'} w-full hidden max-[1200px]:${isChecked ? 'block' : 'hidden'}`} ref={ref}>
             <ul className="w-full bg-[#2e2e2e] text-[#D1B383] text-[18px]  text-center">
               {menu.map((item) => (
-                <Link key={item.id} href={item.link} onClick={() => setIsChecked(false)}>
-                  <li className="leading-10 hover:bg-[#D1B383] hover:text-white">{item.name}</li>
+                <Link key={item!.id} href={item!.link} onClick={() => setIsChecked(false)}>
+                  <li className="leading-10 hover:bg-[#D1B383] hover:text-white">{item?.name}</li>
                 </Link>
               ))}
             </ul>
           </div>
           <div className="flex items-center mt-2 w-[425px] max-[1200px]:hidden">
             {menu.slice(0, 2).map((item) => (
-              <Link key={item.id} href={item.link}>
-                <p className="text-white text-[24px] leading-none mx-[27.5px] hover:text-[#D1B383]">{item.name}</p>
+              <Link key={item!.id} href={item!.link}>
+                <p className="text-white text-[24px] leading-none mx-[27.5px] hover:text-[#D1B383]">{item!.name}</p>
               </Link>
             ))}
           </div>

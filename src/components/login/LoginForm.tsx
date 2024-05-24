@@ -1,6 +1,6 @@
 'use client';
 
-import axios from "axios";
+import { useLoginUser } from "@/api/userApi";
 import { ChangeEvent, useState } from "react";
 
 const LoginForm = () => {
@@ -58,7 +58,6 @@ const LoginForm = () => {
 
   const handleError = () => {
     const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
     if (userInfo.email === '') {
       setError({
         ...error,
@@ -86,22 +85,11 @@ const LoginForm = () => {
 
   }
 
-  const handleLogin = async () => {
-    const response = await axios.post('http://localhost:8000/api/v1/users/login', userInfo, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    console.log(response);
-    if (response.status === 200) {
-      localStorage.setItem('access_token', response.data.access_token);
-    }
-    try {
-      const error = handleError();
-      if (error) return;
-      console.log('로그인 성공');
-    } catch (error) {
-    }
+  const userLogin = useLoginUser();
+  const handleUserLogin = () => {
+    const error = handleError();
+    if (error) return;
+    userLogin(userInfo);
   }
 
   console.log(userInfo);
@@ -112,12 +100,14 @@ const LoginForm = () => {
         <div className="text-red-700">
           {error.email}
         </div>
-        <input type="password" className="w-[372px] h-[74px] rounded-xl text-white focus:border-white outline-none bg-[#222] border border-[#D1B383] mb-[10px] pl-4" placeholder="비밀번호" value={userInfo.password} onChange={(e) => handlePassword(e)} />
+        <form onSubmit={(e) => e.preventDefault()}>
+          <input type="password" autoComplete="off" className="w-[372px] h-[74px] rounded-xl text-white focus:border-white outline-none bg-[#222] border border-[#D1B383] mb-[10px] pl-4" placeholder="비밀번호" value={userInfo.password} onChange={(e) => handlePassword(e)} onKeyDown={(e) => e.key === "Enter" ? handleUserLogin() : null} />
+        </form>
         <div className="text-red-700">
           {error.password}
         </div>
       </div>
-      <button className="w-[372px] h-[74px] bg-[#D1B383] text-[24px] text-white rounded-xl" onClick={handleLogin}>로그인</button>
+      <button className="w-[372px] h-[74px] bg-[#D1B383] text-[24px] text-white rounded-xl" onClick={handleUserLogin}>로그인</button>
     </div>
   )
 }

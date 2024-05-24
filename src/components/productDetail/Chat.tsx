@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from "react";
-
+import axios from "axios";
+import { useEffect, useState } from "react";
 const Chat = () => {
   const [isChat, setIsChat] = useState('');
   const [chats, setChats] = useState<string[]>([]);
@@ -11,6 +11,59 @@ const Chat = () => {
     { id: 2, name: '입찰' },
     { id: 3, name: '충전' },
   ];
+  const [messages, setMessages] = useState<string[]>([]);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  useEffect(() => {
+    // WebSocket 연결 설정
+    const socket = new WebSocket('ws://localhost:8000/api/v1/chat/ws/30');
+    socket.onopen = () => {
+      console.log('Connected to WebSocket server');
+    };
+    socket.onmessage = (event) => {
+      console.log('Message from server', event.data);
+      setMessages((prevMessages) => [...prevMessages, event.data]);
+    };
+    socket.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+    socket.onerror = (error) => {
+      console.error('WebSocket error', error);
+    };
+    setSocket(socket);
+    // Clean up on component unmount
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send('Hello Server!');
+    }
+  };
+
+
+  useEffect(() => {
+    const chatRoom = async () => {
+      try {
+        const response = await axios.post('http://localhost:8000/api/v1/chat/register_to_room/', {
+          room_id: '2',
+          user_id: '30',
+        }, {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+    chatRoom();
+  }, [])
+
 
   const handleButton = (name: string) => {
     if (name === '관심') {
@@ -31,7 +84,7 @@ const Chat = () => {
       <div className="box-border w-full h-[430px] bg-white border border-b-0 rounded-t-xl overflow-auto no_scrollbar flex flex-col-reverse">
         <div className=" w-full flex flex-col relative">
           <div className="p-3 h-full">
-            {chats.map((chat, index) => (
+            {messages.map((chat, index) => (
               <div key={index} className="w-full h-[50px] border rounded-xl p-3 my-1">
                 <p>{chat}</p>
               </div>
@@ -50,7 +103,7 @@ const Chat = () => {
         }} />
         <button className="w-[200px] h-[50px] bg-[#D1B383] text-white rounded-br-xl" onClick={() => {
           if (isChat.trim() !== '') {
-            handleChats();
+            sendMessage();
           }
         }}>입력</button>
       </div>
