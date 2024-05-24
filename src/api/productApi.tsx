@@ -1,5 +1,5 @@
 import { ProductInsertType1, UpdateProductType } from "@/type/ProductType";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import apiClient from "./baseApi";
 
@@ -26,8 +26,17 @@ export const useGetProducts = () => {
   return query;
 }
 
+export const useGetProduct = (id: number) => {
+  const queryFn = () => apiClient.get(`/api/v1/products/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  });
+  return useQuery({ queryKey: ['product', id], queryFn });
+}
+
 export const useUpdateProduct = () => {
-  const router = useRouter();
+  const queryClient = useQueryClient();
   const mutationFn = (updateData: UpdateProductType) => apiClient.put(`/api/v1/products/${updateData.id}`, updateData.updateData, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -37,6 +46,7 @@ export const useUpdateProduct = () => {
     mutationFn, onSuccess: (data) => {
       console.log('상품 업데이트 성공', data);
       alert('상품이 수정되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['userProducts'] });
     },
     onError: (error) => {
       console.log('상품 업데이트 실패', error);
@@ -51,15 +61,6 @@ export const useUserProducts = () => {
     }
   });
   return useQuery({ queryKey: ['userProducts'], queryFn });
-}
-
-export const useGetProduct = (id: number) => {
-  const queryFn = () => apiClient.get(`/api/v1/products/${id}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`
-    }
-  });
-  return useQuery({ queryKey: ['product', id], queryFn });
 }
 
 export const useProductInspection = () => {

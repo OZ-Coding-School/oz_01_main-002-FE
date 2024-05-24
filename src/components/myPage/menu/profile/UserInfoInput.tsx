@@ -4,32 +4,45 @@ import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 type UserInfoInputProps = {
   title: string,
+  value: string | number,
   id: string,
   isDisabled?: boolean,
   changeButton?: () => void
   userUpdate?: {
-    userNickname: string,
-    userPhone: string
+    nickname: string;
+    contact: string;
+    email: string,
+    name: string,
+    gender: string,
+    age: number,
+    address: string,
+    content: string
   },
   setUserUpdate?: Dispatch<SetStateAction<{
-    userNickname: string;
-    userPhone: string;
+    nickname: string;
+    contact: string;
+    email: string,
+    name: string,
+    gender: string,
+    age: number,
+    address: string,
+    content: string
   }>>;
 }
 
-const UserInfoInput = ({ title, id, isDisabled, userUpdate, setUserUpdate, changeButton }: UserInfoInputProps) => {
+const UserInfoInput = ({ title, id, isDisabled, value, userUpdate, setUserUpdate, changeButton }: UserInfoInputProps) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (setUserUpdate && userUpdate) {
       if (title === '닉네임') {
         setUserUpdate({
           ...userUpdate,
-          userNickname: e.target.value
+          nickname: e.target.value
         });
       } else if (title === '연락처') {
         setUserUpdate({
           ...userUpdate,
-          userPhone: e.target.value
+          contact: e.target.value
         });
       }
     }
@@ -38,8 +51,8 @@ const UserInfoInput = ({ title, id, isDisabled, userUpdate, setUserUpdate, chang
     <div className="flex flex-col">
       <label htmlFor={id} className="my-2">{title}</label>
       <div className="relative w-[500px]">
-        <input type="text" id={id} disabled={title === '닉네임' || title === '연락처' ? isDisabled : true} value={title === '닉네임' ? userUpdate?.userNickname : title === '연락처' ? userUpdate?.userPhone : ''} className="border outline-none w-full h-[50px] rounded-[10px] bg-white pl-4" onChange={(e) => handleChange(e)} />
-        <button className={`absolute w-[50px] h-[35px] rounded-lg right-2 top-[50%] transform -translate-y-1/2 border ${title === '닉네임' || title === '연락처' ? 'block' : 'hidden'}`} onClick={changeButton}>{isDisabled ? '변경' : '취소'}</button>
+        <input type="text" id={id} disabled={title === '닉네임' || title === '연락처' ? isDisabled : true} value={value} className="border outline-none w-full h-[50px] rounded-[10px] bg-white pl-4" onChange={(e) => handleChange(e)} />
+        <button className={`absolute w-[50px] h-[35px] rounded-lg right-2 top-[50%] transform -translate-y-1/2 border ${title === '닉네임' || title === '연락처' || title === '주소' ? 'block' : 'hidden'}`} onClick={changeButton}>{isDisabled || title === '주소' ? '변경' : '취소'}</button>
       </div>
     </div>
   )

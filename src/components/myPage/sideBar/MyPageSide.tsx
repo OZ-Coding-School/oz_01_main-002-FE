@@ -1,5 +1,6 @@
 'use client';
 
+import { useMenuNumberStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
 import MyPageHomeButton from "./MyPageHomeButton";
@@ -15,11 +16,14 @@ type MyPageSideBarProps = {
 }
 
 const MyPageSide = ({ myPageMenuList }: MyPageSideBarProps) => {
+  const { setMenuNumber } = useMenuNumberStore();
   const router = useRouter();
   const handleLogout = () => {
     const logout = confirm('로그아웃 하시겠습니까?');
     if (logout) {
       localStorage.removeItem('access_token');
+      localStorage.removeItem('user_id');
+      setMenuNumber(0);
       router.push('/');
     }
   }

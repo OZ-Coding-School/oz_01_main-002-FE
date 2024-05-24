@@ -52,3 +52,12 @@ export type updateAddressType = {
   is_main: boolean;
   id: number;
 }
+
+export type UserDataType1 = FormData
+
+export type UserDataType = {
+  userImg?: File;
+  nickname?: string;
+  contact?: string;
+  content?: string
+}

@@ -43,7 +43,7 @@ const ProductDetail = () => {
                 </div>
               </div>
             </div>
-            <Chat />
+            <Chat productId={'2'} />
           </div>
           <div className="ml-3 mr-6">
             <div className="border border-[#868686] pr-3" />

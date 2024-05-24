@@ -1,6 +1,7 @@
 'use client';
 
 import { useDeleteProduct, usePostProduct, useUpdateProduct } from "@/api/productApi";
+import InsertButton from "@/components/productInsert/InsertButton";
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
 import { useProductIdStore } from "@/store";
 import { ProductInsertType1 } from "@/type/ProductType";
@@ -21,9 +22,9 @@ const ProductInsert = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isDateClicked, setIsDateClicked] = useState(false);
   const params = useParams();
-  console.log('파람스 아이디', params.id);
-
+  const { mutate: userUpdateProduct } = useUpdateProduct();
   const { productId } = useProductIdStore();
+  console.log('프로덕트 아이디', productId);
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [error, setError] = useState({
@@ -50,6 +51,25 @@ const ProductInsert = () => {
     { value: 'D' },
   ]
 
+  const categoryOptions = [
+    { value: 1, label: '신발' },
+    { value: 2, label: '옷' },
+    { value: 3, label: '가방' },
+    { value: 4, label: '전자기기' },
+  ];
+
+  const dateOptions = [
+    { value: 1, label: '3시간' },
+    { value: 2, label: '1일' },
+    { value: 3, label: '2일' },
+    { value: 4, label: '3일' },
+    { value: 5, label: '4일' },
+    { value: 6, label: '5일' },
+    { value: 7, label: '6일' },
+    { value: 8, label: '7일' },
+  ]
+
+  console.log('파람스 아이디', params.id);
   useEffect(() => {
     const getRandomGrade = () => {
       const randomIndex = Math.floor(Math.random() * grade.length);
@@ -93,23 +113,6 @@ const ProductInsert = () => {
     setImages(prevImages => prevImages.filter((image, i) => i !== index));
     setPostImages(prevImages => prevImages.filter((image, i) => i !== index));
   }
-  const categoryOptions = [
-    { value: 1, label: '신발' },
-    { value: 2, label: '옷' },
-    { value: 3, label: '가방' },
-    { value: 4, label: '전자기기' },
-  ];
-
-  const dateOptions = [
-    { value: 1, label: '3시간' },
-    { value: 2, label: '1일' },
-    { value: 3, label: '2일' },
-    { value: 4, label: '3일' },
-    { value: 5, label: '4일' },
-    { value: 6, label: '5일' },
-    { value: 7, label: '6일' },
-    { value: 8, label: '7일' },
-  ]
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length === 0 || e.target.value.length !== 0) {
@@ -275,6 +278,32 @@ const ProductInsert = () => {
   }
   // ============================================= 검수 완료 후 =======================================================//
   // const { data, isLoading } = useGetProduct(productId);
+  // console.log('데이터', data);
+  // useEffect(() => {
+  //   if (params.id === '1') return;
+  //   if (productId === 0) return;
+  //   setProductItem({
+  //     name: data?.data.name,
+  //     category_id: data?.data.category_id,
+  //     bid_price: data?.data.bid_price,
+  //     content: data?.data.content,
+  //     duration: data?.data.duration,
+  //     grade: data?.data.grade,
+  //     status: data?.data.status,
+  //     modify: data?.data.modify,
+  //   })
+  //   switch (data?.data.duration) {
+  //     case 1:
+  //     case 2: setDateName('1일'); break;
+  //     case 3: setDateName('2일'); break;
+  //     case 4: setDateName('3일'); break;
+  //     case 5: setDateName('4일'); break;
+  //     case 6: setDateName('5일'); break;
+  //     case 7: setDateName('6일'); break;
+  //     case 8: setDateName('7일'); break;
+  //     default: setDateName('3시간'); break;
+  //   }
+  // }, [data, productId])
 
   const handleGetProduct = async () => {
     try {
@@ -312,14 +341,13 @@ const ProductInsert = () => {
 
   useEffect(() => {
     if (params.id === '1') return;
+    if (productId === 0) return;
     handleGetProduct();
-  }, [])
+  }, [productId])
 
   const handleFinalSubmit = async () => {
     console.log('최종등록');
   }
-
-  const { mutate: userUpdateProduct } = useUpdateProduct();
 
   const handleUpdate = async (id: number) => {
     userUpdateProduct({
@@ -437,9 +465,9 @@ const ProductInsert = () => {
         </div>
           :
           <div className="flex justify-center items-center py-10">
-            <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={handleFinalSubmit}>등록</button>
-            <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleUpdate(productId)}>수정</button>
-            <button className="w-[200px] mx-2 h-[72px] bg-red-700 text-white text-[20px] rounded-xl" onClick={() => handleDelete(productId)}>삭제</button>
+            <InsertButton title={'등록'} onClick={handleFinalSubmit} />
+            <InsertButton title={'수정'} onClick={() => handleUpdate(productId)} />
+            <InsertButton title={'삭제'} onClick={() => handleDelete(productId)} />
           </div>}
       </div>
     </div>
