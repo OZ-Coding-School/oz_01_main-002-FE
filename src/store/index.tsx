@@ -40,7 +40,8 @@ export const useProductStore = create<State>()(
     name: 'user_products',
     storage: createJSONStorage(() => sessionStorage),
   }
-  )))
+  ))
+)
 
 export const useMenuNumberStore = create<NumberState>((set) => ({
   menuNumber: 0,

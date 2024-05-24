@@ -1,7 +1,9 @@
 'use client';
 
+import { useDeleteProduct, usePostProduct, useUpdateProduct } from "@/api/productApi";
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
 import { useProductIdStore } from "@/store";
+import { ProductInsertType1 } from "@/type/ProductType";
 import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -29,13 +31,15 @@ const ProductInsert = () => {
     min_price: '',
     content: '',
   })
-  const [productItem, setProductItem] = useState({
-    title: '',
-    category: 0,
-    min_price: 0,
+  const [productItem, setProductItem] = useState<ProductInsertType1>({
+    name: '',
     content: '',
-    date: 0,
+    bid_price: '',
+    category_id: 0,
+    duration: 0,
+    status: '검수중',
     grade: '',
+    modify: true,
   })
 
   const grade = [
@@ -116,7 +120,7 @@ const ProductInsert = () => {
     }
     setProductItem({
       ...productItem,
-      title: e.target.value
+      name: e.target.value
     })
   }
 
@@ -130,13 +134,13 @@ const ProductInsert = () => {
     if (e.target.value === '') {
       setProductItem({
         ...productItem,
-        min_price: 0
+        bid_price: ''
       })
       return;
     }
     setProductItem({
       ...productItem,
-      min_price: parseInt(e.target.value)
+      bid_price: parseInt(e.target.value)
     })
   }
 
@@ -161,12 +165,12 @@ const ProductInsert = () => {
       return true;
     }
 
-    if (productItem.category === 0) {
+    if (productItem.category_id === 0) {
       alert('카테고리를 선택해주세요');
       return true;
     }
 
-    if (titleRegex.test(productItem.title)) {
+    if (titleRegex.test(productItem.name)) {
       setError({
         ...error,
         title: '특수문자는 사용할 수 없습니다'
@@ -174,7 +178,7 @@ const ProductInsert = () => {
       return true;
     }
 
-    if (productItem.title.length <= 2) {
+    if (productItem.name.length <= 2) {
       setError({
         ...error,
         title: '제목은 2글자 이상 입력해주세요',
@@ -182,7 +186,7 @@ const ProductInsert = () => {
       return true;
     }
 
-    if (productItem.min_price === 0) {
+    if (productItem.bid_price === 0) {
       setError({
         ...error,
         min_price: '시작가를 입력해주세요'
@@ -190,7 +194,7 @@ const ProductInsert = () => {
       return true;
     }
 
-    if (productItem.min_price < 50000) {
+    if (Number(productItem.bid_price) < 50000) {
       setError({
         ...error,
         min_price: '시작가는 50,000원 이상 입력해주세요'
@@ -198,7 +202,8 @@ const ProductInsert = () => {
       return true;
     }
 
-    if (productItem.date === 0) {
+
+    if (productItem.duration === 0) {
       alert('경매기간을 선택해주세요');
       return true;
     }
@@ -221,39 +226,44 @@ const ProductInsert = () => {
     return false;
   }
 
+  const userPostProduct = usePostProduct();
+  const handlePostProduct = () => {
+    userPostProduct(productItem);
+  }
+
   const handleSubmit = async () => {
     try {
       const error = handleError();
       if (error) return;
 
       const formData = new FormData();
-      formData.append('name', productItem.title);
-      formData.append('category_id', productItem.category.toString());
-      formData.append('bid_price', productItem.min_price.toString());
+      formData.append('name', productItem.name);
+      formData.append('category_id', productItem.category_id.toString());
+      formData.append('bid_price', productItem.bid_price.toString());
       formData.append('content', productItem.content);
-      formData.append('status', '검수중');
-      formData.append('modify', 'true');
-      formData.append('duration', productItem.date.toString());
+      formData.append('status', productItem.status);
+      formData.append('modify', productItem.modify.toString());
+      formData.append('duration', productItem.duration.toString());
       formData.append('grade', productItem.grade);
       // formData.append('image', JSON.stringify(images));
       // 이미지 수정해야됨.. 생각해보자
       const data = {
-        user_id: 2,
-        name: productItem.title,
-        category_id: productItem.category,
-        bid_price: productItem.min_price,
+        name: productItem.name,
+        category_id: productItem.category_id,
+        bid_price: productItem.bid_price,
         content: productItem.content,
-        status: '검수중',
-        modify: true,
-        duration: productItem.date,
+        status: productItem.status,
+        modify: productItem.modify,
+        duration: productItem.duration,
         grade: productItem.grade,
       }
       console.log('aaazzzxx', data);
       try {
         const response = await axios.post('http://localhost:8000/api/v1/products/', data, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
             // 'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
           }
         });
         console.log(response);
@@ -264,17 +274,36 @@ const ProductInsert = () => {
     }
   }
   // ============================================= 검수 완료 후 =======================================================//
+  // const { data, isLoading } = useGetProduct(productId);
+
   const handleGetProduct = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/products/${productId}`)
+      const response = await axios.get(`http://localhost:8000/api/v1/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
       console.log('아이템 불러오기', response);
+      switch (response.data.duration) {
+        case 1:
+        case 2: setDateName('1일'); break;
+        case 3: setDateName('2일'); break;
+        case 4: setDateName('3일'); break;
+        case 5: setDateName('4일'); break;
+        case 6: setDateName('5일'); break;
+        case 7: setDateName('6일'); break;
+        case 8: setDateName('7일'); break;
+        default: setDateName('3시간'); break;
+      }
       setProductItem({
-        title: response.data.name,
-        category: response.data.category_id,
-        min_price: response.data.bid_price,
+        name: response.data.name,
+        category_id: response.data.category_id,
+        bid_price: response.data.bid_price,
         content: response.data.content,
-        date: response.data.duration,
-        grade: response.data.grade
+        duration: response.data.duration,
+        grade: response.data.grade,
+        status: response.data.status,
+        modify: response.data.modify,
       })
     } catch (error) {
       console.log(error);
@@ -290,36 +319,26 @@ const ProductInsert = () => {
     console.log('최종등록');
   }
 
-  const handleUpdate = async (id: number) => {
-    try {
-      const response = await axios.put(`http://localhost:8000/api/v1/products/${id}`, {
-        content: productItem.content,
-        bid_price: productItem.min_price,
-        duration: productItem.date,
-        status: '경매중',
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-      console.log(response);
-      if (response.status === 200) {
-        console.log('수정완료');
-      }
-    } catch (error) {
+  const { mutate: userUpdateProduct } = useUpdateProduct();
 
-    }
+  const handleUpdate = async (id: number) => {
+    userUpdateProduct({
+      id: id,
+      updateData: {
+        content: productItem.content,
+        bid_price: productItem.bid_price,
+        duration: productItem.duration,
+        status: '경매중',
+      }
+    })
   }
 
-  const handleDelete = async (id: number) => {
-    try {
-      const response = await axios.delete(`http://localhost:8000/api/v1/products/${id}`)
-      console.log(response);
-      if (response.status === 200) {
-        console.log('삭제완료');
-      }
-    } catch (error) {
+  const { mutate: userDeleteProduct } = useDeleteProduct();
 
+  const handleDelete = async (id: number) => {
+    const deleteItem = confirm('정말 삭제하시겠습니까?');
+    if (deleteItem) {
+      userDeleteProduct(id);
     }
   }
   // ============================================= 검수 완료 후 =======================================================//
@@ -364,7 +383,7 @@ const ProductInsert = () => {
                 <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:border-b-0 last:rounded-b-xl cursor-pointer`} onClick={() => {
                   setProductItem({
                     ...productItem,
-                    category: category.value
+                    category_id: category.value
                   });
                   setCategoryName(category.label);
                   setIsClicked(false);
@@ -375,14 +394,14 @@ const ProductInsert = () => {
         </div>
         <div className=" mx-5 mt-8">
           <div className="flex items-center">
-            <input type="text" id="title" disabled={params.id === '1' ? false : true} value={productItem.title} className="w-[518px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
+            <input type="text" id="title" disabled={params.id === '1' ? false : true} value={productItem.name} className="w-[518px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
           </div>
         </div>
         <div className="mx-5 mt-2 text-red-700">
           {error.title}
         </div>
         <div className="flex items-center mx-5 mt-8">
-          <input type="number" id="min_price" value={productItem.min_price} className="w-[518px] h-[72px] border-[#D1B383] focus:border-white border rounded-xl pl-4 input_number_arrow_none outline-none bg-[#222] text-white" placeholder="시작가" onChange={(e) => handlePrice(e)} />
+          <input type="number" id="min_price" value={productItem.bid_price} className="w-[518px] h-[72px] border-[#D1B383] focus:border-white border rounded-xl pl-4 input_number_arrow_none outline-none bg-[#222] text-white" placeholder="시작가" onChange={(e) => handlePrice(e)} />
         </div>
         <div className="mx-5 mt-2 text-red-700">
           {error.min_price}
@@ -390,17 +409,18 @@ const ProductInsert = () => {
         <div className="flex mx-5 mt-8 items-center">
           <div className={`w-[259px] h-[72px] cursor-pointer px-4 text-white border-[#D1B383] focus:border-white flex items-center justify-between rounded-xl border text-center relative ${isDateClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => setIsDateClicked(!isDateClicked)}>
             <IoIosArrowDown className="opacity-0" />
-            {productItem.date}
+            {dateName}
             <IoIosArrowDown />
             {isDateClicked ? <ul className="bg-white absolute border w-[259px] left-0 top-[72px] h-[200px] overflow-auto rounded-xl scrollbar-hide" ref={ref2}>
               {dateOptions.map((date, index) => (
                 <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer`} onClick={() => {
                   setProductItem({
                     ...productItem,
-                    date: date.value
+                    duration: date.value
                   });
                   setDateName(date.label);
                   setIsDateClicked(false);
+                  console.log('date', date.label);
                 }}>{date.label}</li>
               ))}
             </ul> : null}
@@ -417,7 +437,7 @@ const ProductInsert = () => {
         </div>
           :
           <div className="flex justify-center items-center py-10">
-            <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleFinalSubmit()}>등록</button>
+            <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={handleFinalSubmit}>등록</button>
             <button className="w-[200px] mx-2 h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleUpdate(productId)}>수정</button>
             <button className="w-[200px] mx-2 h-[72px] bg-red-700 text-white text-[20px] rounded-xl" onClick={() => handleDelete(productId)}>삭제</button>
           </div>}

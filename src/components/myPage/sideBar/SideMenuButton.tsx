@@ -1,5 +1,3 @@
-'use client';
-
 import { useMenuNumberStore } from '@/store';
 
 type SideMenuButtonProps = {

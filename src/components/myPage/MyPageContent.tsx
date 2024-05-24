@@ -1,9 +1,9 @@
 'use client';
 
 import History from "@/components/myPage/History";
-import Address from "@/components/myPage/menu/Address";
 import Password from "@/components/myPage/menu/Password";
 import WishList from "@/components/myPage/menu/WishList";
+import Address from "@/components/myPage/menu/address/Address";
 import MyProducts from "@/components/myPage/menu/myProducts";
 import Orders from "@/components/myPage/menu/order/Orders";
 import Profile from "@/components/myPage/menu/profile/Profile";

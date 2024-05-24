@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const CountDown = () => {
   const [dDay, setDDay] = useState<string>();
-  const day = '2024-05-22 12:07:00';
+  const day = '2024-05-23 20:00:50';
   const targetDate = new Date(day);
   const { setIsBidding } = useBiddingStore();
 

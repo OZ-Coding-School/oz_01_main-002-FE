@@ -40,7 +40,7 @@ const MainCarousel = () => {
         <div className="z-[1] flex justify-center items-center cursor-pointer w-[100px] h-[200px] hover:bg-black hover:bg-opacity-50 absolute right-0 top-1/2 transform -translate-y-1/2" onClick={next}>
           <IoIosArrowForward className="text-white text-[64px]" />
         </div>
-        <Image src={auctionItems[images].img} fill alt="슬라이드이미지" priority />
+        <Image src={auctionItems[images].img} fill className="object-cover" alt="슬라이드이미지" priority />
       </div>
     </div>
   )

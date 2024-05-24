@@ -1,8 +1,8 @@
+import Gap from "@/components/Gap";
 import ReactQueryProvider from "@/reactQuery/Provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "../components/Footer";
-import Gap from "../components/Gap";
 import Nav from "../components/nav/Nav";
 import "./globals.css";
 

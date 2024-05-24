@@ -1,6 +1,9 @@
 'use client';
 
-import { useSignUpUser } from "@/api/userApi";
+import { useSignUpUser, useUserEmailCheck, useUserEmailCodeCheck, useUserNicknameCheck, useUserPhoneCheck } from "@/api/userApi";
+import CheckButton from "@/components/\bsignup/CheckButton";
+import SignInput from "@/components/\bsignup/SignInput";
+import SignInputOne from "@/components/\bsignup/SignInputOne";
 import TermCheck from "@/components/\bsignup/TermCheck";
 import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
 import { SignUpUser } from "@/type/UserType";
@@ -24,6 +27,7 @@ const SignUp = () => {
   const [terms, setTerms] = useState<Terms[]>([]);
   const [checkedPassword, setCheckedPassword] = useState('');
   const [useDate, setUseDate] = useState<string>('');
+  const ref = useRef(null);
   const [signUpUser, setSignUpUser] = useState<SignUpUser>({
     request_data: {
       email: '',
@@ -49,6 +53,17 @@ const SignUp = () => {
     checked2: '',
     checked3: '',
   });
+  const genderOptions = [
+    { id: 1, label: '남자', value: 1 },
+    { id: 2, label: '여자', value: 2 },
+  ]
+  const [emailCode, setEmailCode] = useState<string | undefined>();
+  const [emailCodeInput, setEmailCodeInput] = useState(false);
+  const [userChecked, setUserChecked] = useState({
+    email: false,
+    nickname: false,
+    phone: false
+  })
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
@@ -172,7 +187,6 @@ const SignUp = () => {
       }
     })
   }
-
   const handlePhone = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
       setError({
@@ -228,7 +242,7 @@ const SignUp = () => {
     const emailRegEx = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
     const nicknameRegEx = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/;
-    const phoneRegEx = /^01([0])?([0-9]{4})([0-9]{4})$/;
+    const phoneRegEx = /^01([0])-?([0-9]{4})-([0-9]{4})$/;
     if (signUpUser.request_data.email === '') {
       setError({
         ...error,
@@ -371,55 +385,83 @@ const SignUp = () => {
     handleTerms();
   }, [])
 
-  const handlePhoneChecked = async () => {
-    try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/contact/verify', {
-        contact: signUpUser.request_data.contact
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+  const emailCheck = useUserEmailCheck();
+  const handleEmailCheck = () => {
+    emailCheck({ email: signUpUser.request_data.email }, {
+      onSuccess: () => {
+        setEmailCodeInput(true);
+      }
+    });
   }
 
-  const handleUserSignUp = useSignUpUser();
+  const emailCodeCheck = useUserEmailCodeCheck();
+  const handleEmailCodeCheck = () => {
+    emailCodeCheck({ email: signUpUser.request_data.email, code: Number(emailCode) }, {
+      onSuccess: () => {
+        setUserChecked({
+          ...userChecked,
+          email: true
+        })
+        setEmailCodeInput(false);
+      }
+    });
+  }
 
+  const nicknameCheck = useUserNicknameCheck();
+  const handleNickNameCheck = () => {
+    nicknameCheck({ nickname: signUpUser.request_data.nickname }, {
+      onSuccess: () => {
+        setUserChecked({
+          ...userChecked,
+          nickname: true
+        })
+      }
+    });
+  }
+
+  const phoneCheck = useUserPhoneCheck();
+  const handlePhoneCheck = () => {
+    if (signUpUser.request_data.contact === '') return alert('휴대폰 번호를 입력해주세요.');
+    phoneCheck({ contact: signUpUser.request_data.contact }, {
+      onSuccess: () => {
+        setUserChecked({
+          ...userChecked,
+          phone: true
+        })
+      }
+    })
+  }
+
+  const userSignUp = useSignUpUser();
   const handleSignUpUser = () => {
     const error = handleError();
     if (!error) {
-      handleUserSignUp(signUpUser);
+      if (userChecked.email === false || userChecked.nickname === false || userChecked.phone === false) {
+        alert('이메일, 닉네임, 휴대폰 인증을 완료해주세요.');
+        return;
+      }
+      userSignUp(signUpUser);
     } else {
       return;
     }
   }
 
-  const ref = useRef(null);
-  const genderOptions = [
-    { id: 1, label: '남자', value: 1 },
-    { id: 2, label: '여자', value: 2 },
-  ]
-
   useOnclickOutside(ref, () => {
     setIsClicked(false);
   })
 
-  // useEffect(() => {
-  //   if (signUpUser.request_data.contact.length === 11) {
-  //     setSignUpUser({
-  //       ...signUpUser,
-  //       request_data: {
-  //         ...signUpUser.request_data,
-  //         contact: signUpUser.request_data.contact.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
-  //       }
-  //     })
-  //   }
-  // }, [signUpUser.request_data.contact]);
+  useEffect(() => {
+    if (signUpUser.request_data.contact.length === 11) {
+      setSignUpUser({
+        ...signUpUser,
+        request_data: {
+          ...signUpUser.request_data,
+          contact: signUpUser.request_data.contact.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+        }
+      })
+    }
+  }, [signUpUser.request_data.contact]);
 
-  console.log(signUpUser)
   return (
     <div className="bg-[#222] flex flex-col justify-center items-center">
       <div className="my-[100px] text-white text-[40px] leading-none">
@@ -427,29 +469,31 @@ const SignUp = () => {
       </div>
       <div className="w-full max-w-[518px] mx-auto">
         <div className="flex items-center justify-between mb-[10px]">
-          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="이메일" value={signUpUser.request_data.email} onChange={(e) => handleEmail(e)} />
-          <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none">이메일 확인</button>
+          <SignInput type={'text'} placeholder={'이메일'} value={signUpUser.request_data.email} onChange={(e) => handleEmail(e)} />
+          <CheckButton title={'이메일 확인'} onClick={handleEmailCheck} />
         </div>
         <p className="text-red-700">{error.email}</p>
-        <div className="my-[10px]">
-          <form>
-            <input type="password" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="비밀번호" autoComplete="off" value={signUpUser.request_data.password} onChange={(e) => handlePassword(e)} />
-          </form>
+        <div className={`flex items-center mb-[10px] ${emailCodeInput ? 'block' : 'hidden'}`}>
+          <SignInput type={'text'} placeholder={'코드'} value={emailCode} onChange={(e) => setEmailCode(e.target.value)} />
+          <button className="w-[100px] h-[50px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none" onClick={handleEmailCodeCheck}>확인</button>
         </div>
-        <p className="text-red-700">{error.password}</p>
-        <div className="my-[10px]">
-          <form>
-            <input type="password" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="비밀번호 확인" autoComplete="off" value={checkedPassword} onChange={(e) => handlePassword1(e)} />
-          </form>
-        </div>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="my-[10px]">
+            <SignInputOne type={'password'} placeholder={'비밀번호'} value={signUpUser.request_data.password} onChange={(e) => handlePassword(e)} />
+          </div>
+          <p className="text-red-700">{error.password}</p>
+          <div className="my-[10px]">
+            <SignInputOne type={'password'} placeholder={'비밀번호 확인'} value={checkedPassword} onChange={(e) => handlePassword1(e)} />
+          </div>
+        </form>
         <p className="text-red-700">{error.password1}</p>
         <div className="my-[10px]">
-          <input type="text" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="이름" value={signUpUser.request_data.name} onChange={(e) => handleName(e)} />
+          <SignInputOne type={'text'} placeholder={'이름'} value={signUpUser.request_data.name} onChange={(e) => handleName(e)} />
         </div>
         <p className="text-red-700">{error.name}</p>
         <div className="flex items-center justify-between my-[10px]">
-          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="닉네임" value={signUpUser.request_data.nickname} onChange={(e) => handleNickname(e)} />
-          <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none">닉네임 확인</button>
+          <SignInput type={'text'} placeholder={'닉네임'} value={signUpUser.request_data.nickname} onChange={(e) => handleNickname(e)} />
+          <CheckButton title={'닉네임 확인'} onClick={handleNickNameCheck} />
         </div>
         <p className="text-red-700">{error.nickname}</p>
         <div className={`w-[518px] h-[74px] mt-[10px] flex items-center text-white cursor-pointer ${isClicked ? 'border-white' : 'border-[#D1B383]'} border-[#D1B383] justify-center rounded-xl border text-center relative`} onClick={() => setIsClicked(!isClicked)}>
@@ -470,8 +514,8 @@ const SignUp = () => {
         </div>
         <p className="text-red-700">{error.gender}</p>
         <div className="flex items-center justify-between my-[10px]">
-          <input type="text" className="w-[372px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4 input_number_arrow_none" placeholder="연락처" maxLength={11} value={signUpUser.request_data.contact} onChange={(e) => handlePhone(e)} />
-          <button className="w-[139px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none" onClick={handlePhoneChecked}>휴대폰 인증</button>
+          <SignInput type={'text'} placeholder={'연락처'} value={signUpUser.request_data.contact} onChange={(e) => handlePhone(e)} />
+          <CheckButton title={'휴대폰 인증'} onClick={handlePhoneCheck} />
         </div>
         <p className="text-red-700">{error.phoneNumber}</p>
         <div className="mt-[10px]">
