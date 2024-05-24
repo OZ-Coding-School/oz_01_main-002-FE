@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetUser } from "@/api/userApi";
 import History from "@/components/myPage/History";
 import Password from "@/components/myPage/menu/Password";
 import WishList from "@/components/myPage/menu/WishList";
@@ -13,6 +14,8 @@ import ProfileButton from "./ProfileButton";
 
 const MyPageContent = () => {
   const { menuNumber } = useMenuNumberStore();
+  const { data, isLoading } = useGetUser();
+  if (isLoading) return <div>로딩중...</div>
   return (
     <>
       {menuNumber === 0 ?
@@ -21,8 +24,8 @@ const MyPageContent = () => {
             <div className="flex items-center">
               <div className="w-[100px] h-[100px] rounded-full bg-[#868686]"></div>
               <div className="ml-[16px] leading-9">
-                <p className="text-black text-[24px] font-semibold">닉네임</p>
-                <p className="text-[#868686] text-[20px]">이메일</p>
+                <p className="text-black text-[24px] font-semibold">{data?.data.nickname}</p>
+                <p className="text-[#868686] text-[20px]">{data?.data.email}</p>
               </div>
             </div>
             <ProfileButton />

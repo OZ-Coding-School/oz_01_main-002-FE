@@ -1,69 +1,31 @@
 'use client';
 
-import axios from "axios";
+import { useChatRoom } from "@/api/chatApi";
+import useWebSocket from "@/hooks/useWebSocket";
 import { useEffect, useState } from "react";
-const Chat = () => {
+
+type ChatTypeProps = {
+  productId: string,
+}
+
+const Chat = ({ productId }: ChatTypeProps) => {
   const [isChat, setIsChat] = useState('');
-  const [chats, setChats] = useState<string[]>([]);
   const [isBidding, setIsBidding] = useState(5000);
   const buttonMenu = [
     { id: 1, name: '관심' },
     { id: 2, name: '입찰' },
     { id: 3, name: '충전' },
   ];
-  const [messages, setMessages] = useState<string[]>([]);
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  useEffect(() => {
-    // WebSocket 연결 설정
-    const socket = new WebSocket('ws://localhost:8000/api/v1/chat/ws/30');
-    socket.onopen = () => {
-      console.log('Connected to WebSocket server');
-    };
-    socket.onmessage = (event) => {
-      console.log('Message from server', event.data);
-      setMessages((prevMessages) => [...prevMessages, event.data]);
-    };
-    socket.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
-    socket.onerror = (error) => {
-      console.error('WebSocket error', error);
-    };
-    setSocket(socket);
-    // Clean up on component unmount
-    return () => {
-      socket.close();
-    };
-  }, []);
 
-  const sendMessage = () => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send('Hello Server!');
-    }
-  };
-
+  const { mutate: userChatRoom } = useChatRoom();
+  const { messages, isConnected, sendMessage } = useWebSocket();
 
   useEffect(() => {
-    const chatRoom = async () => {
-      try {
-        const response = await axios.post('http://localhost:8000/api/v1/chat/register_to_room/', {
-          room_id: '2',
-          user_id: '30',
-        }, {
-          headers: {
-            "content-type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-          }
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
 
+    if (isConnected) {
+      userChatRoom({ room_id: productId, user_id: localStorage.getItem('user_id') });
     }
-    chatRoom();
-  }, [])
-
+  }, [isConnected])
 
   const handleButton = (name: string) => {
     if (name === '관심') {
@@ -74,11 +36,6 @@ const Chat = () => {
     } else if (name === '충전') { }
   }
 
-
-  const handleChats = async () => {
-    setChats([...chats, isChat]);
-    setIsChat('');
-  }
   return (
     <div className="w-full px-[12px] m-3">
       <div className="box-border w-full h-[430px] bg-white border border-b-0 rounded-t-xl overflow-auto no_scrollbar flex flex-col-reverse">
@@ -97,13 +54,15 @@ const Chat = () => {
           if (e.key === 'Enter') {
             e.preventDefault();
             if (isChat.trim() !== '') {
-              handleChats();
+              sendMessage({ roomId: '2', message: isChat });
+              setIsChat('');
             }
           }
         }} />
         <button className="w-[200px] h-[50px] bg-[#D1B383] text-white rounded-br-xl" onClick={() => {
           if (isChat.trim() !== '') {
-            sendMessage();
+            sendMessage({ roomId: productId, message: isChat });
+            setIsChat('');
           }
         }}>입력</button>
       </div>

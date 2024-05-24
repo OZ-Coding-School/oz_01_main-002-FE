@@ -1,8 +1,17 @@
-import { AddressInsertType, LoginUser, SignUpUser, updateAddressType, userEmailCheck, userEmailCodeCheck } from "@/type/UserType";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { AddressInsertType, LoginUser, SignUpUser, UserDataType, updateAddressType, userEmailCheck, userEmailCodeCheck } from "@/type/UserType";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useRouter } from "next/navigation";
 import apiClient from "./baseApi";
+
+export const useGetUser = () => {
+  const queryFn = () => apiClient.get('/api/v1/users/', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  })
+  return useQuery({ queryKey: ['user'], queryFn });
+}
 
 export const useUserEmailCheck = () => {
   const mutationFn = (userData: userEmailCheck) => apiClient.post('/api/v1/users/email/send', userData);
@@ -81,6 +90,7 @@ export const useSignUpUser = () => {
 }
 
 export const useLoginUser = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const mutationFn = (userData: LoginUser) => apiClient.post('/api/v1/users/login', userData);
   const mutation = useMutation({
@@ -88,12 +98,31 @@ export const useLoginUser = () => {
       console.log('로그인 성공', data);
       router.push('/');
       localStorage.setItem('access_token', data.data.access_token);
+      localStorage.setItem('user_id', data.data.user);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: (error) => {
       console.log('로그인 실패', error);
     }
   })
   return mutation.mutate;
+}
+
+export const usePutUserUpdate = () => {
+  const mutationFn = (userData: UserDataType) => apiClient.put('/api/v1/users/', userData, {
+    headers: {
+      // 'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  });
+  return useMutation({
+    mutationFn, onSuccess: (data) => {
+      console.log('유저 정보 수정 성공', data);
+    },
+    onError: (error) => {
+      console.log('유저 정보 수정 실패', error);
+    }
+  });
 }
 
 export const usePostUserAddress = () => {

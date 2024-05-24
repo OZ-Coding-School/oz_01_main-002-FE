@@ -53,7 +53,13 @@ export const useBiddingStore = create<BiddingState>((set) => ({
   setIsBidding: (isBidding: boolean) => set({ isBidding }),
 }))
 
-export const useProductIdStore = create<ProductIdState>((set) => ({
-  productId: 0,
-  setProductId: (productId: number) => set({ productId }),
-}))
+export const useProductIdStore = create<ProductIdState>()(
+  devtools(persist((set) => ({
+    productId: 0,
+    setProductId: (productId: number) => set({ productId }),
+  }), {
+    name: 'user_product_id',
+    storage: createJSONStorage(() => sessionStorage),
+  }
+  ))
+)
