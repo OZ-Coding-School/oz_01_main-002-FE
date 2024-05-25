@@ -1,6 +1,7 @@
+'use client';
+
 import { AddressInsertType, LoginUser, SignUpUser, UserDataType, updateAddressType, userEmailCheck, userEmailCodeCheck } from "@/type/UserType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
 import { useRouter } from "next/navigation";
 import apiClient from "./baseApi";
 

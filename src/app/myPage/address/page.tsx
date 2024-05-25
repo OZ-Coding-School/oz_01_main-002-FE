@@ -1,19 +1,17 @@
 'use client';
 
 import { useDeleteUserAddress, useGetUserAddress, useUpdateUserAddress } from "@/api/userApi";
-import { useMenuNumberStore } from "@/store";
 import { UserAddress } from "@/type/UserType";
+import Link from "next/link";
 import { MouseEvent, useEffect, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { RiArrowGoBackFill } from "react-icons/ri";
-import AddressInsert from "./AddressInsert";
+import AddressInsert from "../../../components/myPage/menu/address/AddressInsert";
 
 const Address = () => {
   const [userAddressList, setUserAddressList] = useState<UserAddress[]>([])
-  const { setMenuNumber } = useMenuNumberStore();
-
   const { data, refetch } = useGetUserAddress();
 
   useEffect(() => {
@@ -44,9 +42,11 @@ const Address = () => {
 
   return (
     <div className="w-full max-w-[900px] bg-white rounded-xl px-10 pb-10">
-      <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>
-        <RiArrowGoBackFill />
-      </div>
+      <Link href={'/myPage'}>
+        <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block">
+          <RiArrowGoBackFill />
+        </div>
+      </Link>
       <div className="h-[64px] max-[1200px]:hidden" />
       <div className="text-3xl font-semibold my-2">
         <p>주소 설정</p>

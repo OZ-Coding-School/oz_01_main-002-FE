@@ -1,30 +1,17 @@
-import MyPageContent from "@/components/myPage/MyPageContent";
-import MyPageRoute from "@/components/myPage/MyPageRoute";
-import MyPageSide from "@/components/myPage/sideBar/MyPageSide";
-import { BsPerson } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
-import { PiShoppingCartLight, PiTruckLight } from "react-icons/pi";
-import { RiKey2Line } from "react-icons/ri";
+import MyPageMyBidding from "@/components/myPage/MyPageMyBidding";
+import MyPageMyProducts from "@/components/myPage/MyPageMyProducts";
+import MyPageMySale from "@/components/myPage/MyPageMySale";
+import MyPageProfile from "@/components/myPage/MyPageProfile";
+import MyPageWishList from "@/components/myPage/MyPageWishList";
+
 const MyPage = () => {
-  const myPageMenuList = [
-    { id: 1, icon: <PiShoppingCartLight className="text-[#868686] text-[30px] mr-3" />, title: 'Orders', value: 'Order' },
-    { id: 2, icon: <CiHeart className="text-[#868686] text-[30px] mr-3" />, title: 'WishList', value: 'WishList' },
-    { id: 3, icon: <PiTruckLight className="text-[#868686] text-[30px] mr-3" />, title: 'Address', value: 'Address' },
-    { id: 4, icon: <RiKey2Line className="text-[#868686] text-[30px] mr-3" />, title: 'Password', value: 'Password' },
-    { id: 5, icon: <BsPerson className="text-[#868686] text-[30px] mr-3" />, title: '프로필 관리', value: 'Profile' },
-  ]
-
   return (
-    <div className="w-full bg-[#222]">
-      <div className="h-[100px]"></div>
-      <div className="flex w-full justify-center max-w-[1200px] mx-auto bg-[#222]">
-        <MyPageSide myPageMenuList={myPageMenuList} />
-        <div className="w-[900px]">
-          <MyPageRoute myPageMenuList={myPageMenuList} />
-          <MyPageContent />
-        </div>
-
-      </div>
+    <div className="w-[900px]">
+      <MyPageProfile />
+      <MyPageWishList />
+      <MyPageMyBidding />
+      <MyPageMySale />
+      <MyPageMyProducts />
     </div>
   )
 }

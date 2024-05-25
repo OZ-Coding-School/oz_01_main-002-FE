@@ -1,3 +1,4 @@
+'use client';
 import { useProductStore } from "@/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

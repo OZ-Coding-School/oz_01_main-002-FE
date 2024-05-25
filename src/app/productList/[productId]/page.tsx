@@ -1,9 +1,13 @@
+'use client';
+
 import Chat from "@/components/productDetail/Chat";
 import CountDown from "@/components/productDetail/CountDown";
 import DetailImage from "@/components/productDetail/DetailImage";
 import ModalContainer from "@/components/productDetail/ModalContainer";
+import { useState } from "react";
 
 const ProductDetail = () => {
+  const [itemPrice, setItemPrice] = useState(20000);
   return (
     <div className="w-full bg-[#222]">
       <div className="w-full max-w-[1240px] mx-auto">
@@ -37,13 +41,13 @@ const ProductDetail = () => {
                     </div>
                     <div className="flex justify-between items-center my-4">
                       <p className="text-[#D1B383] text-[20px] leading-none">현재가</p>
-                      <p className="text-white text-[20px] leading-none ml-16">124,000원</p>
+                      <p className="text-white text-[20px] leading-none ml-16">{itemPrice.toLocaleString()}원</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <Chat productId={'2'} />
+            <Chat productId={'2'} itemPrice={itemPrice} setItemPrice={setItemPrice} />
           </div>
           <div className="ml-3 mr-6">
             <div className="border border-[#868686] pr-3" />

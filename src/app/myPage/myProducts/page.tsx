@@ -1,24 +1,20 @@
 'use client';
 
 import { useProductInspection, useUserProducts } from "@/api/productApi";
-import { useMenuNumberStore, useProductIdStore } from "@/store";
+import { useProductIdStore } from "@/store";
 import { MyProductsType } from "@/type/ProductType";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
-
-
 const MyProducts = () => {
   const router = useRouter();
-  const { setMenuNumber } = useMenuNumberStore();
   const { setProductId } = useProductIdStore();
-
-
   const { data, refetch, isLoading } = useUserProducts();
-
   const { mutate: productInspection } = useProductInspection();
+
   const handleProduct = async (id: number) => {
     productInspection({ product_id: id, inspector: '관리자' }, {
       onSuccess: () => {
@@ -38,9 +34,11 @@ const MyProducts = () => {
 
   return (
     <div className={`w-full max-w-[900px] ${data?.data.length <= 4 ? 'h-[800px]' : ''} bg-white rounded-xl px-10 pb-10`}>
-      <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>
-        <RiArrowGoBackFill />
-      </div>
+      <Link href={'/myPage'}>
+        <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block">
+          <RiArrowGoBackFill />
+        </div>
+      </Link>
       <div className="h-[64px] max-[1200px]:hidden" />
       <div className="text-3xl font-semibold my-2">
         <p>나의 상품</p>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMenuNumberStore } from "@/store";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
 import MyPageHomeButton from "./MyPageHomeButton";
@@ -12,18 +12,17 @@ type MyPageSideBarProps = {
     icon: JSX.Element;
     title: string;
     value: string;
+    link: string;
   }[]
 }
 
 const MyPageSide = ({ myPageMenuList }: MyPageSideBarProps) => {
-  const { setMenuNumber } = useMenuNumberStore();
   const router = useRouter();
   const handleLogout = () => {
     const logout = confirm('로그아웃 하시겠습니까?');
     if (logout) {
       localStorage.removeItem('access_token');
       localStorage.removeItem('user_id');
-      setMenuNumber(0);
       router.push('/');
     }
   }
@@ -33,7 +32,9 @@ const MyPageSide = ({ myPageMenuList }: MyPageSideBarProps) => {
       <MyPageHomeButton />
       <div className="w-full mt-[20px]">
         {myPageMenuList.map((menu) => (
-          <SideMenuButton key={menu.id} menu={menu} />
+          <Link key={menu.id} href={menu.link} >
+            <SideMenuButton menu={menu} />
+          </Link>
         ))}
         <div className="box-border my-2 px-8 w-full h-[72px] cursor-pointer flex items-center rounded-xl hover:bg-white" onClick={handleLogout}>
           <IoLogOutOutline className="text-[#868686] text-[30px] mr-3" />

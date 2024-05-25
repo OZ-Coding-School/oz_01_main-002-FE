@@ -1,13 +1,10 @@
-'use client';
-
-import { useMenuNumberStore } from '@/store';
+import Link from "next/link"
 
 const ProfileButton = () => {
-
-  const { setMenuNumber } = useMenuNumberStore();
-
   return (
-    <div className="box-border border rounded-[10px] p-4 cursor-pointer font-semibold" onClick={() => setMenuNumber(5)}>프로필 관리</div>
+    <Link href={'/myPage/profile'}>
+      <div className="box-border border rounded-[10px] p-4 cursor-pointer font-semibold" >프로필 관리</div>
+    </Link>
   )
 }
 
