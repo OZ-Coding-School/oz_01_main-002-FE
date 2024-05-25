@@ -1,15 +1,15 @@
 'use client';
 
 import { useGetUser, usePutUserUpdate } from "@/api/userApi";
-import { useMenuNumberStore } from "@/store";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
-import SaveButtonComponent from "./SaveButtonComponent";
-import UserInfoInput from "./UserInfoInput";
+import SaveButtonComponent from "../../../components/myPage/menu/profile/SaveButtonComponent";
+import UserInfoInput from "../../../components/myPage/menu/profile/UserInfoInput";
 
 const Profile = () => {
-  const { setMenuNumber } = useMenuNumberStore();
   const [isNicknameDisabled, setIsNicknameDisabled] = useState(true);
   const [isPhoneDisabled, setIsPhoneDisabled] = useState(true);
   const [isContentDisable, setIsContentDisable] = useState(true);
@@ -18,6 +18,7 @@ const Profile = () => {
   const [renderImage, setRenderImage] = useState<string>();
   const { data, isLoading, refetch } = useGetUser();
   const { mutate: updateUser } = usePutUserUpdate();
+  const router = useRouter();
   const [userUpdate, setUserUpdate] = useState({
     email: '',
     name: '',
@@ -134,9 +135,11 @@ const Profile = () => {
   if (isLoading) return <div>로딩중...</div>;
   return (
     <div className="w-full max-w-[900px] bg-white rounded-xl px-10">
-      <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block" onClick={() => setMenuNumber(0)}>
-        <RiArrowGoBackFill />
-      </div>
+      <Link href={'/myPage'}>
+        <div className="py-5 hidden text-2xl cursor-pointer max-[1200px]:block">
+          <RiArrowGoBackFill />
+        </div>
+      </Link>
       <div className="h-[64px] max-[1200px]:hidden" />
       <div className="text-3xl font-semibold my-2">
         <p>프로필 관리</p>
@@ -191,7 +194,7 @@ const Profile = () => {
         />
         <SaveButtonComponent isDisabled={isPhoneDisabled} saveOnclick={handleUpdatePhone} onClick={() => setIsPhoneDisabled(true)} />
         <UserInfoInput title={'생년월일'} id={'user_birth'} value={userUpdate.age} />
-        <UserInfoInput title={'주소'} id={'user_address'} value={userUpdate.address} changeButton={() => setMenuNumber(3)} />
+        <UserInfoInput title={'주소'} id={'user_address'} value={userUpdate.address} changeButton={() => router.push('/myPage/address')} />
         <div className="flex flex-col">
           <div className="my-2">
             <p>나의 소개</p>

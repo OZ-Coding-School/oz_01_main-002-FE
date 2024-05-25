@@ -17,11 +17,6 @@ type State = {
   setPaymentUserProducts: (products: Product[]) => void;
 }
 
-type NumberState = {
-  menuNumber: number;
-  setMenuNumber: (number: number) => void;
-}
-
 type BiddingState = {
   isBidding: boolean;
   setIsBidding: (isBidding: boolean) => void;
@@ -42,11 +37,6 @@ export const useProductStore = create<State>()(
   }
   ))
 )
-
-export const useMenuNumberStore = create<NumberState>((set) => ({
-  menuNumber: 0,
-  setMenuNumber: (number) => set({ menuNumber: number }),
-}))
 
 export const useBiddingStore = create<BiddingState>((set) => ({
   isBidding: false,

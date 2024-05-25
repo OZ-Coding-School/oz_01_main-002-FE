@@ -1,4 +1,4 @@
-import { useMenuNumberStore } from '@/store';
+import { usePathname } from 'next/navigation';
 
 type SideMenuButtonProps = {
   menu: {
@@ -6,13 +6,14 @@ type SideMenuButtonProps = {
     icon: JSX.Element;
     title: string;
     value: string;
+    link: string;
   }
 }
 
 const SideMenuButton = ({ menu }: SideMenuButtonProps) => {
-  const { menuNumber, setMenuNumber } = useMenuNumberStore();
+  const path = usePathname();
   return (
-    <div className={`box-border my-2 px-8 w-full h-[72px] ${menuNumber === menu.id ? 'bg-white' : ''} cursor-pointer flex items-center rounded-xl hover:bg-white`} onClick={() => setMenuNumber(menu.id)}>
+    <div className={`box-border my-2 px-8 w-full h-[72px] ${path === menu.link ? 'bg-white' : ''} cursor-pointer flex items-center rounded-xl hover:bg-white`}>
       {menu.icon}
       <p className="text-[#D1B383] text-[24px] leading-none">{menu.title}</p>
     </div>
