@@ -19,6 +19,9 @@ type CardFormProps = {
 
 const CardForm = ({ item }: CardFormProps) => {
   const [images, setImages] = useState(0);
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
   const givenDate: any = new Date(
     item.date.seconds * 1000 + item.date.nanoseconds / 1000000
   );
@@ -60,7 +63,7 @@ const CardForm = ({ item }: CardFormProps) => {
           </div>
           {item.imageUrl !== '' ?
             <div className="w-[100px] h-[100px] rounded-md relative overflow-hidden">
-              <Image src={item.imageUrl} className="object-cover" fill sizes="1" alt="커뮤이미지" />
+              <Image src={item.imageUrl} className="object-cover" fill sizes="1" alt="커뮤이미지" loader={loader} />
             </div>
             : null}
         </div>

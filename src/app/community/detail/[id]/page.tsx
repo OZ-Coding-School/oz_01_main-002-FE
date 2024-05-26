@@ -29,6 +29,11 @@ const CommunityDetail = ({ params }: { params: { id: string } }) => {
   const { data: replyData, isLoading: replyLoading } = useGetCommunityReply(paramsId);
   console.log('params', params.id);
   console.log('뭐가 나올까', replyData);
+
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
+
   useEffect(() => {
     setToken(localStorage.getItem('access_token'));
     refetch();
@@ -123,7 +128,7 @@ const CommunityDetail = ({ params }: { params: { id: string } }) => {
                 <p>{communityItem?.data().content}</p>
                 {communityItem?.data().imageUrl !== '' &&
                   <div className="w-[600px] h-[400px] max-[650px]:w-[400px] max-[650px]:h-[200px] mt-[30px]  rounded-lg overflow-hidden relative">
-                    <Image src={communityItem?.data().imageUrl} fill sizes="1" className="object-cover" alt="게시판 이미지" priority />
+                    <Image src={communityItem?.data().imageUrl} fill sizes="1" className="object-cover" alt="게시판 이미지" loader={loader} priority />
                   </div>}
               </div>
               <div className="mt-[180px] flex justify-end items-center">

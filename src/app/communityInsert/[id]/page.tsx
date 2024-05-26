@@ -30,6 +30,10 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
     content: ''
   })
 
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
+
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');
@@ -273,7 +277,7 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
           {renderImage ?
             <div className="flex items-center justify-center">
               <div className="w-[250px] h-[250px] rounded-lg cursor-pointer relative overflow-hidden" onClick={handleImageDelete}>
-                <Image src={renderImage} className="" fill sizes="1" alt="미리보기 이미지" />
+                <Image src={renderImage} className="" fill sizes="1" alt="미리보기 이미지" loader={loader} />
               </div>
             </div>
             : null}
