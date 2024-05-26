@@ -3,7 +3,7 @@
 import { useDeleteUserAddress, useGetUserAddress, useUpdateUserAddress } from "@/api/userApi";
 import { UserAddress } from "@/type/UserType";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
