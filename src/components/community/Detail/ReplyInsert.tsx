@@ -73,6 +73,7 @@ const ReplyInsert = ({ replyData, data, paramsId }: ReplyInsertProps) => {
             onKeyUp={(e) => {
               if (reply.trim() === '') return;
               if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.nativeEvent.isComposing) return;
                 e.preventDefault();
                 handleReplySubmit(e)
               }

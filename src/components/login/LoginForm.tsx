@@ -101,7 +101,10 @@ const LoginForm = () => {
           {error.email}
         </div>
         <form onSubmit={(e) => e.preventDefault()}>
-          <input type="password" autoComplete="off" className="w-[372px] h-[74px] rounded-xl text-white focus:border-white outline-none bg-[#222] border border-[#D1B383] mb-[10px] pl-4" placeholder="비밀번호" value={userInfo.password} onChange={(e) => handlePassword(e)} onKeyDown={(e) => e.key === "Enter" ? handleUserLogin() : null} />
+          <input type="password" autoComplete="off" className="w-[372px] h-[74px] rounded-xl text-white focus:border-white outline-none bg-[#222] border border-[#D1B383] mb-[10px] pl-4" placeholder="비밀번호" value={userInfo.password} onChange={(e) => handlePassword(e)} onKeyDown={(e) => {
+            if (e.nativeEvent.isComposing) return;
+            e.key === "Enter" ? handleUserLogin() : null
+          }} />
         </form>
         <div className="text-red-700">
           {error.password}
