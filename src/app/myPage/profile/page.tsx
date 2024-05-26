@@ -1,6 +1,8 @@
 'use client';
 
 import { useGetUser, usePutUserUpdate } from "@/api/userApi";
+import { db } from "@/firebase";
+import { collection, getDocs, query, updateDoc, where } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,6 +20,7 @@ const Profile = () => {
   const [renderImage, setRenderImage] = useState<string>();
   const { data, isLoading, refetch } = useGetUser();
   const { mutate: updateUser } = usePutUserUpdate();
+  const [oldNickname, setOldNickname] = useState('');
   const router = useRouter();
   const [userUpdate, setUserUpdate] = useState({
     email: '',
@@ -31,6 +34,9 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
     console.log(data);
     if (data) {
       setUserUpdate({
@@ -43,6 +49,7 @@ const Profile = () => {
         address: data.data.address,
         content: data.data.content
       })
+      setOldNickname(data.data.nickname);
     }
   }, [data])
 
@@ -91,9 +98,10 @@ const Profile = () => {
 
   const handleNicknameChange = () => {
     setIsNicknameDisabled(!isNicknameDisabled);
+    userUpdate.nickname = data?.data.nickname
   };
 
-  const handleUpdateNickname = () => {
+  const handleUpdateNickname = async () => {
     // const formData = new FormData();
     // formData.append('nickname', userUpdate.nickname);
     updateUser({ nickname: userUpdate.nickname }, {
@@ -102,10 +110,46 @@ const Profile = () => {
         refetch();
       }
     })
+    if (oldNickname !== userUpdate.nickname) {
+      const response = query(
+        collection(db, "community"),
+        where("nickname", "==", oldNickname)
+      );
+      try {
+        const postUserNick = await getDocs(response);
+        postUserNick.forEach(async (doc) => {
+          await updateDoc(doc.ref, {
+            nickname: userUpdate.nickname,
+          });
+        });
+      } catch (error) {
+        console.log('게시판 변경 실패', error);
+      }
+    }
+    if (oldNickname !== userUpdate.nickname) {
+      const community = collection(db, "community");
+      const communitySnapshot = await getDocs(community);
+      communitySnapshot.forEach(async (community) => {
+        const communityDocId = community.id;
+        const replyCollection = collection(db, "community", communityDocId, "reply");
+        const response = query(replyCollection, where("nickname", "==", oldNickname));
+        const replySnapshot = await getDocs(response);
+        replySnapshot.forEach(async (reply) => {
+          try {
+            await updateDoc(reply.ref, {
+              nickname: userUpdate.nickname,
+            });
+          } catch (error) {
+            console.error('댓글 변경 실패', error);
+          }
+        });
+      });
+    }
   }
 
   const handlePhoneChange = () => {
     setIsPhoneDisabled(!isPhoneDisabled);
+    userUpdate.contact = data?.data.contact
   };
 
   const handleUpdatePhone = () => {
@@ -181,7 +225,10 @@ const Profile = () => {
           userUpdate={userUpdate}
           setUserUpdate={setUserUpdate}
         />
-        <SaveButtonComponent isDisabled={isNicknameDisabled} saveOnclick={handleUpdateNickname} onClick={() => setIsNicknameDisabled(true)} />
+        <SaveButtonComponent isDisabled={isNicknameDisabled} saveOnclick={handleUpdateNickname} onClick={() => {
+          userUpdate.nickname = data?.data.nickname
+          setIsNicknameDisabled(true)
+        }} />
         <UserInfoInput title={'성별'} id={'user_gender'} value={userUpdate.gender} />
         <UserInfoInput
           title={'연락처'}
@@ -192,7 +239,10 @@ const Profile = () => {
           userUpdate={userUpdate}
           setUserUpdate={setUserUpdate}
         />
-        <SaveButtonComponent isDisabled={isPhoneDisabled} saveOnclick={handleUpdatePhone} onClick={() => setIsPhoneDisabled(true)} />
+        <SaveButtonComponent isDisabled={isPhoneDisabled} saveOnclick={handleUpdatePhone} onClick={() => {
+          userUpdate.contact = data?.data.contact
+          setIsPhoneDisabled(true)
+        }} />
         <UserInfoInput title={'생년월일'} id={'user_birth'} value={userUpdate.age} />
         <UserInfoInput title={'주소'} id={'user_address'} value={userUpdate.address} changeButton={() => router.push('/myPage/address')} />
         <div className="flex flex-col">

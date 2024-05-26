@@ -20,7 +20,7 @@ const Nav = () => {
 
   const menu = [
     { id: 1, name: '경매', link: '/productList' },
-    { id: 2, name: '커뮤니티', link: '/' },
+    { id: 2, name: '커뮤니티', link: '/community' },
     { id: 3, name: '마이페이지', link: '/myPage' },
     { id: 4, name: '관심', link: '/' },
     ...(!accessToken ? [{ id: 5, name: '로그인', link: '/login' }] : [])

@@ -24,7 +24,9 @@ const MyProducts = () => {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('access_token') === null) router.push('/login');
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
   }, [])
 
   const handleProductCheck = (id: number) => {

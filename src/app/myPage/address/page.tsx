@@ -3,6 +3,7 @@
 import { useDeleteUserAddress, useGetUserAddress, useUpdateUserAddress } from "@/api/userApi";
 import { UserAddress } from "@/type/UserType";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { MouseEvent, useEffect, useState } from "react";
 import { FaHouse } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -13,8 +14,12 @@ import AddressInsert from "../../../components/myPage/menu/address/AddressInsert
 const Address = () => {
   const [userAddressList, setUserAddressList] = useState<UserAddress[]>([])
   const { data, refetch } = useGetUserAddress();
+  const router = useRouter();
 
   useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
     setUserAddressList(data?.data.sort((a: UserAddress, b: UserAddress) => {
       if (a.is_main === b.is_main) return 0;
       return a.is_main ? -1 : 1;

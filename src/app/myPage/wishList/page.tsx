@@ -1,7 +1,16 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 const WishList = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
+  }, [])
+
   return (
     <div className="w-full max-w-[900px] h-[1000px] bg-white rounded-xl px-10">
       <Link href={'/myPage'}>
