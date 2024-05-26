@@ -7,12 +7,12 @@ import { useProductIdStore } from "@/store";
 import { ProductInsertType1 } from "@/type/ProductType";
 import axios from "axios";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 
-const ProductInsert = () => {
+const ProductInsert = ({ params }: { params: { id: string } }) => {
   const [images, setImages] = useState<string[]>([]);
   const [postImages, setPostImages] = useState<File[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -21,9 +21,9 @@ const ProductInsert = () => {
   const imageIndex = [0, 1, 2];
   const [isClicked, setIsClicked] = useState(false);
   const [isDateClicked, setIsDateClicked] = useState(false);
-  const params = useParams();
   const { mutate: userUpdateProduct } = useUpdateProduct();
   const { productId } = useProductIdStore();
+  const router = useRouter();
   console.log('프로덕트 아이디', productId);
   const ref = useRef(null);
   const ref2 = useRef(null);
@@ -71,6 +71,9 @@ const ProductInsert = () => {
 
   console.log('파람스 아이디', params.id);
   useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
     const getRandomGrade = () => {
       const randomIndex = Math.floor(Math.random() * grade.length);
       setProductItem({
@@ -161,7 +164,7 @@ const ProductInsert = () => {
   };
 
   const handleError = () => {
-    const titleRegex = /[^ㄱ-ㅎ가-힣a-zA-Z0-9]/;
+    const titleRegex = /[^ㄱ-ㅎ가-힣a-zA-Z0-9\s]/;
 
     if (images.length === 0) {
       alert('이미지를 등록해주세요');

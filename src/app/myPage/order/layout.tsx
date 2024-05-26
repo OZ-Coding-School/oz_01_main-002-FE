@@ -1,7 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 type Props = {
@@ -10,6 +11,13 @@ type Props = {
 
 const OrderLayout = ({ children }: Props) => {
   const path = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
+  }, [])
+
   const categories = [{ id: 0, name: '판매', link: '/myPage/order/sale' }, { id: 1, name: '입찰', link: '/myPage/order/bidding' }];
   return (
     <div className="w-full max-w-[900px] bg-white rounded-xl px-10 pb-10">

@@ -1,7 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Password = () => {
@@ -9,7 +10,12 @@ const Password = () => {
   const handlePasswordChange = () => {
     setIsPasswordChecked(true);
   }
-  console.log(isPasswordChecked);
+  const router = useRouter();
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      router.push('/login');
+    }
+  }, [])
   return (
     <div className="w-full max-w-[900px] h-[674px] bg-white rounded-xl px-10 pb-10">
       <form onSubmit={(e) => e.preventDefault()}>

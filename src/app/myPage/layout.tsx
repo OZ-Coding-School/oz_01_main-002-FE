@@ -17,6 +17,7 @@ const MyPageLayout = ({ children }: Props) => {
     { id: 4, icon: <RiKey2Line className="text-[#868686] text-[30px] mr-3" />, title: 'Password', value: 'Password', link: '/myPage/password' },
     { id: 5, icon: <BsPerson className="text-[#868686] text-[30px] mr-3" />, title: '프로필 관리', value: 'Profile', link: '/myPage/profile' },
   ]
+
   return (
     <div className="w-full bg-[#222]">
       <div className="h-[100px]"></div>

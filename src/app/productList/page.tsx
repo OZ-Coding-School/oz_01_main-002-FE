@@ -1,3 +1,4 @@
+import ProductInsertButton from "@/components/product/ProductInsertButton";
 import ProductListCategory from "@/components/product/ProductListCategory";
 import ProductListItem from "@/components/product/ProductListItem";
 import Link from "next/link";
@@ -91,9 +92,7 @@ const ProductList = () => {
           ))}
         </div>
       </div>
-      <Link href={'/productInsert/1'}>
-        <div className="fixed bottom-16 right-40 w-[80px] h-[80px] z-40 flex justify-center items-center hover:scale-105 hover:bg-white hover:text-[#D1B383] rounded-full bg-[#D1B383] text-white transition-all duration-[0.3s] ease-out">물품등록</div>
-      </Link>
+      <ProductInsertButton />
     </div>
   )
 }
