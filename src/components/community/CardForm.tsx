@@ -63,7 +63,7 @@ const CardForm = ({ item }: CardFormProps) => {
           </div>
           {item.imageUrl !== '' ?
             <div className="w-[100px] h-[100px] rounded-md relative overflow-hidden">
-              <Image src={item.imageUrl} className="object-cover" fill sizes="1" alt="커뮤이미지" loader={loader} />
+              <Image src={item.imageUrl} className="object-cover" fill sizes="1" alt="커뮤이미지" loader={loader} unoptimized />
             </div>
             : null}
         </div>

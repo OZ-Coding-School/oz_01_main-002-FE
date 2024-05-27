@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useOnclickOutside } from "../../hooks/useOnClickOutSide";
 
@@ -11,9 +11,10 @@ const Nav = () => {
   const targetRef2 = useRef<HTMLImageElement>(null);
   const [isChecked, setIsChecked] = useState(false);
   const prams = usePathname();
+  const router = useRouter();
   const ref = useRef(null);
+  const [isLogout, setIsLogout] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-
   useEffect(() => {
     setAccessToken(localStorage.getItem('access_token'));
   }, [prams])
@@ -23,7 +24,7 @@ const Nav = () => {
     { id: 2, name: '커뮤니티', link: '/community' },
     { id: 3, name: '마이페이지', link: '/myPage' },
     { id: 4, name: '관심', link: '/' },
-    ...(!accessToken ? [{ id: 5, name: '로그인', link: '/login' }] : [])
+    { id: 5, name: accessToken ? '로그아웃' : '로그인', link: !accessToken ? '/login' : '' }
   ];
 
   useEffect(() => {
@@ -85,7 +86,7 @@ const Nav = () => {
     <div>
       <div className="w-full h-[40px] flex justify-end items-center pr-[150px] bg-[#222] max-[1200px]:hidden">
         <div className="flex text-white">
-          {menu.slice(2, 5).map((item) => (
+          {menu.slice(2, accessToken ? 4 : 5).map((item) => (
             <Link key={item?.id} href={item!.link}>
               <p className="mx-[10px] hover:text-[#D1B383]">{item?.name}</p>
             </Link>
@@ -110,12 +111,23 @@ const Nav = () => {
               </div>
             </div>
           </div>
-          <div className={`absolute left-0 ${accessToken ? '-bottom-[160px]' : '-bottom-[200px]'} w-full hidden max-[1200px]:${isChecked ? 'block' : 'hidden'}`} ref={ref}>
+          <div className={`absolute left-0 -bottom-[200px] w-full hidden max-[1200px]:${isChecked ? 'block' : 'hidden'}`} ref={ref}>
             <ul className="w-full bg-[#2e2e2e] text-[#D1B383] text-[18px]  text-center">
               {menu.map((item) => (
-                <Link key={item!.id} href={item!.link} onClick={() => setIsChecked(false)}>
-                  <li className="leading-10 hover:bg-[#D1B383] hover:text-white">{item?.name}</li>
-                </Link>
+                <li key={item!.id} className="leading-10 hover:bg-[#D1B383] hover:text-white" onClick={() => {
+                  if (item.name === '로그아웃') {
+                    const confirmValue = confirm('로그아웃 하시겠습니까?');
+                    if (confirmValue) {
+                      localStorage.removeItem('access_token');
+                      setAccessToken(null);
+                      setIsLogout(false);
+                      router.push('/');
+                    }
+                  } else {
+                    router.push(item!.link);
+                  }
+                  setIsChecked(false)
+                }}>{item?.name}</li>
               ))}
             </ul>
           </div>

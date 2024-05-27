@@ -127,8 +127,8 @@ const CommunityDetail = ({ params }: { params: { id: string } }) => {
               <div className="flex flex-col whitespace-pre-wrap">
                 <p>{communityItem?.data().content}</p>
                 {communityItem?.data().imageUrl !== '' &&
-                  <div className="w-[600px] h-[400px] max-[650px]:w-[400px] max-[650px]:h-[200px] mt-[30px]  rounded-lg overflow-hidden relative">
-                    <Image src={communityItem?.data().imageUrl} fill sizes="1" className="object-cover" alt="게시판 이미지" loader={loader} priority />
+                  <div className="w-[600px] h-[500px] max-[650px]:w-[360px] max-[650px]:h-[320px] mt-[30px]  rounded-lg overflow-hidden relative">
+                    <Image src={communityItem?.data().imageUrl} fill sizes="1" className="object-cover" alt="게시판 이미지" loader={loader} priority unoptimized />
                   </div>}
               </div>
               <div className="mt-[180px] flex justify-end items-center">

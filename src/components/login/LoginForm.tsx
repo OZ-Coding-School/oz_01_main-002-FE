@@ -1,9 +1,11 @@
 'use client';
 
 import { useLoginUser } from "@/api/userApi";
-import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useState } from "react";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: ''
@@ -55,6 +57,13 @@ const LoginForm = () => {
       password: e.target.value
     })
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('access_token')) {
+      router.push('/');
+    }
+  }, [])
+
 
   const handleError = () => {
     const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;

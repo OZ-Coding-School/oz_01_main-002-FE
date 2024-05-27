@@ -15,6 +15,7 @@ function postRefreshToken() {
       Authorization: `Bearer ${Cookies.get('refresh_token')}`
     }
   })
+  console.log('토큰 갱신 요청', response);
   return response;
 }
 apiClient.interceptors.request.use((config) => {

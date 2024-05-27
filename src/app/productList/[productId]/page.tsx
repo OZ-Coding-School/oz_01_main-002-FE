@@ -47,7 +47,7 @@ const ProductDetail = () => {
                 </div>
               </div>
             </div>
-            <Chat productId={'2'} itemPrice={itemPrice} setItemPrice={setItemPrice} />
+            <Chat productId={'9'} itemPrice={itemPrice} setItemPrice={setItemPrice} />
           </div>
           <div className="ml-3 mr-6">
             <div className="border border-[#868686] pr-3" />

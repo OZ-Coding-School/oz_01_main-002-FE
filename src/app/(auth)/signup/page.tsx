@@ -8,6 +8,7 @@ import TermCheck from "@/components/\bsignup/TermCheck";
 import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
 import { SignUpUser } from "@/type/UserType";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
@@ -27,6 +28,7 @@ const SignUp = () => {
   const [terms, setTerms] = useState<Terms[]>([]);
   const [checkedPassword, setCheckedPassword] = useState('');
   const [useDate, setUseDate] = useState<string>('');
+  const router = useRouter();
   const ref = useRef(null);
   const [signUpUser, setSignUpUser] = useState<SignUpUser>({
     request_data: {
@@ -451,6 +453,10 @@ const SignUp = () => {
   })
 
   useEffect(() => {
+    if (localStorage.getItem('access_token')) {
+      router.push('/');
+    }
+
     if (signUpUser.request_data.contact.length === 11) {
       setSignUpUser({
         ...signUpUser,

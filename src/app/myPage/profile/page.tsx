@@ -75,7 +75,6 @@ const Profile = () => {
   }
 
   const handleUserImageUpdateClose = () => {
-    console.log('프로필 이미지 변경 취소');
     if (!fileInput.current) return;
     fileInput.current.value = '';
     setRenderImage('');
@@ -174,9 +173,13 @@ const Profile = () => {
     })
   }
 
-  console.log(userUpdate);
-  console.log(isContentDisable);
-  if (isLoading) return <div>로딩중...</div>;
+  if (isLoading) return <div className="w-full max-w-[900px] bg-white rounded-xl px-10">
+    <div className="flex h-[700px] justify-center items-center">
+      <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
+        <div className="w-[55px] h-[55px] rounded-full bg-white" />
+      </div>
+    </div>
+  </div>;
   return (
     <div className="w-full max-w-[900px] bg-white rounded-xl px-10">
       <Link href={'/myPage'}>

@@ -27,8 +27,8 @@ const ProductListItem = ({ item }: { item: ProductItemProps }) => {
   }
 
   return (
-    <div className="mb-3 mx-[27.5px] max-[625px]:mx-[5px]">
-      <div className="mb-2  w-[228px] h-[228px] max-[865px]:w-[155px] max-[865px]:h-[155px] max-[625px]:w-[100px] max-[625px]:h-[100px] object-cover relative" >
+    <div className="mb-3 mx-[27.5px] ">
+      <div className="mb-2  w-[228px] h-[228px] max-[585px]:w-[170px] max-[585px]:h-[170px]  object-cover relative" >
         <div className="w-full h-full rounded-lg bg-black bg-opacity-70 absolute opacity-0 hover:opacity-100 transition-all duration-[0.3s] ease-out  z-10">
           <div className="w-[30px] h-[30px] absolute right-2 top-2 rounded-full bg-white flex items-center justify-center" onClick={(e) => handleLike(e, item.id)}>
             {likes ? <FaHeart className="text-[red]" /> : <FaRegHeart className="text-[#D6D6D6]" />}
@@ -48,12 +48,12 @@ const ProductListItem = ({ item }: { item: ProductItemProps }) => {
       </div>
       <div>
         <div className="flex items-center">
-          <p className="text-white text-[20px] leading-[24px] mb-[6px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.name}</p>
-          <p className="ml-2 text-white text-[20px] leading-[24px] mb-[6px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.grade}</p>
+          <p className="text-white text-[20px] leading-[24px] mb-[6px] max-[585px]:text-[16px]  max-[865px]:leading-none">{item.name}</p>
+          <p className="ml-2 text-white text-[20px] leading-[24px] mb-[6px] max-[585px]:text-[16px] max-[865px]:leading-none">{item.grade}</p>
         </div>
-        <p className="text-[#868686] text-[16px] leading-[24px] mb-[6px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.category}</p>
-        <p className="text-white text-[20px] leading-[24px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none mb-[6px]">시작가 {item.startPrice}</p>
-        <p className="text-[#D1B383] text-[20px] leading-[24px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">현재가 {item.price}</p>
+        <p className="text-[#868686] text-[16px] leading-[24px] mb-[6px] max-[585px]:text-[14px] max-[865px]:leading-none">{item.category}</p>
+        <p className="text-white text-[20px] leading-[24px] max-[585px]:text-[16px] max-[865px]:leading-none mb-[6px]">시작가 {item.startPrice}</p>
+        <p className="text-[#D1B383] text-[20px] leading-[24px] max-[585px]:text-[16px] max-[865px]:leading-none">현재가 {item.price}</p>
       </div>
     </div>
 

@@ -384,94 +384,96 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   console.log(productItem);
   return (
     <div className="w-full bg-[#222]">
-      <div className="w-full max-w-[870px] mx-auto">
+      <div className="w-full max-w-[870px] max-[855px]:max-w-[600px] mx-auto">
         <div className="h-[60px]" />
         <div className="text-center my-10">
           <p className="text-white text-[40px] leading-none">{params.id === '1' ? '물품 등록' : '최종 확인'}</p>
         </div>
-        <div className="flex justify-center">
+        <div className="w-full max-[885px]:max-w-[600px] max-[620px]:max-w-[370px] mx-auto flex justify-center max-[855px]:flex-wrap">
           {imageIndex.map(index => (
             <div key={index}>
-              {!images[index] ? <div className="w-[250px] h-[250px] flex justify-center items-center border-[#D1B383] rounded-xl border cursor-pointer m-5" onClick={() => handleClick()}>
+              {!images[index] ? <div className="w-[250px] h-[250px] max-[885px]:w-[150px] max-[885px]:h-[150px] max-[620px]:w-[310px] max-[620px]:h-[100px] flex justify-center items-center border-[#D1B383] rounded-xl border cursor-pointer m-5 max-[620px]:m-1" onClick={() => handleClick()}>
                 <FaCamera className="w-[50px] h-[50px] opacity-50 text-[#D1B383]" />
               </div> :
-                <div className="relative">
-                  <button className="absolute w-[60px] h-[30px] bottom-3 right-8 rounded-lg bg-[#ff00009c] text-white" onClick={() => handleImageDelete(index)}>삭제</button>
-                  <Image src={images[index]} alt="이미지" width={250} height={250} className="w-[250px] h-[250px] m-5 rounded-xl border object-cover" />
+                <div className="relative w-[250px] h-[250px] max-[885px]:w-[150px] max-[885px]:h-[150px] max-[620px]:w-[310px] max-[620px]:h-[100px]  m-5 max-[620px]:m-1 rounded-xl border overflow-hidden">
+                  <button className="absolute w-[60px] h-[30px] bottom-3 max-[620px]:bottom-1 right-3 max-[885px]:right-3  max-[620px]:right-1 rounded-lg bg-[#ff00009c] z-10 text-white" onClick={() => handleImageDelete(index)}>삭제</button>
+                  <Image src={images[index]} alt="이미지" fill sizes="1" className="object-cover" />
                 </div>
               }
             </div>
           ))}
           <input type="file" disabled={params.id === '1' ? false : true} id="image_file" ref={fileInput} multiple accept="image/*" className="hidden" onChange={(e) => handleImages(e)} />
         </div>
-        <div className="mx-5 mt-8 flex items-center text-white">
-          <div className={`w-[259px] h-[72px] flex items-center px-4 cursor-pointer justify-between rounded-xl border text-center relative ${isClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => params.id === '1' ? setIsClicked(!isClicked) : null}>
-            <IoIosArrowDown className="opacity-0" />
-            {categoryName}
-            <IoIosArrowDown />
-            {isClicked ? <ul className="bg-white absolute border w-[259px] z-10 left-0 top-[72px] rounded-xl scrollbar-hide" ref={ref}>
-              {categoryOptions.map((category, index) => (
-                <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:border-b-0 last:rounded-b-xl cursor-pointer`} onClick={() => {
-                  setProductItem({
-                    ...productItem,
-                    category_id: category.value
-                  });
-                  setCategoryName(category.label);
-                  setIsClicked(false);
-                }}>{category.label}</li>
-              ))}
-            </ul> : null}
+        <div className="w-full max-[885px]:max-w-[600px] max-[620px]:max-w-[350px] mx-auto">
+          <div className="mx-5 mt-8 flex items-center text-white max-[620px]:justify-center">
+            <div className={`w-[259px] h-[72px] flex items-center px-4 cursor-pointer justify-between rounded-xl border text-center relative ${isClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => params.id === '1' ? setIsClicked(!isClicked) : null}>
+              <IoIosArrowDown className="opacity-0" />
+              {categoryName}
+              <IoIosArrowDown />
+              {isClicked ? <ul className="bg-white absolute border w-[259px] z-10 left-0 top-[72px] rounded-xl scrollbar-hide" ref={ref}>
+                {categoryOptions.map((category, index) => (
+                  <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:border-b-0 last:rounded-b-xl cursor-pointer`} onClick={() => {
+                    setProductItem({
+                      ...productItem,
+                      category_id: category.value
+                    });
+                    setCategoryName(category.label);
+                    setIsClicked(false);
+                  }}>{category.label}</li>
+                ))}
+              </ul> : null}
+            </div>
           </div>
-        </div>
-        <div className=" mx-5 mt-8">
-          <div className="flex items-center">
-            <input type="text" id="title" disabled={params.id === '1' ? false : true} value={productItem.name} className="w-[518px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
+          <div className=" mx-5 mt-8">
+            <div className="flex items-center">
+              <input type="text" id="title" disabled={params.id === '1' ? false : true} value={productItem.name} className="w-[518px] max-[620px]:w-[350px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
+            </div>
           </div>
-        </div>
-        <div className="mx-5 mt-2 text-red-700">
-          {error.title}
-        </div>
-        <div className="flex items-center mx-5 mt-8">
-          <input type="number" id="min_price" value={productItem.bid_price} className="w-[518px] h-[72px] border-[#D1B383] focus:border-white border rounded-xl pl-4 input_number_arrow_none outline-none bg-[#222] text-white" placeholder="시작가" onChange={(e) => handlePrice(e)} />
-        </div>
-        <div className="mx-5 mt-2 text-red-700">
-          {error.min_price}
-        </div>
-        <div className="flex mx-5 mt-8 items-center">
-          <div className={`w-[259px] h-[72px] cursor-pointer px-4 text-white border-[#D1B383] focus:border-white flex items-center justify-between rounded-xl border text-center relative ${isDateClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => setIsDateClicked(!isDateClicked)}>
-            <IoIosArrowDown className="opacity-0" />
-            {dateName}
-            <IoIosArrowDown />
-            {isDateClicked ? <ul className="bg-white absolute border w-[259px] left-0 top-[72px] h-[200px] overflow-auto rounded-xl scrollbar-hide" ref={ref2}>
-              {dateOptions.map((date, index) => (
-                <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer`} onClick={() => {
-                  setProductItem({
-                    ...productItem,
-                    duration: date.value
-                  });
-                  setDateName(date.label);
-                  setIsDateClicked(false);
-                  console.log('date', date.label);
-                }}>{date.label}</li>
-              ))}
-            </ul> : null}
+          <div className="mx-5 mt-2 text-red-700">
+            {error.title}
           </div>
+          <div className="flex items-center mx-5 mt-8">
+            <input type="number" id="min_price" value={productItem.bid_price} className="w-[518px] h-[72px] max-[620px]:w-[350px] border-[#D1B383] focus:border-white border rounded-xl pl-4 input_number_arrow_none outline-none bg-[#222] text-white" placeholder="시작가" onChange={(e) => handlePrice(e)} />
+          </div>
+          <div className="mx-5 mt-2 text-red-700">
+            {error.min_price}
+          </div>
+          <div className="flex mx-5 mt-8 items-center max-[620px]:justify-center">
+            <div className={`w-[259px] h-[72px] cursor-pointer px-4 text-white border-[#D1B383] focus:border-white flex items-center justify-between rounded-xl border text-center relative ${isDateClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => setIsDateClicked(!isDateClicked)}>
+              <IoIosArrowDown className="opacity-0" />
+              {dateName}
+              <IoIosArrowDown />
+              {isDateClicked ? <ul className="bg-white absolute border w-[259px] left-0 top-[72px] h-[200px] overflow-auto rounded-xl scrollbar-hide" ref={ref2}>
+                {dateOptions.map((date, index) => (
+                  <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer`} onClick={() => {
+                    setProductItem({
+                      ...productItem,
+                      duration: date.value
+                    });
+                    setDateName(date.label);
+                    setIsDateClicked(false);
+                    console.log('date', date.label);
+                  }}>{date.label}</li>
+                ))}
+              </ul> : null}
+            </div>
+          </div>
+          <div className="w-[830px]  max-[885px]:w-[600px] max-[620px]:w-[350px] pl-5 max-[620px]:pl-0 max-[855px]:mx-0 mt-8 ">
+            <textarea className="w-full bg-[#222] text-white h-[200px] border rounded-xl p-4 resize-none outline-none border-[#D1B383] focus:border-white" value={productItem.content} onChange={(e) => handleContent(e)} placeholder={`상품등급: 자신이 생각하는 등급(검수 후 반영여부 결정)\n상품설명:\n`} />
+          </div>
+          <div className="mx-5 mt-2 max-[620px]:mx-0 text-red-700">
+            {error.content}
+          </div>
+          {params.id === '1' ? <div className="text-center py-10">
+            <button className="w-[518px] h-[72px] bg-[#D1B383] max-[620px]:w-[350px] text-white text-[20px] rounded-xl" onClick={() => handleSubmit()}>등록</button>
+          </div>
+            :
+            <div className="flex justify-center items-center py-10">
+              <InsertButton title={'등록'} onClick={handleFinalSubmit} />
+              <InsertButton title={'수정'} onClick={() => handleUpdate(productId)} />
+              <InsertButton title={'삭제'} onClick={() => handleDelete(productId)} />
+            </div>}
         </div>
-        <div>
-          <textarea className="w-[830px] bg-[#222]  text-white h-[200px] border rounded-xl p-4 resize-none mx-5 mt-8 px-2 outline-none border-[#D1B383] focus:border-white" value={productItem.content} onChange={(e) => handleContent(e)} placeholder={`상품등급: 자신이 생각하는 등급(검수 후 반영여부 결정)\n상품설명:\n`} />
-        </div>
-        <div className="mx-5 mt-2 text-red-700">
-          {error.content}
-        </div>
-        {params.id === '1' ? <div className="text-center py-10">
-          <button className="w-[518px] h-[72px] bg-[#D1B383] text-white text-[20px] rounded-xl" onClick={() => handleSubmit()}>등록</button>
-        </div>
-          :
-          <div className="flex justify-center items-center py-10">
-            <InsertButton title={'등록'} onClick={handleFinalSubmit} />
-            <InsertButton title={'수정'} onClick={() => handleUpdate(productId)} />
-            <InsertButton title={'삭제'} onClick={() => handleDelete(productId)} />
-          </div>}
       </div>
     </div>
   )
