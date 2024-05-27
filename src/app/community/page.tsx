@@ -45,7 +45,7 @@ const Community = () => {
       </div>
       {token &&
         <Link href={'/communityInsert/insert'}>
-          <div className="fixed bottom-16 right-40 w-[80px] h-[80px] max-[1535px]:h-[40px] z-40 flex border border-[#D1B383] justify-center items-center hover:scale-105 hover:bg-white hover:text-[#D1B383] rounded-full bg-[#D1B383] text-white transition-all duration-[0.3s] ease-out">글쓰기</div>
+          <div className="fixed bottom-16 right-40 w-[80px] h-[80px] max-[1535px]:h-[40px] max-[1535px]:right-12 z-40 flex border border-[#D1B383] justify-center items-center hover:scale-105 hover:bg-white hover:text-[#D1B383] rounded-full bg-[#D1B383] text-white transition-all duration-[0.3s] ease-out">글쓰기</div>
         </Link>
       }
     </>

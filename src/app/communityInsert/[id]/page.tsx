@@ -263,7 +263,7 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
           <p className="">{paramsId === 'insert' ? '게시물 등록' : '게시물 수정'}</p>
           <div className="h-10" />
         </div>
-        <div className="w-full max-w-[700px] mx-auto">
+        <div className="w-full max-w-[700px] mx-auto px-4">
           <div className="text-2xl font-bold">
             <label htmlFor="title">제목</label>
             <input id="title" type="text" className="w-full h-[50px] text-xl font-normal mt-[10px] pl-4 outline-none border rounded-lg " value={communityData.title} placeholder="제목을 입력해주세요" onChange={(e) => handleTitle(e)} />

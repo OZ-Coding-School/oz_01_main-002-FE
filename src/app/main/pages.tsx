@@ -50,10 +50,10 @@ const MainPage = () => {
         </div>
       </div>
       <div className="flex w-full justify-center">
-        <div className="w-[560px] h-[560px] max-[865px]:w-[390px] max-[865px]:h-[390px] max-[625px]:w-[280px] max-[625px]:h-[280px] object-cover mb-2 rounded-[8px] relative overflow-hidden">
+        <div className="w-[560px] h-[560px] max-[865px]:w-[360px] max-[865px]:h-[360px] max-[625px]:w-[260px] max-[625px]:h-[260px] object-cover mb-2 rounded-[8px] relative overflow-hidden">
           <Image src={'/images/image001.png'} fill sizes="1" alt="item01" />
         </div>
-        <div className="ml-[60px]">
+        <div className="ml-[60px] max-[625px]:ml-[10px]">
           {popularItem.map((item) => (
             <Link key={item.id} href={`/productList/${item.id}`}>
               <ProductItem item={item} />
