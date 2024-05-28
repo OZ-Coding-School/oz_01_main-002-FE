@@ -1,7 +1,6 @@
 'use client';
 
 import { useUserProducts } from "@/api/productApi";
-import { MyProductsType } from "@/type/ProductType";
 import Image from "next/image";
 import Link from "next/link";
 import { LuArrowDownUp } from "react-icons/lu";
@@ -47,7 +46,7 @@ const MyPageMyBidding = () => {
             <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
               <div className="w-[55px] h-[55px] rounded-full bg-white"></div>
             </div>
-          </div> : data?.data.slice(0, 3).map((product: MyProductsType) => (
+          </div> : data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).slice(0, 3).map((product: any) => (
             <div key={product.id} className="flex items-center ml-[80px] my-[6px]">
               <div className="flex items-center w-[366px] ">
                 <div className="w-[106px]">
@@ -61,10 +60,10 @@ const MyPageMyBidding = () => {
               </div>
               <div className="flex items-center">
                 <div className="w-[100px] ">
-                  <p>{product.category_id}</p>
+                  <p>{product.category}</p>
                 </div>
                 <div className="w-[115px] text-nowrap text-end">
-                  <p>{product.bid_price.toLocaleString()}원</p>
+                  <p>{product.winner_bid_price.toLocaleString()}원</p>
                 </div>
               </div>
             </div>

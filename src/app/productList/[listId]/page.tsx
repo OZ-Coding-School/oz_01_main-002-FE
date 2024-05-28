@@ -16,6 +16,7 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
   const { data: auctionList, refetch: auctionListFetch } = useGetAuctionProducts();
   const { data, refetch: auctionCategories } = useGetAuctionProductsCategories(paramsId);
   const [productList, setProductList] = useState<ProductListType[] | undefined>();
+
   const auctionItems = [
     { id: 1, name: '샤넬 가방', img: '/images/item03.jpg', startPrice: '6,500,000원', price: '6,750,000원', category: '가방', like: 12, view: 30, grade: 'A' },
     { id: 2, name: '샤넬 라운드티', img: '/images/item04.jpg', startPrice: '500,000원', price: '650,000원', category: '옷', like: 62, view: 22, grade: 'B' },

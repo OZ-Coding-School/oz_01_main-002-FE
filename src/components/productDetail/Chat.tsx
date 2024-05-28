@@ -31,7 +31,9 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
 
   useEffect(() => {
     if (isConnected) {
-      userChatRoom({ room_id: productId, user_id: localStorage.getItem('user_id') });
+      setTimeout(() => {
+        userChatRoom({ room_id: productId, user_id: localStorage.getItem('user_id') });
+      }, 1000);
     }
   }, [isConnected])
 
@@ -78,11 +80,11 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
         bid_price: newPrice,
       }, {
         onSuccess: () => {
+          sendMessage({ roomId: productId, message: `${newPrice.toLocaleString()}원 입찰하였습니다` });
           refetch();
         }
       })
 
-      sendMessage({ roomId: productId, message: `${newPrice.toLocaleString()}원 입찰하였습니다` });
     } else if (name === '충전') { }
   }
   const regex = /입찰하였습니다/;

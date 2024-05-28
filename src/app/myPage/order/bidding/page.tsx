@@ -50,7 +50,7 @@ const Bidding = () => {
   return (
     <div>
       <div className="flex justify-between relative">
-        <div className="w-[500px]">
+        <div className="w-[500px] flex flex-col-reverse">
           {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
             <div key={product.id} className="flex items-center justify-between border-b last:border-b-0">
               <div className="mr-2">

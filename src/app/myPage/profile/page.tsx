@@ -1,10 +1,8 @@
 'use client';
 
-import apiClient from "@/api/baseApi";
 import { useGetUser, usePutUserUpdate } from "@/api/userApi";
 import { db } from "@/firebase";
 import { collection, getDocs, query, updateDoc, where } from "firebase/firestore";
-import Cookies from 'js-cookie';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -58,17 +56,28 @@ const Profile = () => {
     fileInput.current?.click();
   };
 
-  async function postRefreshToken() {
-    const cookie = Cookies.get('refresh_token');
-    const response = await apiClient.post('/api/v1/users/refresh', {
-    }, {
-      headers: {
-        Authorization: `Bearer ${cookie}`
-      }
-    })
-    console.log('토큰 갱신 요청', response.data);
-    return response;
-  }
+  // async function postRefreshToken() {
+  //   try {
+  //     const cookie = Cookies.get('refresh_token');
+  //     const response = await apiClient.post('/api/v1/users/refresh', {
+  //     }, {
+  //       headers: {
+  //         Authorization: `Bearer ${cookie}`
+  //       }
+  //     })
+  //     console.log('토큰 갱신 요청', response);
+  //     return response;
+  //   } catch (error) {
+  //     console.error('토큰 갱신 실패', error);
+  //   }
+
+  // }
+  // const handleToken = async () => {
+  //   const asd = await postRefreshToken();
+  //   console.log(asd);
+  //   return asd;
+  // }
+
 
   const handleProfileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
@@ -203,7 +212,7 @@ const Profile = () => {
       <div className="h-[64px] max-[1200px]:hidden" />
       <div className="text-3xl font-semibold my-2">
         <p>프로필 관리</p>
-        <button onClick={postRefreshToken}>토큰</button>
+        {/* <button onClick={handleToken}>토큰</button> */}
       </div>
       <div className="border-2 border-[#D1B383]" />
       <div className="flex my-5">
