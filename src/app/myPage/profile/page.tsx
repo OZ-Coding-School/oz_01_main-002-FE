@@ -1,8 +1,10 @@
 'use client';
 
+import apiClient from "@/api/baseApi";
 import { useGetUser, usePutUserUpdate } from "@/api/userApi";
 import { db } from "@/firebase";
 import { collection, getDocs, query, updateDoc, where } from "firebase/firestore";
+import Cookies from 'js-cookie';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,7 +12,6 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import SaveButtonComponent from "../../../components/myPage/menu/profile/SaveButtonComponent";
 import UserInfoInput from "../../../components/myPage/menu/profile/UserInfoInput";
-
 const Profile = () => {
   const [isNicknameDisabled, setIsNicknameDisabled] = useState(true);
   const [isPhoneDisabled, setIsPhoneDisabled] = useState(true);
@@ -56,6 +57,18 @@ const Profile = () => {
   const handleClick = () => {
     fileInput.current?.click();
   };
+
+  async function postRefreshToken() {
+    const cookie = Cookies.get('refresh_token');
+    const response = await apiClient.post('/api/v1/users/refresh', {
+    }, {
+      headers: {
+        Authorization: `Bearer ${cookie}`
+      }
+    })
+    console.log('토큰 갱신 요청', response.data);
+    return response;
+  }
 
   const handleProfileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
@@ -190,6 +203,7 @@ const Profile = () => {
       <div className="h-[64px] max-[1200px]:hidden" />
       <div className="text-3xl font-semibold my-2">
         <p>프로필 관리</p>
+        <button onClick={postRefreshToken}>토큰</button>
       </div>
       <div className="border-2 border-[#D1B383]" />
       <div className="flex my-5">

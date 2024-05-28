@@ -1,4 +1,5 @@
 'use client';
+import { useUserProducts } from "@/api/productApi";
 import { useProductStore } from "@/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -7,10 +8,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 type Product = {
   id: number;
   grade: string;
-  title: string;
+  name: string;
   img: string;
   startPrice?: number;
-  price: number;
+  winner_bid_price: number;
   category: string;
   commission?: number;
 }
@@ -18,26 +19,20 @@ type Product = {
 const Bidding = () => {
   const [productItem, setProductItem] = useState<Product[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-
+  const { data } = useUserProducts();
   const { setPaymentUserProducts } = useProductStore();
   const router = useRouter();
-  const products = [
-    { id: 1, grade: 'C', title: '나이키 신발', img: '/images/item05.jpg', startPrice: 600000, price: 640000, category: '신발' },
-    { id: 2, grade: 'S', title: '로렉스 시계', img: '/images/item01.png', startPrice: 14500000, price: 15000000, category: '시계' },
-    { id: 3, grade: 'S', title: '샤넬 가방', img: '/images/item03.jpg', startPrice: 6500000, price: 6750000, category: '가방' },
-    { id: 4, grade: 'A', title: '샤넬 라운드티', img: '/images/item04.jpg', startPrice: 500000, price: 650000, category: '옷' },
-  ];
-
+  const productImg = '/images/item05.jpg';
   const handleCheck = (e: ChangeEvent<HTMLInputElement>, product: Product) => {
     if (e.target.checked) {
-      setProductItem([...productItem, { id: product.id, grade: product.grade, title: product.title, img: product.img, price: product.price, category: product.category, commission: product.price * 0.1 }]);
+      setProductItem([...productItem, { id: product.id, grade: product.grade, name: product.name, img: product.img, winner_bid_price: product.winner_bid_price, category: product.category, commission: product.winner_bid_price * 0.1 }]);
     } else {
       setProductItem(productItem.filter((p) => p.id !== product.id));
     }
   }
 
   const totalCommission = productItem.reduce((acc, product) => acc + product.commission!, 0);
-  const totalPrice = productItem.reduce((acc, product) => acc + product.price, 0);
+  const totalPrice = productItem.reduce((acc, product) => acc + product.winner_bid_price, 0);
 
   useEffect(() => {
     setTotalAmount(totalPrice + totalCommission);
@@ -48,6 +43,7 @@ const Bidding = () => {
     router.push('/payment');
   }
 
+  console.log('뭐가 들어있나', data);
 
   console.log(productItem);
   console.log('어마어마', totalAmount);
@@ -55,14 +51,14 @@ const Bidding = () => {
     <div>
       <div className="flex justify-between relative">
         <div className="w-[500px]">
-          {products.map((product) => (
+          {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
             <div key={product.id} className="flex items-center justify-between border-b last:border-b-0">
               <div className="mr-2">
                 <input type="checkbox" className="w-[20px] h-[20px] accent-[#D1B383]" onChange={(e) => handleCheck(e, product)} />
               </div>
               <div className="flex items-center mt-6 mb-4">
                 <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
-                  <Image src={product.img} fill sizes="1" className="object-cover" alt="판매이미지" />
+                  <Image src={product.img ? product.img : productImg} fill sizes="1" className="object-cover" alt="판매이미지" />
                 </div>
                 <div className="ml-4">
                   <div>
@@ -70,7 +66,7 @@ const Bidding = () => {
                       <p>등급</p>
                       <p className="ml-2 font-bold">{product.grade}</p>
                     </div>
-                    <p className="font-bold">{product.title}</p>
+                    <p className="font-bold">{product.name}</p>
                   </div>
                   <div className="my-1">
                     <p className="text-sm text-[#868686]">{product.category}</p>
@@ -78,11 +74,11 @@ const Bidding = () => {
                   <div>
                     <div className="flex text-sm items-center">
                       <p className="">시작가</p>
-                      <p className="ml-2 text-[#868686]">{`${product.startPrice.toLocaleString()}원`}</p>
+                      <p className="ml-2 text-[#868686]">{`${product.bid_price.toLocaleString()}원`}</p>
                     </div>
                     <div className="flex items-center">
                       <p>입찰가</p>
-                      <p className="ml-2">{`${product.price.toLocaleString()}원`}</p>
+                      <p className="ml-2">{`${product.winner_bid_price.toLocaleString()}원`}</p>
                     </div>
                   </div>
                 </div>

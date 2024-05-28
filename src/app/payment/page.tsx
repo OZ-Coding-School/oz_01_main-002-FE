@@ -21,7 +21,7 @@ function PaymentPage() {
   };
 
   const totalPrice = paymentUserProducts.reduce(
-    (total, item) => total + item.price,
+    (total, item) => total + item.winner_bid_price,
     0
   ); // 상품 총 금액
   const totalShipping = 10000; // 배송비
@@ -82,8 +82,8 @@ function PaymentPage() {
               >
                 <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
                   <Image
-                    src={item.img}
-                    alt={item.title}
+                    src={'/images/item05.jpg'}
+                    alt={item.name}
                     fill
                     sizes="1"
                     className="object-cover"
@@ -98,7 +98,7 @@ function PaymentPage() {
                     <p>{item.grade}</p>
                   </div>
                   {/* 상품명 */}
-                  <h3 className="text-lg font-bold">{item.title}</h3>
+                  <h3 className="text-lg font-bold">{item.name}</h3>
                   {/* 카테고리 */}
                   <p className="text-gray-500">{item.category}</p>
                   {/* 입찰가 */}
@@ -106,7 +106,7 @@ function PaymentPage() {
                     <label htmlFor="totalAmount" className="font-medium">
                       입찰가
                     </label>
-                    <span>{item.price.toLocaleString()}원</span>
+                    <span>{item.winner_bid_price.toLocaleString()}원</span>
                   </div>
                 </div>
               </div>
@@ -155,9 +155,8 @@ function PaymentPage() {
                   onChange={handleChangeUsedCoins}
                 />
                 <button
-                  className={`absolute right-6 top-2 text-red-500 ${
-                    usedCoins ? "block" : "hidden"
-                  }`}
+                  className={`absolute right-6 top-2 text-red-500 ${usedCoins ? "block" : "hidden"
+                    }`}
                   onClick={handleCancelUsedCoins}
                 >
                   X

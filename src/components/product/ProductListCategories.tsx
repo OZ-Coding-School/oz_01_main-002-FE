@@ -1,6 +1,7 @@
 'use client';
 
 import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ProductListCategory from "./ProductListCategory";
 
@@ -42,7 +43,9 @@ const ProductListCategories = () => {
       </div>
       <div ref={ref} className={`w-full  max-[1135px]:w-[120px] h-[50px] border-x-0  z-10 bg-[#222] flex items-center justify-center max-[1135px]:block max-[1135px]:absolute max-[1135px]:top-[51px] max-[1135px]:left-5 ${isClicked ? 'max-[1135px]:block' : 'max-[1135px]:hidden'}`}>
         {categories.map((category) => (
-          <ProductListCategory key={category.id} category={category.name} setIsClicked={setIsClicked} />
+          <Link key={category.id} href={`/productList/${category.id}`}>
+            <ProductListCategory category={category.name} setIsClicked={setIsClicked} />
+          </Link>
         ))}
       </div>
     </div>

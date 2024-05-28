@@ -1,4 +1,4 @@
-import { AuctionProductDetailType, ProductInsertType1, UpdateProductType, WinnerPostType } from "@/type/ProductType";
+import { AuctionProductDetailType, AuctionStatusType, ProductInsertType1, UpdateProductType, WinnerPostType } from "@/type/ProductType";
 import { QueryFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import apiClient from "./baseApi";
@@ -21,8 +21,14 @@ export const usePostProduct = () => {
 }
 
 export const useGetAuctionProducts = () => {
-  const queryFn = () => apiClient.get('');
-  const query = useQuery({ queryKey: ['auctionProducts'], queryFn });
+  const queryFn = () => apiClient.get('/api/v1/auctions/');
+  const query = useQuery({ queryKey: ['auctionProducts'], queryFn, enabled: false });
+  return query;
+}
+
+export const useGetAuctionProductsCategories = (categoryId: string) => {
+  const queryFn = () => apiClient.get(`/api/v1/auctions/categories/${categoryId}`);
+  const query = useQuery({ queryKey: ['useGetAuctionProducts1', categoryId], queryFn, enabled: false });
   return query;
 }
 
@@ -58,6 +64,7 @@ export const usePostWinner = () => {
 
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const mutationFn = (updateData: UpdateProductType) => apiClient.put(`/api/v1/products/${updateData.id}`, updateData.updateData, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -66,7 +73,8 @@ export const useUpdateProduct = () => {
   return useMutation({
     mutationFn, onSuccess: (data) => {
       console.log('상품 업데이트 성공', data);
-      alert('상품이 수정되었습니다.');
+      alert('상품이 등록(수정)되었습니다.');
+      router.push('/');
       queryClient.invalidateQueries({ queryKey: ['userProducts'] });
     },
     onError: (error) => {
@@ -116,4 +124,33 @@ export const useDeleteProduct = () => {
       console.log('상품 삭제 실패', error);
     }
   });
+}
+
+export const useAuctionPutStatus = () => {
+  const mutationFn = (finalData: AuctionStatusType) => apiClient.put(`/api/v1/auctions/${finalData.auctionId}`, {
+    status: finalData.status,
+    is_active: finalData.isActive
+  }, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  });
+  return useMutation({
+    mutationFn, onSuccess: (data) => {
+      console.log('경매 상태 변경 성공', data);
+    },
+    onError: (error) => {
+      console.log('경매 상태 변경 실패', error);
+    }
+  });
+
+}
+
+export const useGetWinnerUser = (productId: string | undefined) => {
+  const queryFn = () => apiClient.get(`/api/v1/winners/${productId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  });
+  return useQuery({ queryKey: ['winnerUser'], queryFn, enabled: false });
 }

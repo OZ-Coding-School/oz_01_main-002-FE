@@ -33,7 +33,7 @@ const MyProducts = () => {
     setProductId(id);
     router.push('/productInsert/2');
   }
-
+  console.log('data', data);
   return (
     <div className={`w-full max-w-[900px] ${data?.data.length <= 4 ? 'h-[800px]' : ''} bg-white rounded-xl px-10 pb-10`}>
       <Link href={'/myPage'}>
@@ -79,7 +79,7 @@ const MyProducts = () => {
             {product.is_approved ? <div className={`w-[150px] h-[50px]  justify-center items-center mr-1 my-1 bg-blue-600 ${product.is_approved ? 'cursor-pointer' : ''} ${product.status === '경매중' ? 'hidden' : 'flex'} text-white rounded-lg`} onClick={() => product.is_approved ? handleProductCheck(product.id) : null}>
               <p>최종 확인</p>
             </div> : null}
-            <div className={`w-[150px] h-[50px] flex justify-center text-white items-center rounded-lg mr-1 ${!product.is_approved ? 'bg-red-700' : 'bg-[#D1B383]'}`} onClick={() => !product.is_approved ? handleProduct(product.id) : null}>
+            <div className={`w-[150px] h-[50px] flex justify-center text-white cursor-pointer items-center rounded-lg mr-1 ${!product.is_approved ? 'bg-red-700' : 'bg-[#D1B383]'}`} onClick={() => !product.is_approved ? handleProduct(product.id) : null}>
               <p>{!product.is_approved ? '검수중' : product.status === '경매중' ? '경매중' : '검수완료'}</p>
             </div>
           </div>

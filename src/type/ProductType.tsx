@@ -28,9 +28,13 @@ export type MyProductsType = {
   modify: boolean,
   grade: string,
   category_id: number,
+  category: string,
   is_approved: boolean,
   img: string,
   id: number
+  winner_bid_price?: number | null,
+  winner_nickname?: string | null,
+  winner_user_id?: number | null,
 }
 
 export type UpdateProductType = {
@@ -41,6 +45,21 @@ export type UpdateProductType = {
     duration: number,
     status: string,
   }
+}
+
+export type ProductListType = {
+  id: number;
+  product_id: number;
+  product_name: string;
+  product_grade: string;
+  product_bid_price: number;
+  category: string;
+  start_time: string;
+  end_time: string;
+  charge: number;
+  final_price: number;
+  status: boolean;
+  is_active: string;
 }
 
 export type AuctionProductDetailType = {
@@ -61,6 +80,13 @@ export type AuctionProductDetailType = {
     start_time: string;
     status: boolean;
   }
+}
+
+export type AuctionStatusType = {
+  auctionId: string | undefined;
+  status: boolean;
+  isActive: string;
+
 }
 
 export type WinnerPostType = {

@@ -24,6 +24,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   const [isDateClicked, setIsDateClicked] = useState(false);
   const { mutate: userUpdateProduct } = useUpdateProduct();
   const { productId } = useProductIdStore();
+  const { mutate: userDeleteProduct } = useDeleteProduct();
   const router = useRouter();
   console.log('프로덕트 아이디', productId);
   const ref = useRef(null);
@@ -53,21 +54,24 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   ]
 
   const categoryOptions = [
-    { value: 1, label: '신발' },
-    { value: 2, label: '옷' },
-    { value: 3, label: '가방' },
-    { value: 4, label: '전자기기' },
+    { value: 1, label: '가방' },
+    { value: 2, label: '시계' },
+    { value: 3, label: '상의' },
+    { value: 4, label: '하의' },
+    { value: 5, label: '나이키' },
+    { value: 6, label: '아디다스' },
+    { value: 7, label: '카메라' },
+    { value: 8, label: '주얼리' },
   ];
 
   const dateOptions = [
-    { value: 1, label: '3시간' },
-    { value: 2, label: '1일' },
-    { value: 3, label: '2일' },
-    { value: 4, label: '3일' },
-    { value: 5, label: '4일' },
-    { value: 6, label: '5일' },
-    { value: 7, label: '6일' },
-    { value: 8, label: '7일' },
+    { value: 1, label: '1일' },
+    { value: 2, label: '2일' },
+    { value: 3, label: '3일' },
+    { value: 4, label: '4일' },
+    { value: 5, label: '5일' },
+    { value: 6, label: '6일' },
+    { value: 7, label: '7일' },
   ]
 
   console.log('파람스 아이디', params.id);
@@ -273,6 +277,10 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`
           }
         });
+        if (response.status === 200) {
+          alert('상품이 등록되었습니다');
+          router.push('/myPage/myProducts');
+        }
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -366,9 +374,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     handleGetProduct();
   }, [productId])
 
-  const handleFinalSubmit = async () => {
-    console.log('최종등록');
-  }
 
   const handleUpdate = async (id: number) => {
     userUpdateProduct({
@@ -386,7 +391,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     })
   }
 
-  const { mutate: userDeleteProduct } = useDeleteProduct();
+
 
   const handleDelete = async (id: number) => {
     const deleteItem = confirm('정말 삭제하시겠습니까?');
@@ -409,7 +414,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
       <div className="w-full max-w-[870px] max-[855px]:max-w-[600px] mx-auto">
         <div className="h-[60px]" />
         <div className="text-center my-10">
-          <p className="text-white text-[40px] leading-none">{params.id === '1' ? '물품 등록' : '최종 확인'}</p>
+          <p className="text-white text-[40px] leading-none">{params.id === '1' ? '물품 등록' : '최종 확인(수정)'}</p>
         </div>
         <div className="w-full max-[885px]:max-w-[600px] max-[620px]:max-w-[370px] mx-auto flex justify-center max-[855px]:flex-wrap">
           {imageIndex.map(index => (
@@ -491,8 +496,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
           </div>
             :
             <div className="flex justify-center items-center py-10">
-              <InsertButton title={'등록'} onClick={handleFinalSubmit} />
-              <InsertButton title={'수정'} onClick={() => handleUpdate(productId)} />
+              <InsertButton title={'등록'} onClick={() => handleUpdate(productId)} />
               <InsertButton title={'삭제'} onClick={() => handleDelete(productId)} />
             </div>}
         </div>

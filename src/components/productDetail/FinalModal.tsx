@@ -1,21 +1,50 @@
 'use client';
 
-import { useBiddingStore } from "@/store";
+import { useAuctionPutStatus, useGetAuctionProductDetail, useGetAuctionProducts } from "@/api/productApi";
+import { useGetUser } from "@/api/userApi";
+import { useWinnerStore } from "@/store";
+import { AuctionProductDetailType } from "@/type/ProductType";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const FinalModal = () => {
-  const [isChecked, setIsChecked] = useState(1);
-  const { setIsBidding } = useBiddingStore();
+type FinalModalProps = {
+  auctionId: string | undefined;
+  itemRefetch: () => void;
+};
 
+const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
+  const { data } = useGetUser();
+  const { winner } = useWinnerStore();
+  const { mutate: activeStatus } = useAuctionPutStatus();
+  const router = useRouter();
+  const { data: auctionList } = useGetAuctionProducts();
+  const { data: detailData } = useGetAuctionProductDetail(auctionId!);
+  const [randomItem, setRandomItem] = useState<AuctionProductDetailType>();
   const handleMovePage = () => {
-    // if (isChecked === 1) {
-    //   Router.push('/payment');
-    // } else {
-    //   Router.push('/');
-    // };
-    setIsBidding(false);
+    if (data?.data.nickname === winner) {
+      activeStatus({ auctionId: auctionId, status: false, isActive: '결제대기' }, {
+        onSuccess: () => {
+          itemRefetch();
+        }
+      });
+      router.push('/myPage/order/bidding');
+    } else {
+      activeStatus({ auctionId: auctionId, status: false, isActive: '결제대기' }, {
+        onSuccess: () => {
+          itemRefetch();
+        }
+      });
+      router.push('/');
+    };
   }
+
+  useEffect(() => {
+    const random = Math.floor(Math.random() * auctionList?.data.length);
+    setRandomItem(auctionList?.data[random]);
+    console.log('랜덤', randomItem);
+  }, [auctionList])
+
 
   return (
     <div className="absolute w-full">
@@ -23,33 +52,33 @@ const FinalModal = () => {
         <div className="w-[400px]  rounded-xl bg-[#242424] border border-[#D1B383]  p-5 transition-all duration-[0.3s] ease-out animate-scale-up">
           <div className="text-4xl text-center text-white">
             <div className="flex flex-col items-center justify-center">
-              <p className="mx-7">{isChecked === 1 ? '최종 입찰자' : '다른 상품 보기'}</p>
-              <div className={`w-[220px] h-[30px] mt-2 relative ${isChecked === 1 ? 'block' : 'hidden'}`}>
-                <Image src={'/images/detailModal01.png'} fill sizes="1" alt="이미지" />
+              <p className="mx-7">{data?.data.nickname === winner ? '최종 입찰자' : '다른 상품 보기'}</p>
+              <div className={`w-[220px] h-[30px] mt-2 relative ${data?.data.nickname === winner ? 'block' : 'hidden'}`}>
+                <Image src={data?.data.nickname === winner ? '/images/detailModal01.png' : '/images/detailModal01.png'} fill sizes="1" alt="이미지" />
               </div>
             </div>
-            <p className="my-3 text-[16px]">{isChecked === 1 ? `${'민영님 '}최종 입찰을 축하드립니다!` : '다른 인기 상품 경매에 참여하세요!'}</p>
+            <p className="my-3 text-[16px]">{data?.data.nickname === winner ? `${winner}님 최종 입찰을 축하드립니다!` : '다른 인기 상품 경매에 참여하세요!'}</p>
           </div>
           <div className="flex flex-col justify-start mt-6">
             <div className="flex items-center bg-white rounded-xl p-4">
               <div className="w-[100px] h-[100px] rounded-xl object-cover bg-[gray] relative overflow-hidden">
-                <Image src={isChecked === 1 ? '/images/item05.jpg' : '/images/item01.png'} fill sizes="1" className="object-cover" alt="모달 이미지" />
+                <Image src={data?.data.nickname === winner ? '/images/item05.jpg' : '/images/item01.png'} fill sizes="1" className="object-cover" alt="모달 이미지" />
               </div>
               <div className="ml-3">
                 <div className="flex items-center font-bold text-lg">
-                  <p className="mr-2">{isChecked === 1 ? 'S' : 'A'}</p>
-                  <p>{isChecked === 1 ? '나이키 에어 맥스' : '프라다 가방'}</p>
+                  <p className="mr-2">{data?.data.nickname === winner ? detailData?.data.product_grade : randomItem?.data.product_grade}</p>
+                  <p>{data?.data.nickname === winner ? data?.data.product_name : randomItem?.data.product_name}</p>
                 </div>
                 <div className="mt-5">
-                  <p className="mr-2 text-[#868686]">{isChecked === 1 ? '최종 입찰가' : '현재 입찰가'}</p>
-                  <p>{isChecked === 1 ? '1,200,000원' : '2,000,000원'}</p>
+                  <p className="mr-2 text-[#868686]">{data?.data.nickname === winner ? '최종 입찰가' : '현재 입찰가'}</p>
+                  <p>{data?.data.nickname === winner ? detailData?.data.final_price : randomItem?.data.final_price}</p>
                 </div>
               </div>
             </div>
           </div>
           <div className="text-center mt-10">
             <button
-              className="w-[200px] h-[50px] rounded-xl outline-none bg-[#D1B383] hover:bg-white border border-[#D1B383] text-white hover:text-[#D1B383]" onClick={handleMovePage}>{isChecked === 1 ? '결제하기' : '입찰하기'}</button>
+              className="w-[200px] h-[50px] rounded-xl outline-none bg-[#D1B383] hover:bg-white border border-[#D1B383] text-white hover:text-[#D1B383]" onClick={handleMovePage}>{data?.data.nickname === winner ? '결제하기' : '입찰하기'}</button>
           </div>
         </div>
       </div>

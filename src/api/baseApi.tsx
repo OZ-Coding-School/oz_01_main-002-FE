@@ -8,14 +8,15 @@ const apiClient = axios.create({
   withCredentials: true,
 })
 
-function postRefreshToken() {
-  const response = apiClient.post('/api/v1/users/refresh', {
+async function postRefreshToken() {
+  const cookie = Cookies.get('refresh_token');
+  const response = await apiClient.post('/api/v1/users/refresh', {
   }, {
     headers: {
-      Authorization: `Bearer ${Cookies.get('refresh_token')}`
+      Authorization: `Bearer ${cookie}`
     }
   })
-  console.log('토큰 갱신 요청', response);
+  console.log('토큰 갱신 요청', response.data);
   return response;
 }
 apiClient.interceptors.request.use((config) => {
@@ -35,20 +36,18 @@ apiClient.interceptors.response.use((response) => {
   } = error;
 
   if (status === 401) {
-    if (error.response.data.message === 'Unauthorized') {
-      const originalRequest = config;
-      try {
-        const tokenResponse = await postRefreshToken();
-        if (tokenResponse.status === 200) {
-          const newAccessToken = tokenResponse.data.access_token;
-          localStorage.setItem('access_token', newAccessToken);
-          axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          return axios(originalRequest);
-        };
-      } catch (error) {
-        console.log('토큰 갱신 실패');
-      }
+    const originalRequest = config;
+    try {
+      const tokenResponse = await postRefreshToken();
+      if (tokenResponse.status === 200) {
+        const newAccessToken = tokenResponse.data.access_token;
+        localStorage.setItem('access_token', newAccessToken);
+        axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return axios(originalRequest);
+      };
+    } catch (error) {
+      console.log('토큰 갱신 실패');
     }
   }
   return Promise.reject(error);

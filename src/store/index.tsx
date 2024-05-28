@@ -4,10 +4,10 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 type Product = {
   id: number;
   grade: string;
-  title: string;
+  name: string;
   img: string;
   startPrice?: number;
-  price: number;
+  winner_bid_price: number;
   category: string;
   commission?: number;
 }
@@ -20,6 +20,16 @@ type State = {
 type BiddingState = {
   isBidding: boolean;
   setIsBidding: (isBidding: boolean) => void;
+}
+
+
+type winnerState = {
+  winner: string;
+  setWinner: (winner: string) => void;
+  productId: string;
+  setProductId: (productId: string) => void;
+  itemStatus: boolean | undefined;
+  setItemStatus: (itemStatus: boolean) => void;
 }
 
 type ProductIdState = {
@@ -53,3 +63,12 @@ export const useProductIdStore = create<ProductIdState>()(
   }
   ))
 )
+
+export const useWinnerStore = create<winnerState>((set) => ({
+  winner: '',
+  itemStatus: true,
+  productId: '',
+  setProductId: (productId: string) => set({ productId }),
+  setItemStatus: (itemStatus: boolean) => set({ itemStatus }),
+  setWinner: (winner: string) => set({ winner }),
+}))

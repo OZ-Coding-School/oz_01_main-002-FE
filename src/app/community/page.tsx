@@ -38,7 +38,7 @@ const Community = () => {
         </div>
         <div className="border-2  my-2" />
         <div className="w-full flex items-center flex-wrap max-[1215px]:justify-center py-4">
-          {communityList.map((item: any) => (
+          {communityList && communityList.map((item: any) => (
             <CardForm key={item.id} item={item} />
           ))}
         </div>

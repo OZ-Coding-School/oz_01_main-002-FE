@@ -1,13 +1,17 @@
 'use client';
 
-import { useBiddingStore } from "@/store";
 import FinalModal from "./FinalModal";
-
-const ModalContainer = () => {
-  const { isBidding } = useBiddingStore();
+type ModalContainerProps = {
+  itemStatus: boolean | undefined;
+  active: string;
+  auctionId: string | undefined;
+  itemRefetch: () => void;
+};
+const ModalContainer = ({ itemStatus, active, auctionId, itemRefetch }: ModalContainerProps) => {
+  console.log('경매상태', active);
   return (
     <>
-      {isBidding ? < FinalModal /> : null}
+      {active === '경매종료' ? < FinalModal auctionId={auctionId} itemRefetch={itemRefetch} /> : null}
     </>
   )
 }

@@ -1,24 +1,25 @@
 'use client';
 
-import { useBiddingStore } from "@/store";
+import { useAuctionPutStatus } from "@/api/productApi";
 import { useEffect, useState } from "react";
 
 type CountDownProps = {
   endTime: string | undefined;
+  productId: number | undefined;
+  refetch: () => void;
+  auctionId: string | undefined;
+  itemRefetch: () => void;
+  active: string | undefined;
 }
 
-const CountDown = ({ endTime }: CountDownProps) => {
+const CountDown = ({ endTime, productId, active, auctionId, refetch, itemRefetch }: CountDownProps) => {
+  console.log('이거 뜨긴 뜨나', active);
   const [dDay, setDDay] = useState<string>();
-  // const date = new Date(endTime);
-  // const year = date.getFullYear();
-  // const month = String(date.getMonth() + 1).padStart(2, '0');
-  // const day = String(date.getDate()).padStart(2, '0');
-  // const hours = String(date.getHours()).padStart(2, '0');
-  // const minutes = String(date.getMinutes()).padStart(2, '0');
-  // const seconds = String(date.getSeconds()).padStart(2, '0');
-  const day = '2024-12-14'
-  const targetDate = new Date(day);
-  const { setIsBidding } = useBiddingStore();
+  const day = '2024-05-28 19:15:00'
+  const { mutate: finalStatus } = useAuctionPutStatus();
+  const targetDate = new Date(day!);
+  const formattedEndTime = `${targetDate.getFullYear()}-${(targetDate.getMonth() + 1).toString().padStart(2, '0')}-${targetDate.getDate().toString().padStart(2, '0')} ${targetDate.getHours().toString().padStart(2, '0')}:${targetDate.getMinutes().toString().padStart(2, '0')}:${targetDate.getSeconds().toString().padStart(2, '0')}`;
+  // console.log('낙찰 시간', formattedEndTime);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,10 +29,16 @@ const CountDown = ({ endTime }: CountDownProps) => {
       if (timeDifference <= 0) {
         clearInterval(timer);
         setDDay('0일 0시간 0분 0초');
-        if (!localStorage.getItem('isBiddingSet')) {
-          setIsBidding(true);
-          localStorage.setItem('isBiddingSet', 'true');
+        if (active !== undefined && active !== "결제대기") {
+          finalStatus({ auctionId: auctionId, status: false, isActive: '경매종료' }, {
+            onSuccess: () => {
+              itemRefetch();
+              refetch();
+            },
+          });
         }
+
+        console.log('리프레시 통과');
         return;
       }
 
@@ -45,8 +52,10 @@ const CountDown = ({ endTime }: CountDownProps) => {
     return () => clearInterval(timer);
   }, [])
 
-  console.log(dDay);
-  return <p className="text-4xl max-[1255px]:text-3xl max-[640px]:text-[22px] text-white">{dDay !== '0일 0시간 0분 0초' ? `입찰까지 ${dDay} 남았습니다.` : '입찰 종료'}</p>;
+  // console.log(dDay);
+  return <>
+    {dDay && <p className="text-4xl max-[1255px]:text-3xl max-[640px]:text-[22px] text-white">{dDay !== '0일 0시간 0분 0초' ? `입찰까지 ${dDay} 남았습니다.` : '입찰 종료'}</p>};
+  </>
 }
 
 export default CountDown
