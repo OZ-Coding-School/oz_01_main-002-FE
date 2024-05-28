@@ -3,9 +3,20 @@
 import { useBiddingStore } from "@/store";
 import { useEffect, useState } from "react";
 
-const CountDown = () => {
+type CountDownProps = {
+  endTime: string | undefined;
+}
+
+const CountDown = ({ endTime }: CountDownProps) => {
   const [dDay, setDDay] = useState<string>();
-  const day = '2024-05-23 20:00:50';
+  // const date = new Date(endTime);
+  // const year = date.getFullYear();
+  // const month = String(date.getMonth() + 1).padStart(2, '0');
+  // const day = String(date.getDate()).padStart(2, '0');
+  // const hours = String(date.getHours()).padStart(2, '0');
+  // const minutes = String(date.getMinutes()).padStart(2, '0');
+  // const seconds = String(date.getSeconds()).padStart(2, '0');
+  const day = '2024-12-14'
   const targetDate = new Date(day);
   const { setIsBidding } = useBiddingStore();
 
@@ -35,7 +46,7 @@ const CountDown = () => {
   }, [])
 
   console.log(dDay);
-  return <p className="text-4xl text-white">{dDay !== '0일 0시간 0분 0초' ? `입찰까지 ${dDay} 남았습니다.` : '입찰 종료'}</p>;
+  return <p className="text-4xl max-[1255px]:text-3xl max-[640px]:text-[22px] text-white">{dDay !== '0일 0시간 0분 0초' ? `입찰까지 ${dDay} 남았습니다.` : '입찰 종료'}</p>;
 }
 
 export default CountDown

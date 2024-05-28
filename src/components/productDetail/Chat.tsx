@@ -1,20 +1,23 @@
 'use client';
 
+import apiClient from "@/api/baseApi";
 import { useChatRoom } from "@/api/chatApi";
+import { usePostWinner } from "@/api/productApi";
 import { useGetUser } from "@/api/userApi";
 import useWebSocket from "@/hooks/useWebSocket";
 import { useEffect, useState } from "react";
 
 type ChatTypeProps = {
   productId: string,
-  itemPrice: number,
-  setItemPrice: (price: number) => void
+  auctionId: string,
+  finalPrice: number,
+  refetch: () => void
 }
 
-const Chat = ({ productId, itemPrice, setItemPrice }: ChatTypeProps) => {
+const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   const [isChat, setIsChat] = useState('');
-  const [isBidding, setIsBidding] = useState(5000);
   const { data } = useGetUser();
+  const { mutate: postBidding } = usePostWinner();
   console.log('유저 정보', data);
 
   const buttonMenu = [
@@ -25,50 +28,77 @@ const Chat = ({ productId, itemPrice, setItemPrice }: ChatTypeProps) => {
   const { mutate: userChatRoom } = useChatRoom();
   const { messages, isConnected, sendMessage } = useWebSocket();
   console.log(messages);
+
   useEffect(() => {
     if (isConnected) {
       userChatRoom({ room_id: productId, user_id: localStorage.getItem('user_id') });
     }
   }, [isConnected])
-  const increasePrice = () => {
 
+  const handleWinner = async () => {
+    const response = await apiClient.get(`/api/v1/winners/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    console.log(response);
+  }
 
-  };
-  const handleButton = (name: string) => {
+  const handleButton = async (name: string) => {
+    if (!finalPrice) return;
     if (name === '관심') {
-      console.log('관심');
+      handleWinner();
     } else if (name === '입찰') {
       let increaseAmount = 0;
-      if (itemPrice < 300000) {
+      if (finalPrice < 300000) {
         increaseAmount = 20000;
-      } else if (itemPrice < 1000000) {
+      } else if (finalPrice < 1000000) {
         increaseAmount = 50000;
-      } else if (itemPrice < 3000000) {
+      } else if (finalPrice < 3000000) {
         increaseAmount = 100000;
-      } else if (itemPrice < 5000000) {
+      } else if (finalPrice < 5000000) {
         increaseAmount = 200000;
-      } else if (itemPrice < 10000000) {
+      } else if (finalPrice < 10000000) {
         increaseAmount = 5000000;
-      } else if (itemPrice < 30000000) {
+      } else if (finalPrice < 30000000) {
         increaseAmount = 1000000;
-      } else if (itemPrice < 50000000) {
+      } else if (finalPrice < 50000000) {
         increaseAmount = 2000000;
-      } else if (itemPrice < 200000000) {
+      } else if (finalPrice < 200000000) {
         increaseAmount = 5000000;
-      } else if (itemPrice < 500000000) {
+      } else if (finalPrice < 500000000) {
         increaseAmount = 10000000;
-      } else if (itemPrice > 500000000) {
+      } else if (finalPrice! > 500000000) {
         increaseAmount = 20000000;
       }
-      const newPrice = itemPrice + increaseAmount;
-      setItemPrice(newPrice);
-      sendMessage({ roomId: productId, message: `${increaseAmount.toLocaleString()}원 입찰하였습니다` });
+      const newPrice = finalPrice + increaseAmount;
+      postBidding({
+        product_id: Number(productId),
+        auction_id: Number(auctionId),
+        bid_price: newPrice,
+      }, {
+        onSuccess: () => {
+          refetch();
+        }
+      })
+
+      sendMessage({ roomId: productId, message: `${newPrice.toLocaleString()}원 입찰하였습니다` });
     } else if (name === '충전') { }
   }
   const regex = /입찰하였습니다/;
+
+
+  useEffect(() => {
+    const latestMessage = messages[messages.length - 1];
+    if (latestMessage && regex.test(latestMessage)) {
+      refetch();
+    }
+  }, [messages]);
+
+
   return (
-    <div className="w-full px-[12px] m-3">
-      <div className="box-border w-full h-[430px] bg-white border border-b-0 rounded-t-xl overflow-auto no_scrollbar flex flex-col-reverse">
+    <div className="w-[568px] max-[1255px]:w-full px-[12px] max-[1255px]:px-0 max-[1255px]:pr-3 max-[855px]:pr-0 m-3 max-[855px]:m-0 max-[855px]:my-3">
+      <div className="box-border w-full h-[430px] bg-white border border-b-0 rounded-t-xl overflow-auto scrollbar-hide flex flex-col-reverse">
         <div className="relative">
           <div className="p-3 h-full flex flex-col">
             {messages.map((chat, index) => {
@@ -100,9 +130,9 @@ const Chat = ({ productId, itemPrice, setItemPrice }: ChatTypeProps) => {
           }
         }}>입력</button>
       </div>
-      <div className="flex justify-between items-center my-4">
+      <div className="flex justify-between max-[1255px]:justify-evenly max-[640px]:justify-between items-center my-4">
         {buttonMenu.map((item) => (
-          <div key={item.id} className="w-[170px] h-[48px] bg-[#D1B383] border border-[#D1B383] hover:bg-white hover:text-[#D1B383] flex justify-center items-center text-white rounded-[10px]" onClick={() => handleButton(item.name)}>
+          <div key={item.id} className="w-[170px] h-[48px] max-[640px]:w-[145px] bg-[#D1B383] border border-[#D1B383] hover:bg-white hover:text-[#D1B383] flex justify-center items-center text-white rounded-[10px]" onClick={() => handleButton(item.name)}>
             <p className="text-[20px] leading-none">{item.name}</p>
           </div>
         ))}

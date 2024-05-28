@@ -1,11 +1,30 @@
+'use client';
+
+import apiClient from "@/api/baseApi";
 import ProductInsertButton from "@/components/product/ProductInsertButton";
 import ProductListCategories from "@/components/product/ProductListCategories";
 import ProductListItem from "@/components/product/ProductListItem";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+type ProductListType = {
+  id: number;
+  product_id: number;
+  product_name: string;
+  product_grade: string;
+  product_bid_price: number;
+  category: string;
+  start_time: string;
+  end_time: string;
+  charge: number;
+  final_price: number;
+  status: boolean;
+  is_active: string;
+}
 
 const ProductList = () => {
-
+  const [productList, setProductList] = useState<ProductListType[] | undefined>();
   const auctionItems = [
     { id: 1, name: '샤넬 가방', img: '/images/item03.jpg', startPrice: '6,500,000원', price: '6,750,000원', category: '가방', like: 12, view: 30, grade: 'A' },
     { id: 2, name: '샤넬 라운드티', img: '/images/item04.jpg', startPrice: '500,000원', price: '650,000원', category: '옷', like: 62, view: 22, grade: 'B' },
@@ -24,7 +43,21 @@ const ProductList = () => {
     { id: 15, name: '나이키 신발', img: '/images/item05.jpg', startPrice: '600,000원', price: '640,000원', category: '신발', like: 22, view: 150, grade: 'C' },
     { id: 16, name: '로렉스 시계', img: '/images/item01.png', startPrice: '14,500,000원', price: '15,000,000원', category: '시계', like: 22, view: 80, grade: 'S' },
   ];
+  const handleGetAuctionItems = async () => {
+    try {
+      const response = await apiClient.get('/api/v1/auctions/');
+      console.log('경매상품 조회 성공', response);
+      setProductList(response.data);
+    } catch (error) {
+      console.log('경매상품 조회 실패', error);
+    }
+  }
 
+  useEffect(() => {
+    handleGetAuctionItems();
+  }, [])
+
+  if (!productList) return;
 
   return (
     <div className="bg-[#222] w-full">
@@ -56,8 +89,8 @@ const ProductList = () => {
           <p className="text-[24px] ml-[10px] max-[1150px]:ml-[10%] leading-[29px] text-white">경매상품</p>
         </div>
         <div className="w-full flex flex-wrap mx-auto max-w-[1132px] max-[1150px]:max-w-[850px] max-[865px]:max-w-[566px] max-[585px]:max-w-[450px]">
-          {auctionItems.map((item) => (
-            <Link key={item.id} href={`productList/${item.id}`}>
+          {productList.map((item) => (
+            <Link key={item.id} href={`productList/${item.product_id}id=${item.id}`}>
               <ProductListItem item={item} />
             </Link>
           ))}

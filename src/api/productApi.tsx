@@ -1,5 +1,5 @@
-import { ProductInsertType1, UpdateProductType } from "@/type/ProductType";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AuctionProductDetailType, ProductInsertType1, UpdateProductType, WinnerPostType } from "@/type/ProductType";
+import { QueryFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import apiClient from "./baseApi";
 
@@ -20,9 +20,9 @@ export const usePostProduct = () => {
   return mutation.mutate;
 }
 
-export const useGetProducts = () => {
+export const useGetAuctionProducts = () => {
   const queryFn = () => apiClient.get('');
-  const query = useQuery({ queryKey: ['products'], queryFn });
+  const query = useQuery({ queryKey: ['auctionProducts'], queryFn });
   return query;
 }
 
@@ -33,6 +33,27 @@ export const useGetProduct = (id: number) => {
     }
   });
   return useQuery({ queryKey: ['product', id], queryFn });
+}
+
+export const useGetAuctionProductDetail = (auctionId: string) => {
+  const queryFn: QueryFunction<AuctionProductDetailType> = () => apiClient.get(`/api/v1/auctions/${auctionId}`)
+  return useQuery<AuctionProductDetailType>({ queryKey: ['auctionProductDetail', auctionId], queryFn });
+}
+
+export const usePostWinner = () => {
+  const mutationFn = (winnerData: WinnerPostType) => apiClient.post('/api/v1/winners/', winnerData, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  });
+  return useMutation({
+    mutationFn, onSuccess: (data) => {
+      console.log('낙찰 성공', data);
+    },
+    onError: (error) => {
+      console.log('낙찰 실패', error);
+    }
+  });
 }
 
 export const useUpdateProduct = () => {

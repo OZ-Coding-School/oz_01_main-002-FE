@@ -42,3 +42,29 @@ export type UpdateProductType = {
     status: string,
   }
 }
+
+export type AuctionProductDetailType = {
+  data: {
+    category: string;
+    charge: number;
+    end_time: string;
+    final_price: number;
+    id: number;
+    is_active: string;
+    user_nickname: string;
+    user_content: string;
+    product_bid_price: number;
+    product_grade: string;
+    product_content: string;
+    product_id: number;
+    product_name: string;
+    start_time: string;
+    status: boolean;
+  }
+}
+
+export type WinnerPostType = {
+  product_id: number,
+  auction_id: number,
+  bid_price: number,
+}

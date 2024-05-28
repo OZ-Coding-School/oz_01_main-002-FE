@@ -19,7 +19,10 @@ const useWebSocket = () => {
     }
     socket.onmessage = (event) => {
       console.log('Message from server', event.data);
-      setMessages((prevMessages) => [...prevMessages, event.data]);
+      const newMessage = event.data;
+      if (!messages.includes(newMessage)) {
+        setMessages((prevMessages) => [...prevMessages, event.data]);
+      }
     };
     socket.onclose = () => {
       console.log('Disconnected from WebSocket server');

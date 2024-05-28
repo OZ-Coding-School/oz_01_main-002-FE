@@ -1,5 +1,6 @@
 'use client';
 
+import apiClient from "@/api/baseApi";
 import { useDeleteProduct, usePostProduct, useUpdateProduct } from "@/api/productApi";
 import InsertButton from "@/components/productInsert/InsertButton";
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
@@ -308,6 +309,23 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   //   }
   // }, [data, productId])
 
+  const finalProduct = async () => {
+    try {
+      const response = await apiClient.post('/api/v1/auctions/', {
+        product_id: productId,
+        charge: 0,
+        final_price: productItem.bid_price
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      console.log('최종등록', response);
+    } catch (error) {
+      console.log('최종등록 실패', error);
+    }
+  }
+
   const handleGetProduct = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/products/${productId}`, {
@@ -360,6 +378,10 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
         bid_price: productItem.bid_price,
         duration: productItem.duration,
         status: '경매중',
+      }
+    }, {
+      onSuccess: () => {
+        finalProduct();
       }
     })
   }

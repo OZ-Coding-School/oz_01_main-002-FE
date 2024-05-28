@@ -17,7 +17,22 @@ type ProductItemProps = {
   grade: string;
 }
 
-const ProductListItem = ({ item }: { item: ProductItemProps }) => {
+type ProductListType = {
+  id: number;
+  product_id: number;
+  product_name: string;
+  product_grade: string;
+  product_bid_price: number;
+  category: string;
+  start_time: string;
+  end_time: string;
+  charge: number;
+  final_price: number;
+  status: boolean;
+  is_active: string;
+}
+
+const ProductListItem = ({ item }: { item: ProductListType }) => {
   const [likes, setLikes] = useState(false);
 
   const handleLike = async (e: MouseEvent<HTMLDivElement>, index: number) => {
@@ -36,24 +51,24 @@ const ProductListItem = ({ item }: { item: ProductItemProps }) => {
           <div className="absolute flex items-center bottom-2 text-xs left-2 text-[#D6D6D6]">
             <div className="flex items-center">
               <FaRegHeart />
-              <p className="ml-1">{item.like}</p>
+              {/* <p className="ml-1">{item.like}</p> */}
             </div>
             <div className="flex items-center ml-2">
               <BsEye className="text-sm" />
-              <p className="ml-1">{item.view}</p>
+              {/* <p className="ml-1">{item.view}</p> */}
             </div>
           </div>
         </div>
-        <Image src={item.img} fill sizes="1" className="w-[228px] h-[228px] object-cover mb-2 rounded-[8px]" alt="물품이미지" priority />
+        <Image src={'/images/item05.jpg'} fill sizes="1" className="w-[228px] h-[228px] object-cover mb-2 rounded-[8px]" alt="물품이미지" priority />
       </div>
       <div>
         <div className="flex items-center">
-          <p className="text-white text-[20px] leading-[24px] mb-[6px] max-[585px]:text-[16px]  max-[865px]:leading-none">{item.name}</p>
-          <p className="ml-2 text-white text-[20px] leading-[24px] mb-[6px] max-[585px]:text-[16px] max-[865px]:leading-none">{item.grade}</p>
+          <p className="text-white text-[20px] leading-[24px] mb-[6px] max-[585px]:text-[16px]  max-[865px]:leading-none">{item.product_name}</p>
+          <p className="ml-2 text-white text-[20px] leading-[24px] mb-[6px] max-[585px]:text-[16px] max-[865px]:leading-none">{item.product_grade}</p>
         </div>
         <p className="text-[#868686] text-[16px] leading-[24px] mb-[6px] max-[585px]:text-[14px] max-[865px]:leading-none">{item.category}</p>
-        <p className="text-white text-[20px] leading-[24px] max-[585px]:text-[16px] max-[865px]:leading-none mb-[6px]">시작가 {item.startPrice}</p>
-        <p className="text-[#D1B383] text-[20px] leading-[24px] max-[585px]:text-[16px] max-[865px]:leading-none">현재가 {item.price}</p>
+        <p className="text-white text-[20px] leading-[24px] max-[585px]:text-[16px] max-[865px]:leading-none mb-[6px]">시작가 {item.product_bid_price.toLocaleString()}원</p>
+        <p className="text-[#D1B383] text-[20px] leading-[24px] max-[585px]:text-[16px] max-[865px]:leading-none">현재가 {item.final_price.toLocaleString()}원</p>
       </div>
     </div>
 

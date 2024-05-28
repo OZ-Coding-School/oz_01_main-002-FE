@@ -37,18 +37,6 @@ const List = () => {
               </div>
             </Link>
           ))}
-          {/* <div className="flex items-center cursor-pointer">
-            <p className="text-[red] text-2xl font-bold">·</p>
-            <p className="line-clamp-1 ml-2 text-ellipsis">글들의 제목입니다.</p>
-          </div>
-          <div className="flex items-center cursor-pointer">
-            <p className="text-[red] text-2xl font-bold">·</p>
-            <p className="line-clamp-1 ml-2 text-ellipsis">글들의 제목입니다.</p>
-          </div>
-          <div className="flex items-center cursor-pointer">
-            <p className="text-[red] text-2xl font-bold">·</p>
-            <p className="line-clamp-1 ml-2 text-ellipsis">글들의 제목입니다.</p>
-          </div> */}
         </div>
       </div>
     </div>
