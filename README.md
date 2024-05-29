@@ -123,4 +123,4 @@
 > 
 > [📜 테이블 명세서](https://docs.google.com/spreadsheets/d/117PKxWDHYBFpPntIc3Rmew0J8Wqyk5Be6GOj7CLBG_I/edit#gid=0)
 >
-> [📜 화면 정의서](https://docs.google.com/document/d/1Fj5Zg160QXKXRCxc1pOEj9sHkaZl9NVLxNT559AX05M/edit)
+> [📜 화면 정의서](https://docs.google.com/document/d/1F-V30OVciDeomDSfOuoKxwd-eWjeddXGXfV2WpfahKk/edit)
