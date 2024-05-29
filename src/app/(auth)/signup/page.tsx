@@ -473,7 +473,7 @@ const SignUp = () => {
       <div className="my-[100px] text-white text-[40px] leading-none">
         <p>회원가입</p>
       </div>
-      <div className="w-full max-w-[518px] mx-auto">
+      <div className="w-full max-w-[518px] max-[560px]:max-w-[390px] mx-auto">
         <div className="flex items-center justify-between mb-[10px]">
           <SignInput type={'text'} placeholder={'이메일'} value={signUpUser.request_data.email} onChange={(e) => handleEmail(e)} />
           <CheckButton title={'이메일 확인'} onClick={handleEmailCheck} />
@@ -502,13 +502,13 @@ const SignUp = () => {
           <CheckButton title={'닉네임 확인'} onClick={handleNickNameCheck} />
         </div>
         <p className="text-red-700">{error.nickname}</p>
-        <div className={`w-[518px] h-[74px] mt-[10px] flex items-center text-white cursor-pointer ${isClicked ? 'border-white' : 'border-[#D1B383]'} border-[#D1B383] justify-center rounded-xl border text-center relative`} onClick={() => setIsClicked(!isClicked)}>
+        <div className={`w-[518px] h-[74px] mt-[10px] max-[560px]:w-full flex items-center text-white cursor-pointer ${isClicked ? 'border-white' : 'border-[#D1B383]'} border-[#D1B383] justify-center rounded-xl border text-center relative`} onClick={() => setIsClicked(!isClicked)}>
           <div className="w-full px-4 flex justify-between items-center">
             <IoIosArrowDown className="opacity-0" />
             {gender}
             <IoIosArrowDown />
           </div>
-          {isClicked ? <ul className="bg-white absolute border border-[#D1B383] w-[518px] z-10 top-[74px] rounded-xl" ref={ref}>
+          {isClicked ? <ul className="bg-white absolute border w-full border-[#D1B383]  z-10 top-[74px] rounded-xl" ref={ref}>
             {genderOptions.map((gender) => (
               <li key={gender.id} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white border-[#D1B383] text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer `} onClick={() => {
                 setGender(gender.label);
@@ -525,7 +525,7 @@ const SignUp = () => {
         </div>
         <p className="text-red-700">{error.phoneNumber}</p>
         <div className="mt-[10px]">
-          <input type="date" className="w-[518px] h-[74px] outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="생년월일" value={useDate} onChange={(e) => handleDate(e)} />
+          <input type="date" className="w-[518px] h-[74px] max-[560px]:w-full outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="생년월일" value={useDate} onChange={(e) => handleDate(e)} />
         </div>
         <p className="text-red-700">{error.age}</p>
         <div className="h-[60px]" />
@@ -533,7 +533,7 @@ const SignUp = () => {
         <p className="text-red-700">{error.checked1 || error.checked2 || error.checked3}</p>
         <div className="h-[60px]" />
         <div>
-          <button className="w-[518px] h-[74px] rounded-[10px] bg-[#D1B383] text-white text-lg" onClick={handleSignUpUser}>회원가입</button>
+          <button className="w-[518px] h-[74px] max-[560px]:w-full rounded-[10px] bg-[#D1B383] text-white text-lg" onClick={handleSignUpUser}>회원가입</button>
         </div>
       </div>
     </div>
