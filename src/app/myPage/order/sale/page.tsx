@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Sale = () => {
   const products = [
@@ -10,7 +11,8 @@ const Sale = () => {
   return (
     <div>
       {products.map((product) => (
-        <div key={product.id} className="flex items-center justify-between border-b last:border-b-0">
+        <div key={product.id} className="flex items-center justify-between border-b last:border-b-0 relative">
+          <Link href={'/'} className="hidden max-[630px]:block bg-opacity-45 w-[350px] h-[130px] rounded-lg z-10 absolute mt-2"></Link>
           <div className="flex items-center mt-6 mb-4">
             <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
               <Image src={product.img} fill sizes="1" className="object-cover" alt="판매이미지" />
@@ -38,9 +40,11 @@ const Sale = () => {
               </div>
             </div>
           </div>
-          <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg mr-1 cursor-pointer">
-            <p>상품 보기</p>
-          </div>
+          <Link href={`/`} className="max-[630px]:hidden">
+            <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg mr-1 cursor-pointer">
+              <p>상품 보기</p>
+            </div>
+          </Link>
         </div>
       ))}
     </div>

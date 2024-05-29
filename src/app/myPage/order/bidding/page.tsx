@@ -2,6 +2,7 @@
 import { useUserProducts } from "@/api/productApi";
 import { useProductStore } from "@/store";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -49,10 +50,10 @@ const Bidding = () => {
   console.log('어마어마', totalAmount);
   return (
     <div>
-      <div className="flex justify-between relative">
-        <div className="w-[500px] flex flex-col-reverse">
+      <div className="flex justify-between relative max-[920px]:flex-wrap-reverse">
+        <div className="w-[500px] flex flex-col-reverse px-1">
           {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
-            <div key={product.id} className="flex items-center justify-between border-b last:border-b-0">
+            <div key={product.id} className="flex items-center justify-between max-[650px]:justify-start border-b last:border-b-0">
               <div className="mr-2">
                 <input type="checkbox" className="w-[20px] h-[20px] accent-[#D1B383]" onChange={(e) => handleCheck(e, product)} />
               </div>
@@ -83,13 +84,15 @@ const Bidding = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg ml-5 cursor-pointer">
-                <p>상품 보기</p>
-              </div>
+              <Link href={`/productList/detail/${product.id}id=`} className="max-[650px]:hidden">
+                <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg ml-5 cursor-pointer">
+                  <p>상품 보기</p>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
-        <div className="sticky w-[300px] top-[91px] h-fit">
+        <div className="sticky w-[300px] max-[920px]:w-full max-[920px]:static top-[91px] h-fit">
           <div className="border rounded-lg p-3">
             <div>
               <div className="text-2xl my-2">

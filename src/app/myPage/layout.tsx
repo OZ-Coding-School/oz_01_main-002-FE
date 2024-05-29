@@ -21,9 +21,9 @@ const MyPageLayout = ({ children }: Props) => {
   return (
     <div className="w-full bg-[#222]">
       <div className="h-[100px]"></div>
-      <div className="flex w-full justify-center max-w-[1200px] mx-auto bg-[#222]">
+      <div className="flex w-full justify-center max-w-[1200px] max-[920px]:max-w-[700px] mx-auto bg-[#222]">
         <MyPageSide myPageMenuList={myPageMenuList} />
-        <div className="w-[900px]">
+        <div className="w-[900px] max-[920px]:w-full mx-auto max-[920px]:px-6">
           <MyPageRoute myPageMenuList={myPageMenuList} />
           {children}
         </div>

@@ -6,7 +6,7 @@ import MyPageWishList from "@/components/myPage/MyPageWishList";
 
 const MyPage = () => {
   return (
-    <div className="w-[900px]">
+    <div className="w-[900px] max-[1200px]:w-full">
       <MyPageProfile />
       <MyPageWishList />
       <MyPageMyBidding />

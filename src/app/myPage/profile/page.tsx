@@ -224,7 +224,7 @@ const Profile = () => {
             <p className="text-[20px] font-bold">{userUpdate.nickname}</p>
             <div className="mt-2">
               <div className="flex items-center">
-                <div className="w-[95px] h-[35px] rounded-xl border flex justify-center items-center cursor-pointer" onClick={handleClick}>
+                <div className="w-[95px] h-[35px] rounded-xl bg-[#D1B383] text-white flex justify-center items-center cursor-pointer" onClick={handleClick}>
                   <p className="text-[16px]">이미지 변경</p>
                 </div>
                 <button className={`w-[50px] h-[35px] rounded-xl border ml-2 ${renderImage ? 'block' : 'hidden'}`} onClick={handleUserImageUpdate}>저장</button>
@@ -276,8 +276,8 @@ const Profile = () => {
             <p>나의 소개</p>
           </div>
           <div className="relative">
-            <div className={`w-[500px] h-[200px] z-10 absolute rounded-lg ${isContentDisable ? 'cursor-pointer block' : 'hidden'}`} onClick={() => setIsContentDisable(!isContentDisable)} />
-            <textarea readOnly={isContentDisable} disabled={isContentDisable} className={`w-[500px] h-[200px] border rounded-[10px] p-3 outline-none resize-none bg-white ${isContentDisable ? 'cursor-pointer' : ''}`} value={userUpdate.content} onChange={(e) =>
+            <div className={`w-[500px] h-[200px] max-[650px]:w-full z-10 absolute rounded-lg ${isContentDisable ? 'cursor-pointer block' : 'hidden'}`} onClick={() => setIsContentDisable(!isContentDisable)} />
+            <textarea readOnly={isContentDisable} disabled={isContentDisable} className={`w-[500px] h-[200px] max-[650px]:w-full border rounded-[10px] p-3 outline-none resize-none bg-white ${isContentDisable ? 'cursor-pointer' : ''}`} value={userUpdate.content} onChange={(e) =>
               setUserUpdate({
                 ...userUpdate,
                 content: e.target.value

@@ -50,9 +50,9 @@ const UserInfoInput = ({ title, id, isDisabled, value, userUpdate, setUserUpdate
   return (
     <div className="flex flex-col">
       <label htmlFor={id} className="my-2">{title}</label>
-      <div className="relative w-[500px]">
-        <input type="text" id={id} disabled={title === '닉네임' || title === '연락처' ? isDisabled : true} value={value} className="border outline-none w-full h-[50px] rounded-[10px] bg-white pl-4" onChange={(e) => handleChange(e)} />
-        <button className={`absolute w-[50px] h-[35px] rounded-lg right-2 top-[50%] transform -translate-y-1/2 border ${title === '닉네임' || title === '연락처' || title === '주소' ? 'block' : 'hidden'}`} onClick={changeButton}>{isDisabled || title === '주소' ? '변경' : '취소'}</button>
+      <div className="relative w-[500px] max-[650px]:w-full max-[650px]:text-sm">
+        <input type="text" id={id} disabled={title === '닉네임' || title === '연락처' ? isDisabled : true} value={value} className="border outline-none w-full h-[50px] rounded-[10px] bg-white px-4" onChange={(e) => handleChange(e)} />
+        <button className={`absolute w-[50px] h-[35px] rounded-lg right-2 top-[50%] bg-[#D1B383] text-white transform -translate-y-1/2 ${title === '닉네임' || title === '연락처' || title === '주소' ? 'block' : 'hidden'}`} onClick={changeButton}>{isDisabled || title === '주소' ? '변경' : '취소'}</button>
       </div>
     </div>
   )

@@ -27,8 +27,8 @@ const MyPageProfile = () => {
           <div className="flex items-center">
             <div className="w-[100px] h-[100px] rounded-full bg-[#868686]"></div>
             <div className="ml-[16px] leading-9">
-              <p className="text-black text-[24px] font-semibold">{data?.data.nickname}</p>
-              <p className="text-[#868686] text-[20px]">{data?.data.email}</p>
+              <p className="text-black text-[24px] max-[920px]:text-[20px] font-semibold">{data?.data.nickname}</p>
+              <p className="text-[#868686] text-[20px] max-[920px]:text-[16px] ">{data?.data.email}</p>
             </div>
           </div>
       }

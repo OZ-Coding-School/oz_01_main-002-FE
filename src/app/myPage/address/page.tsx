@@ -70,10 +70,13 @@ const Address = () => {
                 </div>
                 <div className=" flex justify-between items-center">
                   <div className="flex items-center">
-                    {address.is_main ? <FaHouse className="text-lg" /> : <HiOutlineLocationMarker />}
-                    <p className="ml-2 text-lg">{address.address}</p>
+                    {address.is_main ? <FaHouse className="text-lg  max-[920px]:text-base" /> : <HiOutlineLocationMarker />}
+                    <div className="flex items-center text-lg max-[700px]:flex-col max-[700px]:items-start max-[920px]:text-base max-[580px]:text-sm">
+                      <p className="ml-2">{address.address}</p>
+                      <p className="ml-2">{address.detail_address}</p>
+                    </div>
                   </div>
-                  {address.is_main ? <IoCheckmarkOutline className="text-xl font-bold text-[#D1B383]" /> : <button className="border rounded-lg w-[100px] h-[35px]" onClick={(e) => handleDeleteAddress(e, address.id)}>삭제</button>}
+                  {address.is_main ? <IoCheckmarkOutline className="text-xl font-bold text-[#D1B383]" /> : <button className="border rounded-lg w-[100px] h-[35px] max-[580px]:w-[50px] max-[580px]:text-sm" onClick={(e) => handleDeleteAddress(e, address.id)}>삭제</button>}
                 </div>
               </div>
             </div>

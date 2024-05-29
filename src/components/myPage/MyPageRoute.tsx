@@ -16,7 +16,7 @@ type MyPageContentProps = {
 const MyPageRoute = ({ myPageMenuList }: MyPageContentProps) => {
   const path = usePathname();
   return (
-    <div className={` -mt-8  ${path === 'myPage' ? 'hidden' : 'block'}`}>
+    <div className={`-mt-8  ${path === 'myPage' ? 'hidden' : 'block'}`}>
       <div className="flex items-center mb-2">
         <p className="text-[#9f9f9f]">{`myPage`}&nbsp;&nbsp;&nbsp;</p>
         <IoIosArrowForward className="text-[20px] text-[#9f9f9f]" />

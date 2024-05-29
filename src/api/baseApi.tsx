@@ -36,24 +36,27 @@ apiClient.interceptors.response.use(
 
     if (response) {
       const { status } = response;
-
-      if (status === 401) {
-        const originalRequest = config;
-        if (!originalRequest._retry) { // 중복 요청 방지
-          originalRequest._retry = true;
-          try {
-            const tokenResponse = await postRefreshToken();
-            if (tokenResponse.status === 200) {
-              const newAccessToken = tokenResponse.data.access_token;
-              localStorage.setItem('access_token', newAccessToken);
-              axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-              return axios(originalRequest);
+      try {
+        if (status === 401) {
+          const originalRequest = config;
+          if (!originalRequest._retry) { // 중복 요청 방지
+            originalRequest._retry = true;
+            try {
+              const tokenResponse = await postRefreshToken();
+              if (tokenResponse.status === 200) {
+                const newAccessToken = tokenResponse.data.access_token;
+                localStorage.setItem('access_token', newAccessToken);
+                axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                return axios(originalRequest);
+              }
+            } catch (refreshError) {
+              console.log('토큰 갱신 실패', refreshError);
             }
-          } catch (refreshError) {
-            console.log('토큰 갱신 실패', refreshError);
           }
         }
+      } catch (error) {
+        console.error('Error:', error);
       }
     } else {
       // 응답이 없는 경우 처리

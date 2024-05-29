@@ -5,7 +5,7 @@ import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
 
 const AddressInsert = ({ refetch }: any) => {
   const [userAddress, setUserAddress] = useState({
-    addressName: '',
+    name: '',
     zoneCode: '',
     address: '',
     buildingName: '',
@@ -18,7 +18,7 @@ const AddressInsert = ({ refetch }: any) => {
   const handleComplete = (data: any) => {
     console.log('주소 데이터', data);
     setUserAddress({
-      addressName: '',
+      name: '',
       zoneCode: data.zonecode,
       address: data.address,
       buildingName: data.buildingName,
@@ -33,9 +33,10 @@ const AddressInsert = ({ refetch }: any) => {
   const postUserAddress = usePostUserAddress();
   const handleUserAddressInsert = async () => {
     postUserAddress({
-      name: userAddress.addressName,
+      name: userAddress.name,
       address: userAddress.address + ' ' + userAddress.buildingName + ' ' + userAddress.bname,
-      detail_address: userAddress.detailAddress, zip_code: userAddress.zoneCode
+      detail_address: userAddress.detailAddress,
+      zip_code: userAddress.zoneCode
     }, {
       onSuccess: () => {
         refetch();
@@ -46,40 +47,40 @@ const AddressInsert = ({ refetch }: any) => {
   return (
     <>
       <div className="w-full flex flex-col justify-center items-center border border-x-0 mt-[100px]">
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center  w-full">
           <div className="w-full max-w-[135px] my-2">
-            <div className="flex items-center justify-center">
-              <div className="flex flex-col">
-                <label className="mr-2">명칭</label>
-                <input type="text" className="w-[100px] h-[40px] pl-4 border outline-none rounded-lg mt-1" onChange={(e) => setUserAddress({
+            <div className="flex items-center justify-center max-[920px]:justify-end">
+              <div className="flex flex-col max-[920px]:items-end max-[920px]:mr-2">
+                <label className="">명칭</label>
+                <input type="text" className="w-[100px] h-[40px] max-[920px]:w-[70px] max-[500px]:text-sm max-[500px]:w-[60px] px-4 max-[920px]:px-2 border outline-none rounded-lg mt-1" value={userAddress.name} onChange={(e) => setUserAddress({
                   ...userAddress,
-                  addressName: e.target.value
+                  name: e.target.value
                 })} />
               </div>
             </div>
           </div>
-          <div className="w-full max-w-[600px] flex flex-col justify-center items-center my-2 border-l">
-            <div>
+          <div className="w-full max-w-[600px] flex flex-col justify-center items-center max-[920px]:items-start my-2 border-l">
+            <div className="max-[920px]:ml-2">
               <div className="flex items-end">
                 <div className="flex flex-col">
-                  <label htmlFor="zip_code">우편번호</label>
-                  <input id="zip_code" type="text" disabled className="w-[150px] h-[40px] border pl-4 rounded-lg mr-2 mt-1 bg-white" value={userAddress.zoneCode} />
+                  <label htmlFor="zip_code" className="">우편번호</label>
+                  <input id="zip_code" type="text" disabled className="w-[150px] h-[40px] max-[920px]:w-[100px] max-[500px]:text-sm  border pl-4 rounded-lg mr-2 mt-1 bg-white" value={userAddress.zoneCode} />
                 </div>
                 <button className="w-[80px] h-[40px] border rounded-md" onClick={handleClick}>검색</button>
               </div>
-              <div className="my-2 flex items-end">
+              <div className="my-2 flex items-end max-[920px]:flex-col max-[920px]:items-start">
                 <div className="flex flex-col">
-                  <label htmlFor="address">주소</label>
-                  <input id="address" type="text" disabled className="w-[350px] h-[40px] border pl-4  rounded-lg mr-2 mt-1 bg-white" value={`${userAddress.address} ${userAddress.buildingName}`} />
+                  <label htmlFor="address" className="">주소</label>
+                  <input id="address" type="text" disabled className="w-[350px] h-[40px] max-[500px]:w-[300px] max-[500px]:text-sm  border px-4 rounded-lg mr-2 mt-1 bg-white" value={`${userAddress.address} ${userAddress.buildingName}`} />
                 </div>
-                <div>
-                  <input type="text" disabled className="w-[200px] h-[40px] border pl-4  rounded-lg bg-white" value={userAddress.bname} />
+                <div className="max-[920px]:mt-2">
+                  <input type="text" disabled className="w-[200px] h-[40px] border px-4 max-[500px]:text-sm  rounded-lg bg-white" value={userAddress.bname} />
                 </div>
               </div>
               <div className="my-2 flex items-end">
                 <div className="flex flex-col">
-                  <label htmlFor="address_detail">상세 주소</label>
-                  <input id="address_detail" type="text" className="w-[200px] h-[40px] border pl-4 outline-none  rounded-lg mr-2 mt-1" value={userAddress.detailAddress} onChange={(e) => setUserAddress({
+                  <label htmlFor="address_detail" className="">상세 주소</label>
+                  <input id="address_detail" type="text" className="w-[200px] h-[40px] max-[500px]:text-sm  border pl-4 outline-none  rounded-lg mr-2 mt-1" value={userAddress.detailAddress} onChange={(e) => setUserAddress({
                     ...userAddress,
                     detailAddress: e.target.value
                   })} />

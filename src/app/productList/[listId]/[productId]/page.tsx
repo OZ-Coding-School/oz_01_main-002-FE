@@ -23,6 +23,11 @@ const ProductDetail = ({ params }: { params: { productId: string } }) => {
     setWinner(winnerData?.data.winner);
   }, [winnerData])
 
+  if (!auctionId) return <div className="w-full h-[calc(100vh-150px)] flex justify-center items-center">
+    <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
+      <div className="w-[65px] h-[65px] rounded-full bg-[#222]"></div>
+    </div>
+  </div>
   if (!data) return <div className="w-full h-[calc(100vh-150px)] flex justify-center items-center">
     <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
       <div className="w-[65px] h-[65px] rounded-full bg-[#222]"></div>
@@ -59,7 +64,7 @@ const ProductDetail = ({ params }: { params: { productId: string } }) => {
           <UserInfo userNickname={data.data.user_nickname} userContent={data.data.user_content} />
           <div className="h-4" />
           <div className="ml-3 mr-6 max-[855px]:ml-0 max-[855px]:mr-0">
-            <div className={`w-full p-4 bg-white rounded-lg ${data.data.product_content.length < 1000 ? 'h-[500px]' : ''}`}>
+            <div className={`w-full p-4 bg-white rounded-lg 'h-[500px]' : ''}`}>
               <p>{data.data.product_content}</p>
             </div>
           </div>

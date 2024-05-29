@@ -21,20 +21,20 @@ const MyPageMySale = () => {
         </Link>
       </div>
       <div className="border border-x-0 p-4 mt-3">
-        <div className="flex items-center ml-[80px]">
-          <div className="flex items-center w-[340px]">
+        <div className="flex items-center justify-between ml-[80px] max-[920px]:ml-0">
+          <div className="max-[920px]:w-full flex items-center ">
             <div className="w-[90px]">
               <LuArrowDownUp />
             </div>
-            <div className="">
+            <div className='text-nowrap'>
               <p>상품명</p>
             </div>
           </div>
-          <div className="flex items-center">
-            <div className="w-[165px]">
+          <div className="w-full ml-[26%] max-[920px]:ml-[35%] flex items-center justify-between max-[920px]:justify-end">
+            <div className='mx-[10px] text-nowrap max-[920px]:hidden'>
               <p>카테고리</p>
             </div>
-            <div className="w-[180px]">
+            <div className='mx-[10px] text-nowrap'>
               <p>가격</p>
             </div>
           </div>
@@ -47,22 +47,23 @@ const MyPageMySale = () => {
               <div className="w-[55px] h-[55px] rounded-full bg-white"></div>
             </div>
           </div> : data?.data.slice(0, 3).map((product: MyProductsType) => (
-            <div key={product.id} className="flex items-center ml-[80px] my-[6px]">
-              <div className="flex items-center w-[366px] ">
+            <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
+              <div className=" flex items-center">
                 <div className="w-[106px]">
                   <div className="w-[50px] h-[50px] relative rounded-lg overflow-hidden">
                     <Image src={product.img ? product.img : '/images/item05.jpg'} fill sizes='1' className='object-cover' alt='나의 등록 아이템' />
                   </div>
                 </div>
-                <div className="">
+                <div className="text-nowrap text-ellipsis line-clamp-1">
                   <p>{product.name}</p>
                 </div>
               </div>
               <div className="flex items-center">
-                <div className="w-[100px] ">
-                  <p>{product.category_id}</p>
+                <div className="w-[100px] max-[920px]:hidden">
+                  <p>{product.category}</p>
                 </div>
-                <div className="w-[115px] text-nowrap text-end">
+                <div className="max-[920px]:hidden w-[175px]" />
+                <div className={`w-[115px] text-nowrap text-end`}>
                   <p>{product.bid_price.toLocaleString()}원</p>
                 </div>
               </div>
