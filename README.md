@@ -117,7 +117,7 @@
 ## :clipboard: Documents
 > [📜 API 명세서](https://docs.google.com/spreadsheets/d/1AFH4YLLzGhbERokrpfJSNKmwvdgEW6aDj527PBqrBYU/edit?usp=sharing)
 > 
-> [📜 요구사항 정의서](https://docs.google.com/spreadsheets/d/1OP0FVODe2idKG4V0u2JSUjmSk9_bUywuGgOMqm4-iiY/edit#gid=428803499)
+> [📜 요구사항 정의서](https://docs.google.com/spreadsheets/d/1zDFlRZdJOFyQNddJfzPwFNyTIPWsx9-CRYmbmRZPs3w/edit#gid=937853649)
 > 
 > [📜 ERD](https://drive.google.com/file/d/1aVbnp8wHraSHzdpaGnompj59LrIaRu1Y/view?usp=sharing)
 > 
