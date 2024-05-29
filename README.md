@@ -42,7 +42,7 @@
 <img src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/d2e1cee8-8008-4a29-a76a-cdf22a23d54b"/>
 <div align=center>
 
-  <img src="https://img.shields.io/badge/react-00A8E1?style=for-the-badge&logo=react&logoColor=black">
+  <img src="https://img.shields.io/badge/nextjs-00A8E1?style=for-the-badge&logo=next.js&logoColor=white">
   <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
   <img src="https://img.shields.io/badge/prettier-FF4F8B?style=for-the-badge&logo=prettier&logoColor=white">
   <br>
