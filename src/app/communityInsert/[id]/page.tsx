@@ -18,8 +18,6 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
   const [file, setFile] = useState<File>();
   const [renderImage, setRenderImage] = useState<string>('');
   const router = useRouter();
-  const [token, setToken] = useState<string | null>(null);
-  console.log('params', params.id);
   let imageUrl: any = null;
   const [communityData, setCommunityData] = useState({
     title: '',
@@ -39,7 +37,6 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
       router.push('/login');
     }
     if (paramsId === 'insert') return;
-    console.log('id', params.id);
     if (!paramsId || typeof paramsId !== 'string' || !paramsId.startsWith('update%') || paramsId.length !== 19) {
       // 유효하지 않은 ID이거나 존재하지 않는 경우 리디렉션
       router.push('/community');
@@ -165,7 +162,6 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
         category: "자유게시판",
         imageUrl: "",
       }
-      console.log('data1', data1);
       if (
         imageUrl !== null &&
         imageUrl !== "" &&
@@ -199,7 +195,6 @@ const CommunityInsert = ({ params }: { params: { id: string } }) => {
         content: updateData.content
       })
       setRenderImage(updateData.imageUrl);
-      console.log('updateData', updateData);
     }
   }, [communityLoading])
 

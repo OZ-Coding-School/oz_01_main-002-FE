@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const ProductList = ({ params }: { params: { listId: string } }) => {
-  console.log('params', params);
   const paramsId = params.listId;
   const { data: auctionList, refetch: auctionListFetch } = useGetAuctionProducts();
   const { data, refetch: auctionCategories } = useGetAuctionProductsCategories(paramsId);
@@ -38,7 +37,6 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
 
   useEffect(() => {
     if (paramsId === 'list') {
-      console.log('파람스다 파람스');
       const handleAllAuctionList = async () => {
         try {
           const response = await apiClient.get('/api/v1/auctions/');
@@ -49,7 +47,6 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
       }
       handleAllAuctionList();
     } else if (['1', '2', '3', '4', '5', '6', '7', '8'].includes(paramsId)) {
-      console.log('여긴 왜 안오는거지');
       auctionCategories();
     }
   }, [paramsId]);
@@ -57,7 +54,6 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
   useEffect(() => {
     if (data) {
       setProductList(data.data);
-      console.log('auctionList', data);
     }
   }, [data])
 

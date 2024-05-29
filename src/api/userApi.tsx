@@ -18,7 +18,6 @@ export const useUserEmailCheck = () => {
   const mutationFn = (userData: userEmailCheck) => apiClient.post('/api/v1/users/email/send', userData);
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('이메일 코드', data);
       alert('이메일 코드가 발송되었습니다.');
     },
     onError: (error) => {
@@ -79,7 +78,6 @@ export const useSignUpUser = () => {
   const mutationFn = (userData: SignUpUser) => apiClient.post('/api/v1/users/', userData);
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('여기 맞지?', data);
       alert('회원가입이 완료되었습니다.');
       router.push('/login');
     },
@@ -96,7 +94,6 @@ export const useLoginUser = () => {
   const mutationFn = (userData: LoginUser) => apiClient.post('/api/v1/users/login', userData);
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('로그인 성공', data);
       router.push('/');
       localStorage.setItem('access_token', data.data.access_token);
       localStorage.setItem('user_id', data.data.user);
@@ -118,7 +115,6 @@ export const usePutUserUpdate = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('유저 정보 수정 성공', data);
     },
     onError: (error) => {
       console.log('유저 정보 수정 실패', error);
@@ -134,7 +130,6 @@ export const usePostUserAddress = () => {
   });
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('주소 저장 성공', data);
       alert('주소가 저장되었습니다.');
     },
     onError: (error) => {
@@ -164,7 +159,6 @@ export const useUpdateUserAddress = () => {
   });
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('주소 업데이트 성공', data);
     },
     onError: (error) => {
       console.log('주소 업데이트 실패', error);
@@ -181,7 +175,6 @@ export const useDeleteUserAddress = () => {
   });
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('주소 삭제 성공', data);
     },
     onError: (error) => {
       console.log('주소 삭제 실패', error);
@@ -196,7 +189,6 @@ export const useRefreshToken = () => {
   });
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('토큰 리프레시 성공', data);
       localStorage.setItem('access_token', data.data.access);
     },
     onError: (error) => {

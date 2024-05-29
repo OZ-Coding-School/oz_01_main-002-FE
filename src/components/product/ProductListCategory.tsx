@@ -9,7 +9,6 @@ type ProductListCategoryProps = {
 const ProductListCategory = ({ category, setIsClicked }: ProductListCategoryProps) => {
   const handleSearch = (e: MouseEvent<HTMLDivElement>, name: string) => {
     // e.stopPropagation();
-    console.log('카테고리 검색', name);
     setIsClicked(false);
   }
   return (

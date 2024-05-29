@@ -31,7 +31,6 @@ const ReplyList = ({ replyData, myNickname, paramsId, detailNickname }: ReplyLis
     if (upDateReply === '') return alert('수정할 내용을 입력해주세요.');
     try {
       await updateDoc(doc(db, "community", paramsId, 'reply', id), { content: upDateReply });
-      console.log('댓글 수정 성공');
     } catch (error) {
       console.log('댓글 수정 실패', error);
     }
@@ -44,7 +43,6 @@ const ReplyList = ({ replyData, myNickname, paramsId, detailNickname }: ReplyLis
 
 
   const handleReplyDelete = async (id: string) => {
-    console.log('댓글 삭제', id);
     const result = confirm("정말 삭제하시겠습니까?");
     if (result) {
       try {

@@ -9,7 +9,6 @@ export const useChatRoom = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('채팅방 생성 성공', data);
     },
     onError: (error) => {
       console.log('상품 등록 실패', error);

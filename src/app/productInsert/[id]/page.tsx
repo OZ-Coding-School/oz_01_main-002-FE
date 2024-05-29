@@ -26,7 +26,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   const { productId } = useProductIdStore();
   const { mutate: userDeleteProduct } = useDeleteProduct();
   const router = useRouter();
-  console.log('프로덕트 아이디', productId);
   const ref = useRef(null);
   const ref2 = useRef(null);
   const [error, setError] = useState({
@@ -74,7 +73,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     { value: 7, label: '7일' },
   ]
 
-  console.log('파람스 아이디', params.id);
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');
@@ -268,7 +266,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
         duration: productItem.duration,
         grade: productItem.grade,
       }
-      console.log('aaazzzxx', data);
       try {
         const response = await axios.post('http://localhost:8000/api/v1/products/', data, {
           headers: {
@@ -281,7 +278,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
           alert('상품이 등록되었습니다');
           router.push('/myPage/myProducts');
         }
-        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -328,7 +324,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
-      console.log('최종등록', response);
     } catch (error) {
       console.log('최종등록 실패', error);
     }
@@ -341,7 +336,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
-      console.log('아이템 불러오기', response);
       switch (response.data.duration) {
         case 1:
         case 2: setDateName('1일'); break;
@@ -408,7 +402,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   useOnclickOutside2(ref2, () => {
     setIsDateClicked(false);
   });
-  console.log(productItem);
   return (
     <div className="w-full bg-[#222]">
       <div className="w-full max-w-[870px] max-[855px]:max-w-[600px] mx-auto">
@@ -479,7 +472,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
                     });
                     setDateName(date.label);
                     setIsDateClicked(false);
-                    console.log('date', date.label);
                   }}>{date.label}</li>
                 ))}
               </ul> : null}

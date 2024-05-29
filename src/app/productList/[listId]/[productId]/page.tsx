@@ -17,8 +17,6 @@ const ProductDetail = ({ params }: { params: { productId: string } }) => {
   const { data, isLoading, refetch: itemRefetch } = useGetAuctionProductDetail(auctionId);
   const { data: winnerData, refetch: winnerRefetch } = useGetWinnerUser(productId);
   const { setWinner } = useWinnerStore();
-  console.log('ddzzzzs', winnerData);
-  console.log('경매 아이템', data);
   useEffect(() => {
     setWinner(winnerData?.data.winner);
   }, [winnerData])

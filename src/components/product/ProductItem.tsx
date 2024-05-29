@@ -22,7 +22,6 @@ const ProductItem = ({ item }: ProductItemProps) => {
 
   const handleLike = async (e: MouseEvent<HTMLDivElement>, index: number) => {
     e.preventDefault();
-    console.log(`${index}좋아요 클릭`);
     setLikes(!likes);
   }
 

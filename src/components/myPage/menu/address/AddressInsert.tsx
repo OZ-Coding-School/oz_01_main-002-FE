@@ -16,7 +16,6 @@ const AddressInsert = ({ refetch }: any) => {
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
   const handleComplete = (data: any) => {
-    console.log('주소 데이터', data);
     setUserAddress({
       name: '',
       zoneCode: data.zonecode,
@@ -32,6 +31,10 @@ const AddressInsert = ({ refetch }: any) => {
   }
   const postUserAddress = usePostUserAddress();
   const handleUserAddressInsert = async () => {
+    if (!userAddress.name || !userAddress.zoneCode || !userAddress.address || !userAddress.buildingName || !userAddress.bname || !userAddress.detailAddress) {
+      alert('모든 정보를 입력해주세요');
+      return;
+    }
     postUserAddress({
       name: userAddress.name,
       address: userAddress.address + ' ' + userAddress.buildingName + ' ' + userAddress.bname,

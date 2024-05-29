@@ -18,7 +18,6 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   const [isChat, setIsChat] = useState('');
   const { data } = useGetUser();
   const { mutate: postBidding } = usePostWinner();
-  console.log('유저 정보', data);
 
   const buttonMenu = [
     { id: 1, name: '관심' },
@@ -27,7 +26,6 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   ];
   const { mutate: userChatRoom } = useChatRoom();
   const { messages, isConnected, sendMessage } = useWebSocket();
-  console.log(messages);
 
   useEffect(() => {
     if (isConnected) {
@@ -43,7 +41,6 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
-    console.log(response);
   }
 
   const handleButton = async (name: string) => {

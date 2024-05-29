@@ -16,7 +16,6 @@ async function postRefreshToken() {
       Authorization: `Bearer ${cookie}`
     }
   })
-  console.log('토큰 갱신 요청', response.data);
   return response;
 }
 apiClient.interceptors.response.use((config) => {
@@ -46,6 +45,7 @@ apiClient.interceptors.response.use(
               if (tokenResponse.status === 200) {
                 const newAccessToken = tokenResponse.data.access_token;
                 localStorage.setItem('access_token', newAccessToken);
+                localStorage.setItem('user_id', tokenResponse.data.user);
                 axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
                 return axios(originalRequest);

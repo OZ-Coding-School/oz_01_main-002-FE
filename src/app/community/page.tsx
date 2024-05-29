@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 const Community = () => {
   const [communityList, setCommunityList] = useState<any>([]);
   const [token, setToken] = useState<string | null>(null);
-  console.log('token', token);
   const queryClient = useQueryClient();
   async function getItemsData() {
     const q = query(collection(db, "community"), orderBy("date", "desc"));
@@ -25,7 +24,6 @@ const Community = () => {
   useEffect(() => {
     getItemsData();
     setToken(localStorage.getItem('access_token'));
-    console.log('communityList', communityList);
   }, [])
 
   return (

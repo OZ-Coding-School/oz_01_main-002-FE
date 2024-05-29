@@ -20,7 +20,6 @@ const List = () => {
 
   useEffect(() => {
     getItemsData();
-    console.log('communityList', communityList);
   }, [])
 
   return (

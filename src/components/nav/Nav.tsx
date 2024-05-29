@@ -40,7 +40,6 @@ const Nav = () => {
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
-    // console.log(`Current scroll position: ${scrollY}`);
     if (targetRef.current === null) return;
     if (window.scrollY >= 36.5) {
       targetRef.current.style.position = "fixed";

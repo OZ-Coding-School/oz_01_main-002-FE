@@ -33,7 +33,6 @@ const MyProducts = () => {
     setProductId(id);
     router.push('/productInsert/2');
   }
-  console.log('data', data);
   return (
     <div className={`w-full max-w-[900px] ${data?.data.length <= 4 ? 'h-[800px]' : ''} bg-white rounded-xl px-10 pb-10`}>
       <Link href={'/myPage'}>

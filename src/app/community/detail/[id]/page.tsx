@@ -27,8 +27,6 @@ const CommunityDetail = ({ params }: { params: { id: string } }) => {
   const ref = useRef(null);
   const [token, setToken] = useState<string | null>(null);
   const { data: replyData, isLoading: replyLoading } = useGetCommunityReply(paramsId);
-  console.log('params', params.id);
-  console.log('뭐가 나올까', replyData);
 
   const loader = ({ src }: { src: string }) => {
     return src;

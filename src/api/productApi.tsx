@@ -11,7 +11,6 @@ export const usePostProduct = () => {
   });
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('상품 등록 성공', data);
     },
     onError: (error) => {
       console.log('상품 등록 실패', error);
@@ -54,7 +53,6 @@ export const usePostWinner = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('낙찰 성공', data);
     },
     onError: (error) => {
       console.log('낙찰 실패', error);
@@ -72,7 +70,6 @@ export const useUpdateProduct = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('상품 업데이트 성공', data);
       alert('상품이 등록(수정)되었습니다.');
       router.push('/');
       queryClient.invalidateQueries({ queryKey: ['userProducts'] });
@@ -100,7 +97,6 @@ export const useProductInspection = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('상품 검수 성공', data);
     },
     onError: (error) => {
       console.log('상품 검수 실패', error);
@@ -117,7 +113,6 @@ export const useDeleteProduct = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('상품 삭제 성공', data);
       router.push('/');
     },
     onError: (error) => {
@@ -137,7 +132,6 @@ export const useAuctionPutStatus = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('경매 상태 변경 성공', data);
     },
     onError: (error) => {
       console.log('경매 상태 변경 실패', error);

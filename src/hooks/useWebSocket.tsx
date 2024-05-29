@@ -14,18 +14,17 @@ const useWebSocket = () => {
     // WebSocket 연결 설정
     const socket = new WebSocket(`ws://localhost:8000/api/v1/chat/ws/${localStorage.getItem('user_id')}`);
     socket.onopen = () => {
-      console.log('Connected to WebSocket server');
+      // console.log('Connected to WebSocket server');
       setIsConnected(true);
     }
     socket.onmessage = (event) => {
-      console.log('Message from server', event.data);
       const newMessage = event.data;
       if (!messages.includes(newMessage)) {
         setMessages((prevMessages) => [...prevMessages, event.data]);
       }
     };
     socket.onclose = () => {
-      console.log('Disconnected from WebSocket server');
+      // console.log('Disconnected from WebSocket server');
     };
     socket.onerror = (error) => {
       console.error('WebSocket error', error);

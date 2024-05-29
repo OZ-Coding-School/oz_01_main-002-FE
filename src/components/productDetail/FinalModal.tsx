@@ -42,9 +42,7 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
   useEffect(() => {
     const random = Math.floor(Math.random() * auctionList?.data.length);
     setRandomItem(auctionList?.data[random]);
-    console.log('랜덤', randomItem);
   }, [auctionList])
-
 
   return (
     <div className="absolute w-full">

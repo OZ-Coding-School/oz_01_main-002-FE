@@ -101,7 +101,6 @@ const LoginForm = () => {
     userLogin(userInfo);
   }
 
-  console.log(userInfo);
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col mb-[30px]">

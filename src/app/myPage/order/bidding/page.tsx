@@ -43,11 +43,6 @@ const Bidding = () => {
     setPaymentUserProducts(productItem);
     router.push('/payment');
   }
-
-  console.log('뭐가 들어있나', data);
-
-  console.log(productItem);
-  console.log('어마어마', totalAmount);
   return (
     <div>
       <div className="flex justify-between relative max-[920px]:flex-wrap-reverse">
