@@ -49,9 +49,9 @@
 
   <img src="https://img.shields.io/badge/jextjs-6935D3?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
-  <img src="https://img.shields.io/badge/tailwindcss-white?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4">
-  <img src="https://img.shields.io/badge/firebase-white?style=for-the-badge&logo=firebase&logoColor=FFCA28">
-  <img src="https://img.shields.io/badge/reactquery-white?style=for-the-badge&logo=reactquery&logoColor=FF4154">
+  <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+  <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+  <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
   <img src="https://img.shields.io/badge/npm-ED1C24?style=for-the-badge&logo=npm&logoColor=white">
   <br>
 </div>
