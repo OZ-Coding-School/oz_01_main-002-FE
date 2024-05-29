@@ -47,7 +47,7 @@
   <img src="https://img.shields.io/badge/prettier-FF4F8B?style=for-the-badge&logo=prettier&logoColor=white">
   <br>
 
-  <img src="https://img.shields.io/badge/axios-6935D3?style=for-the-badge&logo=axios&logoColor=white">
+  <img src="https://img.shields.io/badge/jextjs-6935D3?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
   <img src="https://img.shields.io/badge/npm-ED1C24?style=for-the-badge&logo=npm&logoColor=white">
   <br>
