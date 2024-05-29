@@ -42,13 +42,16 @@
 <img src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/d2e1cee8-8008-4a29-a76a-cdf22a23d54b"/>
 <div align=center>
 
-  <img src="https://img.shields.io/badge/nextjs-00A8E1?style=for-the-badge&logo=next.js&logoColor=white">
+  <img src="https://img.shields.io/badge/nextjs-000000?style=for-the-badge&logo=next.js&logoColor=white">
   <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
   <img src="https://img.shields.io/badge/prettier-FF4F8B?style=for-the-badge&logo=prettier&logoColor=white">
   <br>
 
   <img src="https://img.shields.io/badge/jextjs-6935D3?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/tailwindcss-white?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4">
+  <img src="https://img.shields.io/badge/firebase-white?style=for-the-badge&logo=firebase&logoColor=FFCA28">
+  <img src="https://img.shields.io/badge/reactquery-white?style=for-the-badge&logo=reactquery&logoColor=FF4154">
   <img src="https://img.shields.io/badge/npm-ED1C24?style=for-the-badge&logo=npm&logoColor=white">
   <br>
 </div>
