@@ -122,5 +122,7 @@
 > [📜 ERD](https://drive.google.com/file/d/1aVbnp8wHraSHzdpaGnompj59LrIaRu1Y/view?usp=sharing)
 > 
 > [📜 테이블 명세서](https://docs.google.com/spreadsheets/d/117PKxWDHYBFpPntIc3Rmew0J8Wqyk5Be6GOj7CLBG_I/edit#gid=0)
+> 
+> [📜 와이어 프레임](https://www.figma.com/design/U2opvWv0VxWI6TOtigR59h/Untitled?node-id=0-1&t=MNt6DTW1hgyDE2Pq-0)
 >
 > [📜 화면 정의서](https://docs.google.com/document/d/1F-V30OVciDeomDSfOuoKxwd-eWjeddXGXfV2WpfahKk/edit)
