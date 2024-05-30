@@ -4,7 +4,7 @@ export type userEmailCheck = {
 
 export type userEmailCodeCheck = {
   email: string;
-  code: string | number | undefined;
+  code: number;
 }
 
 type TermData = {

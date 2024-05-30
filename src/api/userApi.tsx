@@ -15,9 +15,11 @@ export const useGetUser = () => {
 }
 
 export const useUserEmailCheck = () => {
-  const mutationFn = (userData: userEmailCheck) => apiClient.post('/api/v1/users/email/send', userData);
+  const mutationFn = (userData: userEmailCheck) => apiClient.post('/api/v1/users/email/send', userData
+  );
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
+      console.log('이메일 코드 발송 성공', data);
       alert('이메일 코드가 발송되었습니다.');
     },
     onError: (error) => {
@@ -34,6 +36,7 @@ export const useUserEmailCodeCheck = () => {
       alert('인증이 완료되었습니다.');
     },
     onError: (error) => {
+      alert('인증번호가 일치하지 않습니다.');
       console.log('이메일 코드 보내기 실패', error);
     }
   });
