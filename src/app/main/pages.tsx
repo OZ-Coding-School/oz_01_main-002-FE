@@ -3,6 +3,7 @@
 import { useGetAuctionProducts } from "@/api/productApi";
 import MainCarousel from "@/components/main/MainCarousel";
 import ProductItem from "@/components/product/ProductItem";
+import { ProductListType } from "@/type/ProductType";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,18 +19,6 @@ const MainPage = () => {
     { id: 6, name: '아디다스', img: '/images/cate01.png', link: '/productList/6' },
     { id: 7, name: '카메라', img: '/images/cate05.png', link: '/productList/7' },
     { id: 8, name: '주얼리', img: '/images/cate06.png', link: '/productList/8' },
-  ];
-
-  const popularItem = [
-    { id: 1, name: '로렉스 시계', img: '/images/item01.png', startPrice: '14,500,000원', price: '15,000,000원', category: '시계', like: 32, view: 100, grade: 'S' },
-    { id: 2, name: '에르메스 가방', img: '/images/item02.jpg', startPrice: '12,000,000원', price: '12,200,000원', category: '가방', like: 25, view: 80, grade: 'A' },
-  ]
-
-  const auctionItems = [
-    { id: 1, name: '샤넬 가방', img: '/images/item03.jpg', startPrice: '6,500,000원', price: '6,750,000원', category: '가방', like: 12, view: 30, grade: 'A' },
-    { id: 2, name: '샤넬 라운드티', img: '/images/item04.jpg', startPrice: '500,000원', price: '650,000원', category: '옷', like: 62, view: 22, grade: 'B' },
-    { id: 3, name: '나이키 신발', img: '/images/item05.jpg', startPrice: '600,000원', price: '640,000원', category: '신발', like: 22, view: 150, grade: 'C' },
-    { id: 4, name: '로렉스 시계', img: '/images/item01.png', startPrice: '14,500,000원', price: '15,000,000원', category: '시계', like: 22, view: 80, grade: 'S' },
   ];
 
   return (
@@ -61,7 +50,7 @@ const MainPage = () => {
           <Image src={'/images/image001.png'} fill sizes="1" alt="item01" />
         </div>
         <div className="ml-[60px] max-[625px]:ml-[10px]">
-          {popularItem.map((item) => (
+          {data && data?.data.slice(0, 2).map((item: ProductListType) => (
             <Link key={item.id} href={`/productList/detail/${item.id}`}>
               <ProductItem item={item} />
             </Link>
@@ -78,7 +67,7 @@ const MainPage = () => {
       </div>
       <div className="w-full flex justify-center">
         <div className="mr-[47.5px] max-[1200px]:mr-[0px] max-w-[510px] flex flex-wrap justify-center">
-          {auctionItems.map((item) => (
+          {data && data?.data.slice(0, 4).map((item: ProductListType) => (
             <Link key={item.id} href={`/productList/detail/${item.id}`}>
               <ProductItem item={item} />
             </Link>

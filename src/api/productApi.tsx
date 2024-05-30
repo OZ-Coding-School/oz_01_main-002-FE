@@ -29,7 +29,7 @@ export const useGetCategories = () => {
 
 export const useGetAuctionProducts = () => {
   const queryFn = () => apiClient.get('/api/v1/auctions/');
-  const query = useQuery({ queryKey: ['auctionProducts'], queryFn, enabled: false });
+  const query = useQuery({ queryKey: ['auctionProducts'], queryFn });
   return query;
 }
 

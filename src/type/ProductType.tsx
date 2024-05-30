@@ -93,6 +93,7 @@ export type AuctionProductDetailType = {
     start_time: string;
     status: boolean;
     product_images: string[],
+    user_image: string,
   }
 }
 
