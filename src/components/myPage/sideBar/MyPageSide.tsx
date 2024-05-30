@@ -22,6 +22,7 @@ const MyPageSide = ({ myPageMenuList }: MyPageSideBarProps) => {
     const logout = confirm('로그아웃 하시겠습니까?');
     if (logout) {
       localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       localStorage.removeItem('user_id');
       router.push('/');
     }

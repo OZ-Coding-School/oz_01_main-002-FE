@@ -72,7 +72,7 @@ export type ProductListType = {
   final_price: number;
   status: boolean;
   is_active: string;
-  images: string[],
+  product_images: string[],
 }
 
 export type AuctionProductDetailType = {

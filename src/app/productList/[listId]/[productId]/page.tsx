@@ -12,13 +12,11 @@ import { useWinnerStore } from "@/store";
 import { useEffect } from "react";
 
 const ProductDetail = ({ params }: { params: { productId: string } }) => {
-  console.log('params', params);
   const auctionId = params.productId.split('3D')[1];
   const productId = params.productId.split('id')[0];
   const { data, isLoading, refetch: itemRefetch } = useGetAuctionProductDetail(auctionId);
   const { data: winnerData, refetch: winnerRefetch } = useGetWinnerUser(productId);
-  console.log('ss', data);
-  console.log('auctionId', auctionId);
+
   const { setWinner } = useWinnerStore();
   useEffect(() => {
     setWinner(winnerData?.data.winner);

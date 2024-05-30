@@ -36,7 +36,7 @@ const ProductItem = ({ item }: ProductItemProps) => {
             </div>
           </div>
         </div>
-        <Image src={item.images[0]} fill sizes="1" className="w-[228px] h-[228px] object-cover mb-2" alt="물품이미지" priority />
+        <Image src={item.product_images[0]} fill sizes="1" className="w-[228px] h-[228px] object-cover mb-2" alt="물품이미지" priority />
       </div>
       <div>
         <div className="flex items-center">

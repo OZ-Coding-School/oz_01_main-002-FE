@@ -3,7 +3,6 @@
 import apiClient from "@/api/baseApi";
 import { useChatRoom } from "@/api/chatApi";
 import { usePostWinner } from "@/api/productApi";
-import { useGetUser } from "@/api/userApi";
 import useWebSocket from "@/hooks/useWebSocket";
 import { useEffect, useState } from "react";
 
@@ -16,9 +15,11 @@ type ChatTypeProps = {
 
 const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   const [isChat, setIsChat] = useState('');
-  const { data } = useGetUser();
+  // const { data } = useGetUser();
   const { mutate: postBidding } = usePostWinner();
-
+  const [user, setUser] = useState({
+    nickname: '',
+  });
   const buttonMenu = [
     { id: 1, name: '관심' },
     { id: 2, name: '입찰' },
@@ -26,6 +27,29 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   ];
   const { mutate: userChatRoom } = useChatRoom();
   const { messages, isConnected, sendMessage } = useWebSocket();
+
+  const getUser = async () => {
+    try {
+      const response = await apiClient.get('/api/v1/users/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (response.status === 200) {
+        setUser({
+          nickname: response.data.nickname,
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) return;
+    getUser();
+  }, [])
+
 
   useEffect(() => {
     if (isConnected) {
@@ -35,14 +59,14 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
     }
   }, [isConnected])
 
-  const handleWinner = async () => {
-    if (!localStorage.getItem('access_token')) return;
-    const response = await apiClient.get(`/api/v1/winners/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-  }
+  // const handleWinner = async () => {
+  //   if (!localStorage.getItem('access_token')) return;
+  //   const response = await apiClient.get(`/api/v1/winners/${productId}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`
+  //     }
+  //   });
+  // }
 
   const handleButton = async (name: string) => {
     if (!localStorage.getItem('access_token')) {
@@ -51,7 +75,7 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
     }
     if (!finalPrice) return;
     if (name === '관심') {
-      handleWinner();
+      // handleWinner();
     } else if (name === '입찰') {
       const priceIncrements = [
         { upperLimit: 300000, increase: 20000 },
@@ -97,7 +121,7 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
     }
   }, [messages]);
 
-
+  if (!user) return;
   return (
     <div className="w-[568px] max-[1255px]:w-full px-[12px] max-[1255px]:px-0 max-[1255px]:pr-3 max-[855px]:pr-0 m-3 max-[855px]:m-0 max-[855px]:my-3">
       <div className="box-border w-full h-[430px] bg-white border border-b-0 rounded-t-xl overflow-auto scrollbar-hide flex flex-col-reverse">
@@ -107,7 +131,7 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
               const mat = chat.match(regex);
               chat = mat ? chat.replace(/:/g, '님') : chat;
               return (
-                <div key={index} className={`${chat.includes(data?.data.nickname) ? 'text-end' : 'text-start'} py-4 rounded-xl p-3 my-1`}>
+                <div key={index} className={`${chat.includes(user.nickname) ? 'text-end' : 'text-start'} py-4 rounded-xl p-3 my-1`}>
                   <p className={` border ${mat ? 'block text-center bg-[red] text-white' : 'inline-block text-start'} p-4 rounded-lg`}>{chat}</p>
                 </div>
               )

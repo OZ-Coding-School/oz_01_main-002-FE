@@ -98,7 +98,7 @@ function PaymentPage() {
           {/* 주문 상품 정보 */}
           <div className="border p-4 rounded-lg shadow-sm bg-white">
             <h2 className="text-xl font-bold mb-4">주문 상품 정보</h2>
-            {paymentUserProducts.length !== 0 ? paymentUserProducts.map((item) => (
+            {paymentUserProducts.length !== 0 ? paymentUserProducts.map((item: any) => (
               <div
                 key={item.id}
                 className="flex items-center mt-6 mb-4 pl-4 pr-4"
@@ -143,13 +143,13 @@ function PaymentPage() {
             <div className="flex justify-between gap-3 items-center mb-2 pl-4 pr-4">
               <div className=" flex flex-col gap-1">
                 <p className="font-bold text-lg">
-                  {data?.data.name}
+                  {data && data?.data.name}
                   <span className="ml-2 px-2 py-1 bg-[#edf7ff] text-[#0060ff] rounded-md text-sm border">
                     기본 배송지
                   </span>
                 </p>
-                <p className="text-gray-600 my-1">{data?.data.contact} </p>
-                <p className="text-gray-600">{data?.data.address}</p>
+                <p className="text-gray-600 my-1">{data && data?.data.contact} </p>
+                <p className="text-gray-600">{data && data?.data.address}</p>
               </div>
               <button className="w-[80px] bg-[#D1B383] text-white rounded-lg px-2 py-1" onClick={handleAddressChange}>변경</button>
             </div>

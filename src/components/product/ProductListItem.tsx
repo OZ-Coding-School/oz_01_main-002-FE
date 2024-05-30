@@ -30,7 +30,7 @@ type ProductListType = {
   final_price: number;
   status: boolean;
   is_active: string;
-  images: string[]
+  product_images: string[]
 }
 
 const ProductListItem = ({ item }: { item: ProductListType }) => {
@@ -59,7 +59,7 @@ const ProductListItem = ({ item }: { item: ProductListType }) => {
             </div>
           </div>
         </div>
-        <Image src={item.images[0]} fill sizes="1" className="w-[228px] h-[228px] object-cover mb-2 rounded-[8px]" alt="물품이미지" priority />
+        <Image src={item.product_images[0]} fill sizes="1" className="w-[228px] h-[228px] object-cover mb-2 rounded-[8px]" alt="물품이미지" priority />
       </div>
       <div>
         <div className="flex items-center">

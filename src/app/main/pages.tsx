@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const MainPage = () => {
   const { data } = useGetAuctionProducts();
-  console.log(data);
+
   const categories = [
     { id: 1, name: '가방', img: '/images/item02.jpg', link: '/productList/1' },
     { id: 2, name: '시계', img: '/images/item01.png', link: '/productList/2' },

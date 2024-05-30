@@ -31,7 +31,7 @@ const Profile = () => {
     age: 0,
     address: '',
     content: '',
-    images: '',
+    image: '',
   });
   const loader = ({ src }: { src: string }) => {
     return src;
@@ -51,7 +51,7 @@ const Profile = () => {
         age: data.data.age,
         address: data.data.address,
         content: data.data.content,
-        images: data.data.images
+        image: data.data.image
       })
       setOldNickname(data.data.nickname);
     }
@@ -197,7 +197,7 @@ const Profile = () => {
       <div className="flex my-5">
         <div className="flex items-center">
           <div className="w-[90px] h-[90px] rounded-full relative bg-[gray] overflow-hidden">
-            <Image src={renderImage ? renderImage : userUpdate.images ? userUpdate.images : '/images/no_profile.png'} fill sizes="1" alt="유저프로필이미지" loader={loader} unoptimized priority />
+            <Image src={renderImage ? renderImage : userUpdate.image ? userUpdate.image : '/images/no_profile.png'} fill sizes="1" alt="유저프로필이미지" loader={loader} unoptimized priority />
           </div>
           <div className="ml-5">
             <p className="text-[20px] font-bold">{userUpdate.nickname}</p>
