@@ -33,7 +33,7 @@ const MainCarousel = () => {
 
   return (
     <div>
-      <div className="w-full pb-[33.765%] relative  object-cover z-[1] relative">
+      <div className="w-full pb-[33.765%] object-cover z-[1] relative">
         <div className="z-[1] flex justify-center items-center cursor-pointer w-[100px] h-[200px] hover:bg-black hover:bg-opacity-50 absolute left-0 top-1/2 transform -translate-y-1/2" onClick={prev}>
           <IoIosArrowBack className="text-white text-[64px]" />
         </div>

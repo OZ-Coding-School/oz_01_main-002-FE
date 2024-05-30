@@ -6,6 +6,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 const LoginForm = () => {
   const router = useRouter();
+  const userLogin = useLoginUser();
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: ''
@@ -94,7 +95,7 @@ const LoginForm = () => {
 
   }
 
-  const userLogin = useLoginUser();
+
   const handleUserLogin = () => {
     const error = handleError();
     if (error) return;

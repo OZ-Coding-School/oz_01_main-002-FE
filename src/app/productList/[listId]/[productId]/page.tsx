@@ -12,10 +12,13 @@ import { useWinnerStore } from "@/store";
 import { useEffect } from "react";
 
 const ProductDetail = ({ params }: { params: { productId: string } }) => {
-  const auctionId = params.productId.slice(7);
+  console.log('params', params);
+  const auctionId = params.productId.split('3D')[1];
   const productId = params.productId.split('id')[0];
   const { data, isLoading, refetch: itemRefetch } = useGetAuctionProductDetail(auctionId);
   const { data: winnerData, refetch: winnerRefetch } = useGetWinnerUser(productId);
+  console.log('ss', data);
+  console.log('auctionId', auctionId);
   const { setWinner } = useWinnerStore();
   useEffect(() => {
     setWinner(winnerData?.data.winner);
@@ -48,7 +51,7 @@ const ProductDetail = ({ params }: { params: { productId: string } }) => {
           </div>
           <div className="flex flex-wrap justify-between mt-8">
             <div>
-              <DetailImage />
+              <DetailImage productImages={data.data.product_images} />
               <ProductInfo
                 productGrade={data.data.product_grade}
                 productName={data.data.product_name}
@@ -59,10 +62,10 @@ const ProductDetail = ({ params }: { params: { productId: string } }) => {
             </div>
             <Chat productId={productId} auctionId={auctionId} finalPrice={data.data.final_price} refetch={itemRefetch} />
           </div>
-          <UserInfo userNickname={data.data.user_nickname} userContent={data.data.user_content} />
+          <UserInfo user={data.data} />
           <div className="h-4" />
           <div className="ml-3 mr-6 max-[855px]:ml-0 max-[855px]:mr-0">
-            <div className={`w-full p-4 bg-white rounded-lg 'h-[500px]' : ''}`}>
+            <div className={`w-full pt-4 pb-10 px-4 bg-white whitespace-pre-wrap rounded-lg 'h-[500px]' : ''}`}>
               <p>{data.data.product_content}</p>
             </div>
           </div>

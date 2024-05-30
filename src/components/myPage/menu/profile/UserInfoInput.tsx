@@ -16,7 +16,8 @@ type UserInfoInputProps = {
     gender: string,
     age: number,
     address: string,
-    content: string
+    content: string,
+    images: string
   },
   setUserUpdate?: Dispatch<SetStateAction<{
     nickname: string;
@@ -26,7 +27,8 @@ type UserInfoInputProps = {
     gender: string,
     age: number,
     address: string,
-    content: string
+    content: string,
+    images: string
   }>>;
 }
 

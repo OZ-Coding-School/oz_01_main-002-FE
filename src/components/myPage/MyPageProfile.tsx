@@ -1,6 +1,7 @@
 'use client';
 
 import { useGetUser } from "@/api/userApi";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ProfileButton from "./ProfileButton";
@@ -24,8 +25,9 @@ const MyPageProfile = () => {
           </div>
           :
           <div className="flex items-center">
-            <div className="w-[100px] h-[100px] rounded-full bg-[#868686]"
-            ></div>
+            <div className="w-[100px] h-[100px] rounded-full relative">
+              <Image src={data?.data.image ? data?.data.image : '/images/no_profile.png'} fill sizes="1" alt="프로필 이미지" />
+            </div>
             <div className="ml-[16px] leading-9">
               <p className="text-black text-[24px] max-[920px]:text-[20px] font-semibold">{data?.data.nickname}</p>
               <p className="text-[#868686] text-[20px] max-[920px]:text-[16px] ">{data?.data.email}</p>

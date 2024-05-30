@@ -43,6 +43,14 @@ const AddressInsert = ({ refetch }: any) => {
       zip_code: userAddress.zoneCode
     }, {
       onSuccess: () => {
+        setUserAddress({
+          name: '',
+          zoneCode: '',
+          address: '',
+          buildingName: '',
+          bname: '',
+          detailAddress: ''
+        })
         refetch();
       }
     });

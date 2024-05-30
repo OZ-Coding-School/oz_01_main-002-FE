@@ -60,7 +60,7 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           <div className="flex flex-col justify-start mt-6">
             <div className="flex items-center bg-white rounded-xl p-4">
               <div className="w-[100px] h-[100px] rounded-xl object-cover bg-[gray] relative overflow-hidden">
-                <Image src={data?.data.nickname === winner ? '/images/item05.jpg' : '/images/item01.png'} fill sizes="1" className="object-cover" alt="모달 이미지" />
+                <Image src={data?.data.nickname === winner ? detailData?.data.product_images[0]! : randomItem?.data.product_images[0]!} fill sizes="1" className="object-cover" alt="모달 이미지" />
               </div>
               <div className="ml-3">
                 <div className="flex items-center font-bold text-lg">

@@ -2,6 +2,7 @@
 
 import { useSignUpUser, useUserEmailCheck, useUserEmailCodeCheck, useUserNicknameCheck, useUserPhoneCheck } from "@/api/userApi";
 import CheckButton from "@/components/\bsignup/CheckButton";
+import EmailLoading from "@/components/\bsignup/EmailLoading";
 import SignInput from "@/components/\bsignup/SignInput";
 import SignInputOne from "@/components/\bsignup/SignInputOne";
 import TermCheck from "@/components/\bsignup/TermCheck";
@@ -376,7 +377,7 @@ const SignUp = () => {
   }
 
   const handleEmailCheck = () => {
-    setIsEmailChecked(true);
+
     const emailRegEx = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if (signUpUser.request_data.email === '') return alert('이메일을 입력해주세요.');
     if (!emailRegEx.test(signUpUser.request_data.email)) {
@@ -384,13 +385,20 @@ const SignUp = () => {
         ...error,
         email: '이메일 형식이 올바르지 않습니다.'
       })
-      return true;
+      return;
     }
+    setIsEmailChecked(true);
     emailCheck({ email: signUpUser.request_data.email }, {
       onSuccess: () => {
         setIsEmailChecked(false);
         setEmailCodeInput(true);
       },
+      onError: (data: any) => {
+        if (data.response.data.detail === 'Email already registered') {
+          alert('이미 가입된 이메일입니다.');
+        }
+        setIsEmailChecked(false);
+      }
     });
   }
 
@@ -470,11 +478,6 @@ const SignUp = () => {
 
   return (
     <>
-      {isEmailChecked && <div className="w-full h-(100vh-140px)">
-        <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
-          <div className="w-[65px] h-[65px] rounded-full bg-[#222]"></div>
-        </div>
-      </div>}
       <div className="bg-[#222] flex flex-col justify-center items-center">
         <div className="mt-[100px] mb-[80px] text-white text-[40px] leading-none">
           <p>회원가입</p>
@@ -543,6 +546,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      {isEmailChecked && <EmailLoading />}
     </>
   )
 }

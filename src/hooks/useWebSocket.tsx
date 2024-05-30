@@ -12,7 +12,7 @@ const useWebSocket = () => {
   const [isConnected, setIsConnected] = useState(false);
   useEffect(() => {
     // WebSocket 연결 설정
-    const socket = new WebSocket(`ws://localhost:8000/api/v1/chat/ws/${localStorage.getItem('user_id')}`);
+    const socket = new WebSocket(`ws://www.myoungpumgwan.store/api/v1/chat/ws/${localStorage.getItem('user_id')}`);
     socket.onopen = () => {
       // console.log('Connected to WebSocket server');
       setIsConnected(true);

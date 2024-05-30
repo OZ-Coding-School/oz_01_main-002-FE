@@ -52,10 +52,10 @@ export type MyProductsType = {
 export type UpdateProductType = {
   id: number,
   updateData: {
-    content: string,
-    bid_price: string | number,
-    duration: number,
-    status: string,
+    content?: string,
+    bid_price?: string | number,
+    duration?: number,
+    status?: string,
   }
 }
 
@@ -72,6 +72,7 @@ export type ProductListType = {
   final_price: number;
   status: boolean;
   is_active: string;
+  images: string[],
 }
 
 export type AuctionProductDetailType = {
@@ -91,6 +92,7 @@ export type AuctionProductDetailType = {
     product_name: string;
     start_time: string;
     status: boolean;
+    product_images: string[],
   }
 }
 

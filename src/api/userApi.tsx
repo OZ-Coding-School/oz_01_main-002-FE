@@ -103,17 +103,33 @@ export const useLoginUser = () => {
       localStorage.setItem('user_id', data.data.user);
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.log('로그인 실패', error);
+      alert('이메일이 존재하지 않거나 잘못된 비밀번호 입니다.');
     }
   })
   return mutation.mutate;
 }
 
+export const usePutUserImageUpdate = () => {
+  const mutationFn = (imageData: FormData) => apiClient.put('/api/v1/users/image', imageData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }
+  });
+  return useMutation({
+    mutationFn, onSuccess: (data) => {
+    },
+    onError: (error) => {
+      console.log('프로필 사진 변경 실패', error);
+    }
+  });
+}
+
 export const usePutUserUpdate = () => {
   const mutationFn = (userData: UserDataType) => apiClient.put('/api/v1/users/', userData, {
     headers: {
-      // 'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
     }
   });

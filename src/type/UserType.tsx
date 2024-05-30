@@ -56,7 +56,6 @@ export type updateAddressType = {
 export type UserDataType1 = FormData
 
 export type UserDataType = {
-  userImg?: File;
   nickname?: string;
   contact?: string;
   content?: string

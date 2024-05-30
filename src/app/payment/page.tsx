@@ -1,26 +1,46 @@
 "use client";
+import { useUpdateProduct } from "@/api/productApi";
 import { useGetUser } from "@/api/userApi";
+import PaymentModal from "@/components/payment/PaymentModal";
 import { useProductStore } from "@/store";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function PaymentPage() {
   const router = useRouter();
   const { data } = useGetUser();
+  const [isClick, setIsClick] = useState(false);
   const { paymentUserProducts } = useProductStore();
   const [totalCoins, setTotalCoins] = useState(100000); // 보유한 코인
   const [usedCoins, setUsedCoins] = useState(0); // 입력된 코인 금액
+  const { mutate: productUpdate } = useUpdateProduct();
+
+  useEffect(() => {
+    if (paymentUserProducts.length === 0) {
+      router.push('/');
+    }
+  }, [paymentUserProducts])
+
 
   const handleMoveConfirmation = () => {
-    router.push("/payment/confirmation");
+    if (paymentUserProducts.length === 0) {
+      return alert("상품이 없습니다.");
+    }
+    else {
+      for (let i = 0; i < paymentUserProducts.length; i++) {
+        productUpdate({ id: paymentUserProducts[i].id, updateData: { status: "결제완료" } }, {
+          onSuccess: (data) => {
+            console.log("상품 결제 완료", data);
+            router.push("/payment/confirmation");
+          }
+        });
+      }
+    }
   };
 
-  const userInfo = {
-    name: "료니",
-    address: "서울특별시 서대문구 성산로",
-    phone: "01012345678",
+  const handleAddressChange = () => {
+    setIsClick(!isClick);
   };
 
   const totalPrice = paymentUserProducts.reduce(
@@ -78,7 +98,7 @@ function PaymentPage() {
           {/* 주문 상품 정보 */}
           <div className="border p-4 rounded-lg shadow-sm bg-white">
             <h2 className="text-xl font-bold mb-4">주문 상품 정보</h2>
-            {paymentUserProducts.map((item) => (
+            {paymentUserProducts.length !== 0 ? paymentUserProducts.map((item) => (
               <div
                 key={item.id}
                 className="flex items-center mt-6 mb-4 pl-4 pr-4"
@@ -113,7 +133,9 @@ function PaymentPage() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))
+              : <div>주문 상품이 없습니다.</div>
+            }
           </div>
           {/* 받는 사람 정보 */}
           <div className="border p-4 rounded-lg shadow-sm bg-white">
@@ -129,9 +151,7 @@ function PaymentPage() {
                 <p className="text-gray-600 my-1">{data?.data.contact} </p>
                 <p className="text-gray-600">{data?.data.address}</p>
               </div>
-              <Link href={'/myPage/address'}>
-                <button className="w-[80px] bg-[#D1B383] text-white rounded-lg px-2 py-1">변경</button>
-              </Link>
+              <button className="w-[80px] bg-[#D1B383] text-white rounded-lg px-2 py-1" onClick={handleAddressChange}>변경</button>
             </div>
             <div className="flex justify-between items-center mb-2  pl-4 pr-4">
               <input
@@ -148,7 +168,7 @@ function PaymentPage() {
               <p className="font-bold text-lg flex items-center pl-4 pr-4">
                 내 코인
               </p>
-              <p className="text-gray-600 pr-4">보유: {totalCoins}원</p>
+              <p className="text-gray-600 pr-4">보유: {totalCoins.toLocaleString()}원</p>
             </div>
             <div className="flex justify-between items-center mb-2  pl-4 pr-4">
               <div className="relative flex-grow">
@@ -209,6 +229,7 @@ function PaymentPage() {
           </div>
         </div>
       </div>
+      {isClick && <PaymentModal setIsClick={setIsClick} />}
     </div>
   );
 }

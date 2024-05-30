@@ -48,7 +48,7 @@ const MyPageMyBidding = () => {
             </div>
           </div> :
           <div className="flex flex-col-reverse">
-            {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).slice(-3).map((product: any) => (
+            {data?.data.filter((item: any) => item.status === '결제대기' && item.winner_user_id === Number(localStorage.getItem('user_id'))).slice(-3).map((product: any) => (
               <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
                 <div className=" flex items-center">
                   <div className="w-[106px]">

@@ -48,28 +48,26 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
     if (name === '관심') {
       handleWinner();
     } else if (name === '입찰') {
-      let increaseAmount = 0;
-      if (finalPrice < 300000) {
-        increaseAmount = 20000;
-      } else if (finalPrice < 1000000) {
-        increaseAmount = 50000;
-      } else if (finalPrice < 3000000) {
-        increaseAmount = 100000;
-      } else if (finalPrice < 5000000) {
-        increaseAmount = 200000;
-      } else if (finalPrice < 10000000) {
-        increaseAmount = 5000000;
-      } else if (finalPrice < 30000000) {
-        increaseAmount = 1000000;
-      } else if (finalPrice < 50000000) {
-        increaseAmount = 2000000;
-      } else if (finalPrice < 200000000) {
-        increaseAmount = 5000000;
-      } else if (finalPrice < 500000000) {
-        increaseAmount = 10000000;
-      } else if (finalPrice! > 500000000) {
-        increaseAmount = 20000000;
+      const priceIncrements = [
+        { upperLimit: 300000, increase: 20000 },
+        { upperLimit: 1000000, increase: 50000 },
+        { upperLimit: 3000000, increase: 100000 },
+        { upperLimit: 5000000, increase: 200000 },
+        { upperLimit: 10000000, increase: 5000000 },
+        { upperLimit: 30000000, increase: 1000000 },
+        { upperLimit: 50000000, increase: 2000000 },
+        { upperLimit: 200000000, increase: 5000000 },
+        { upperLimit: 500000000, increase: 10000000 },
+      ];
+      let increaseAmount = 20000000;
+
+      for (const { upperLimit, increase } of priceIncrements) {
+        if (finalPrice < upperLimit) {
+          increaseAmount = increase;
+          break;
+        }
       }
+
       const newPrice = finalPrice + increaseAmount;
       postBidding({
         product_id: Number(productId),

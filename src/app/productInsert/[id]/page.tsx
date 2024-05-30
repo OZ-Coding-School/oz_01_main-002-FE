@@ -1,7 +1,7 @@
 'use client';
 
 import apiClient from "@/api/baseApi";
-import { useDeleteProduct, useGetCategories, useGetProduct, usePostProduct, useUpdateProduct } from "@/api/productApi";
+import { useDeleteProduct, useGetCategories, usePostProduct, useUpdateProduct } from "@/api/productApi";
 import InsertButton from "@/components/productInsert/InsertButton";
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
 import { useProductIdStore } from "@/store";
@@ -277,43 +277,43 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   }
 
   // ============================================= 검수 완료 후 =======================================================//
-  const { data, isLoading, refetch } = useGetProduct(productId);
-  console.log('데이터', data);
+  // const { data, isLoading, refetch } = useGetProduct(productId);
+  // console.log('데이터', data);
 
-  useEffect(() => {
-    if (params.id === '1') return;
-    if (productId === 0) return;
-    console.log('productId', productId);
-    refetch();
-  }, [])
+  // useEffect(() => {
+  //   if (params.id === '1') return;
+  //   if (productId === 0) return;
+  //   console.log('productId', productId);
+  //   refetch();
+  // }, [])
 
-  useEffect(() => {
-    if (params.id === '1') return;
-    if (productId === 0) return;
-    setProductItem({
-      name: data?.data.name,
-      category_id: data?.data.category_id,
-      bid_price: data?.data.bid_price,
-      content: data?.data.content,
-      duration: data?.data.duration,
-      grade: data?.data.grade,
-      status: data?.data.status,
-      modify: data?.data.modify,
-    })
-    setImages([data?.data.images[0], data?.data.images[1], data?.data.images[2]]);
-    setCategoryName(data?.data.category);
-    switch (data?.data.duration) {
-      case 1:
-      case 2: setDateName('1일'); break;
-      case 3: setDateName('2일'); break;
-      case 4: setDateName('3일'); break;
-      case 5: setDateName('4일'); break;
-      case 6: setDateName('5일'); break;
-      case 7: setDateName('6일'); break;
-      case 8: setDateName('7일'); break;
-      default: setDateName('3시간'); break;
-    }
-  }, [data])
+  // useEffect(() => {
+  //   if (params.id === '1') return;
+  //   if (productId === 0) return;
+  //   setProductItem({
+  //     name: data?.data.name,
+  //     category_id: data?.data.category_id,
+  //     bid_price: data?.data.bid_price,
+  //     content: data?.data.content,
+  //     duration: data?.data.duration,
+  //     grade: data?.data.grade,
+  //     status: data?.data.status,
+  //     modify: data?.data.modify,
+  //   })
+  //   setImages([data?.data.images[0], data?.data.images[1], data?.data.images[2]]);
+  //   setCategoryName(data?.data.category);
+  //   switch (data?.data.duration) {
+  //     case 1:
+  //     case 2: setDateName('1일'); break;
+  //     case 3: setDateName('2일'); break;
+  //     case 4: setDateName('3일'); break;
+  //     case 5: setDateName('4일'); break;
+  //     case 6: setDateName('5일'); break;
+  //     case 7: setDateName('6일'); break;
+  //     case 8: setDateName('7일'); break;
+  //     default: setDateName('3시간'); break;
+  //   }
+  // }, [data])
 
 
   const finalProduct = async () => {
@@ -350,7 +350,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
         case 8: setDateName('7일'); break;
         default: setDateName('기간 선택'); break;
       }
-
+      setImages([response.data.images[0], response.data.images[1], response.data.images[2]]);
       setProductItem({
         name: response.data.name,
         category_id: response.data.category_id,
@@ -366,11 +366,11 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     }
   }
   console.log('productItem 불러오기', productItem);
-  // useEffect(() => {
-  //   if (params.id === '1') return;
-  //   if (productId === 0) return;
-  //   handleGetProduct();
-  // }, [productId])
+  useEffect(() => {
+    if (params.id === '1') return;
+    if (productId === 0) return;
+    handleGetProduct();
+  }, [productId])
 
 
   const handleUpdate = async (id: number) => {

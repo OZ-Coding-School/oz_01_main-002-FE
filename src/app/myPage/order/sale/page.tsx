@@ -54,7 +54,6 @@ const Sale = () => {
 
   return (
     <div className="relative">
-
       {products.map((product) => (
         <div key={product.id} className="flex items-center justify-between border-b last:border-b-0 relative">
           <Link href={'/'} className="hidden max-[630px]:block bg-opacity-45 w-[350px] h-[130px] rounded-lg z-10 absolute mt-2"></Link>

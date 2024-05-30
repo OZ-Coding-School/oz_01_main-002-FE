@@ -41,6 +41,7 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
         try {
           const response = await apiClient.get('/api/v1/auctions/');
           setProductList(response.data);
+          console.log('response', response);
         } catch (error) {
           console.log('error', error);
         }

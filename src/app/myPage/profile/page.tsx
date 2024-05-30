@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetUser, usePutUserUpdate } from "@/api/userApi";
+import { useGetUser, usePutUserImageUpdate, usePutUserUpdate } from "@/api/userApi";
 import { db } from "@/firebase";
 import { collection, getDocs, query, updateDoc, where } from "firebase/firestore";
 import Image from "next/image";
@@ -19,6 +19,7 @@ const Profile = () => {
   const [renderImage, setRenderImage] = useState<string>();
   const { data, isLoading, refetch } = useGetUser();
   const { mutate: updateUser } = usePutUserUpdate();
+  const { mutate: userImageUpdate } = usePutUserImageUpdate();
   const [oldNickname, setOldNickname] = useState('');
   const router = useRouter();
   const [userUpdate, setUserUpdate] = useState({
@@ -29,8 +30,12 @@ const Profile = () => {
     contact: '',
     age: 0,
     address: '',
-    content: ''
+    content: '',
+    images: '',
   });
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
 
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
@@ -45,7 +50,8 @@ const Profile = () => {
         contact: data.data.contact,
         age: data.data.age,
         address: data.data.address,
-        content: data.data.content
+        content: data.data.content,
+        images: data.data.images
       })
       setOldNickname(data.data.nickname);
     }
@@ -79,18 +85,18 @@ const Profile = () => {
   }
 
   const handleUserImageUpdate = () => {
-    // const formData = new FormData();
-    // if (userProfile) {
-    //   formData.append('userImg', userProfile);
-    //   updateUser(formData, {
-    //     onSuccess: () => {
-    //       if (!fileInput.current) return;
-    //       fileInput.current.value = '';
-    //       setRenderImage('');
-    //       refetch();
-    //     }
-    //   })
-    // }
+    const formData = new FormData();
+    if (userProfile) {
+      formData.append('file', userProfile);
+      userImageUpdate(formData, {
+        onSuccess: () => {
+          if (!fileInput.current) return;
+          fileInput.current.value = '';
+          setRenderImage('');
+          refetch();
+        }
+      })
+    }
   }
 
   const handleNicknameChange = () => {
@@ -99,8 +105,6 @@ const Profile = () => {
   };
 
   const handleUpdateNickname = async () => {
-    // const formData = new FormData();
-    // formData.append('nickname', userUpdate.nickname);
     updateUser({ nickname: userUpdate.nickname }, {
       onSuccess: () => {
         setIsNicknameDisabled(!isNicknameDisabled);
@@ -149,10 +153,10 @@ const Profile = () => {
     userUpdate.contact = data?.data.contact
   };
 
-  const handleUpdatePhone = () => {
-    // const formData = new FormData();
-    // formData.append('contact', userUpdate.contact);
-    updateUser({ contact: userUpdate.contact }, {
+  const handleUpdateContact = () => {
+    updateUser({
+      contact: userUpdate.contact,
+    }, {
       onSuccess: () => {
         setIsPhoneDisabled(!isPhoneDisabled);
         refetch();
@@ -161,9 +165,9 @@ const Profile = () => {
   }
 
   const handleUpdateContent = () => {
-    // const formData = new FormData();
-    // formData.append('content', userUpdate.content);
-    updateUser({ content: userUpdate.content }, {
+    updateUser({
+      content: userUpdate.content,
+    }, {
       onSuccess: () => {
         setIsContentDisable(!isContentDisable);
         refetch();
@@ -193,7 +197,7 @@ const Profile = () => {
       <div className="flex my-5">
         <div className="flex items-center">
           <div className="w-[90px] h-[90px] rounded-full relative bg-[gray] overflow-hidden">
-            <Image src={renderImage ? renderImage : '/images/no_profile.png'} fill sizes="1" alt="유저프로필이미지" />
+            <Image src={renderImage ? renderImage : userUpdate.images ? userUpdate.images : '/images/no_profile.png'} fill sizes="1" alt="유저프로필이미지" loader={loader} unoptimized priority />
           </div>
           <div className="ml-5">
             <p className="text-[20px] font-bold">{userUpdate.nickname}</p>
@@ -240,7 +244,7 @@ const Profile = () => {
           userUpdate={userUpdate}
           setUserUpdate={setUserUpdate}
         />
-        <SaveButtonComponent isDisabled={isPhoneDisabled} saveOnclick={handleUpdatePhone} onClick={() => {
+        <SaveButtonComponent isDisabled={isPhoneDisabled} saveOnclick={handleUpdateContact} onClick={() => {
           userUpdate.contact = data?.data.contact
           setIsPhoneDisabled(true)
         }} />

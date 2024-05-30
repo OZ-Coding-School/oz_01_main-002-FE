@@ -1,8 +1,8 @@
 'use client';
 import { useUserProducts } from "@/api/productApi";
+import DetailModal from "@/components/myPage/menu/sale/DetailModal";
 import { useProductStore } from "@/store";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -22,8 +22,10 @@ const Bidding = () => {
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const { data } = useUserProducts();
   const { setPaymentUserProducts } = useProductStore();
+  const [isClicked, setIsClicked] = useState(false);
+  const [productId, setProductId] = useState(0);
   const router = useRouter();
-  const productImg = '/images/item05.jpg';
+  const productImg = '/images/no_image.png';
   const handleCheck = (e: ChangeEvent<HTMLInputElement>, product: Product) => {
     if (e.target.checked) {
       setProductItem([...productItem, { id: product.id, grade: product.grade, name: product.name, img: product.img, winner_bid_price: product.winner_bid_price, category: product.category, commission: product.winner_bid_price * 0.1 }]);
@@ -39,6 +41,11 @@ const Bidding = () => {
     setTotalAmount(totalPrice + totalCommission);
   }, [productItem]);
 
+  const handleMore = (id: number) => {
+    setIsClicked(!isClicked);
+    setProductId(id);
+  }
+
   const handleMovePayment = () => {
     if (productItem.length === 0) {
       alert('결제 상품이 없습니다.');
@@ -51,8 +58,8 @@ const Bidding = () => {
   return (
     <div>
       <div className="flex justify-between relative max-[920px]:flex-wrap-reverse">
-        <div className="w-[500px] flex flex-col-reverse px-1">
-          {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
+        <div className="w-[500px] h-fit flex flex-col-reverse px-1">
+          {data?.data.filter((item: any) => item.status === '결제대기' && item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
             <div key={product.id} className="flex items-center justify-between max-[650px]:justify-start border-b last:border-b-0">
               <div className="mr-2">
                 <input
@@ -63,7 +70,7 @@ const Bidding = () => {
               </div>
               <div className="flex items-center mt-6 mb-4">
                 <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
-                  <Image src={product.img ? product.img : productImg} fill sizes="1" className="object-cover" alt="판매이미지" />
+                  <Image src={product.images[0] ? product.images[0] : productImg} fill sizes="1" className="object-cover" alt="판매이미지" />
                 </div>
                 <div className="ml-4">
                   <div>
@@ -88,13 +95,12 @@ const Bidding = () => {
                   </div>
                 </div>
               </div>
-              <Link href={`/productList/detail/${product.id}id=`} className="max-[650px]:hidden">
-                <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg ml-5 cursor-pointer">
-                  <p>상품 보기</p>
-                </div>
-              </Link>
+              <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg ml-5 cursor-pointer max-[650px]:hidden" onClick={() => handleMore(product.id)}>
+                <p>상품 보기</p>
+              </div>
             </div>
           ))}
+          {isClicked && productId !== 0 && <DetailModal isClicked={isClicked} setIsClicked={setIsClicked} productId={productId} />}
         </div>
         <div className="sticky w-[300px] max-[920px]:w-full max-[920px]:static top-[91px] h-fit">
           <div className="border rounded-lg p-3">
