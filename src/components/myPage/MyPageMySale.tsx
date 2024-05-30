@@ -8,7 +8,6 @@ import { LuArrowDownUp } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
 const MyPageMySale = () => {
   const { data, isLoading } = useUserProducts();
-
   return (
     <div className="w-full rounded-xl px-8 py-4 bg-white mb-5">
       <div className="flex items-center">
@@ -48,7 +47,7 @@ const MyPageMySale = () => {
             </div>
           </div> :
           <div className="flex flex-col-reverse">
-            {data?.data.slice(-3).map((product: MyProductsType) => (
+            {data?.data.filter((item: any) => item.status === '결제완료').slice(-3).map((product: MyProductsType) => (
               <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
                 <div className=" flex items-center">
                   <div className="w-[106px]">

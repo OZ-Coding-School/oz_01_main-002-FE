@@ -1,5 +1,6 @@
 'use client';
 
+import { useUserProducts } from "@/api/productApi";
 import DetailModal from "@/components/myPage/menu/sale/DetailModal";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,44 +9,7 @@ import { useState } from "react";
 const Sale = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [productId, setProductId] = useState(0);
-  const products = [
-    {
-      id: 1,
-      grade: "S",
-      title: "샤넬 가방",
-      img: "/images/item03.jpg",
-      startPrice: "6,500,000원",
-      price: "6,750,000원",
-      category: "가방",
-    },
-    {
-      id: 2,
-      grade: "A",
-      title: "샤넬 라운드티",
-      img: "/images/item04.jpg",
-      startPrice: "500,000원",
-      price: "650,000원",
-      category: "옷",
-    },
-    {
-      id: 3,
-      grade: "C",
-      title: "나이키 신발",
-      img: "/images/item05.jpg",
-      startPrice: "600,000원",
-      price: "640,000원",
-      category: "신발",
-    },
-    {
-      id: 4,
-      grade: "S",
-      title: "로렉스 시계",
-      img: "/images/item01.png",
-      startPrice: "14,500,000원",
-      price: "15,000,000원",
-      category: "시계",
-    },
-  ];
+  const { data, isLoading } = useUserProducts();
 
   const handleMore = (id: number) => {
     setIsClicked(!isClicked);
@@ -54,13 +18,13 @@ const Sale = () => {
 
   return (
     <div className="relative">
-      {products.map((product) => (
+      {data && data.data.filter((item: any) => item.status === '결제완료').map((product: any) => (
         <div key={product.id} className="flex items-center justify-between border-b last:border-b-0 relative">
           <Link href={'/'} className="hidden max-[630px]:block bg-opacity-45 w-[350px] h-[130px] rounded-lg z-10 absolute mt-2"></Link>
           <div className="flex items-center mt-6 mb-4">
             <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
               <Image
-                src={product.img}
+                src={product.images[0]}
                 fill
                 sizes="1"
                 className="object-cover"
@@ -73,7 +37,7 @@ const Sale = () => {
                   <p>등급</p>
                   <p className="ml-2 font-bold">{product.grade}</p>
                 </div>
-                <p className="font-bold">{product.title}</p>
+                <p className="font-bold">{product.name}</p>
               </div>
               <div className="my-1">
                 <p className="text-sm text-[#868686]">{product.category}</p>
@@ -87,7 +51,7 @@ const Sale = () => {
                 </div>
                 <div className="flex items-center">
                   <p>판매가</p>
-                  <p className="ml-2">{product.price}</p>
+                  <p className="ml-2">{product.winner_bid_price}</p>
                 </div>
               </div>
             </div>
