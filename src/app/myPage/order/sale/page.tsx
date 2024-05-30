@@ -10,7 +10,6 @@ const Sale = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [productId, setProductId] = useState(0);
   const { data, isLoading } = useUserProducts();
-
   const handleMore = (id: number) => {
     setIsClicked(!isClicked);
     setProductId(id);
