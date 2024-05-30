@@ -36,6 +36,7 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   }, [isConnected])
 
   const handleWinner = async () => {
+    if (!localStorage.getItem('access_token')) return;
     const response = await apiClient.get(`/api/v1/winners/${productId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -44,6 +45,10 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   }
 
   const handleButton = async (name: string) => {
+    if (!localStorage.getItem('access_token')) {
+      alert('로그인이 필요합니다');
+      return;
+    }
     if (!finalPrice) return;
     if (name === '관심') {
       handleWinner();
@@ -121,6 +126,10 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
           }
         }} />
         <button className="w-[200px] h-[50px] bg-[#D1B383] text-white rounded-br-xl" onClick={() => {
+          if (!localStorage.getItem('access_token')) {
+            alert('로그인이 필요합니다');
+            return;
+          };
           if (isChat.trim() !== '') {
             sendMessage({ roomId: productId, message: isChat });
             setIsChat('');
