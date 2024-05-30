@@ -30,6 +30,7 @@ const SignUp = () => {
   const [useDate, setUseDate] = useState<string>('');
   const router = useRouter();
   const ref = useRef(null);
+  const emailCheck = useUserEmailCheck();
   const [signUpUser, setSignUpUser] = useState<SignUpUser>({
     request_data: {
       email: '',
@@ -387,12 +388,16 @@ const SignUp = () => {
     handleTerms();
   }, [])
 
-  const emailCheck = useUserEmailCheck();
+
   const handleEmailCheck = () => {
     emailCheck({ email: signUpUser.request_data.email }, {
       onSuccess: () => {
         setEmailCodeInput(true);
-      }
+        alert('이메일로 코드가 전송되었습니다.');
+      },
+      // onError: (error) => {
+      //   setEmailCodeInput(true);
+      // }
     });
   }
 
