@@ -50,7 +50,7 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
           {productList && productList.slice(0, 5).map((item) => (
             <div key={item.id} className="w-full max-w-[228px] max-[1260px]:w-[180px] max-[1015px]:w-[220px] mb-6 mx-[10px] max-[1015px]:mx-[15px]">
               <div className="w-[228px] h-[228px] max-[1260px]:w-[180px] max-[1260px]:h-[180px] max-[1015px]:w-[220px] max-[1015px]:h-[220px] bg-white mb-2 relative rounded-lg overflow-hidden">
-                <Image src={item.images[0]} fill sizes="1" className="object-cover" alt="인기상품 이미지" />
+                <Image src={item.images[0] ? item.images[0] : '/images/no_image.png'} fill sizes="1" className="object-cover" alt="인기상품 이미지" />
               </div>
               <div className="">
                 <p className="text-white text-[20px] leading-[24px] mb-[6px]">{item.product_name}</p>

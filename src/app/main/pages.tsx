@@ -51,7 +51,7 @@ const MainPage = () => {
         </div>
         <div className="ml-[60px] max-[625px]:ml-[10px]">
           {data && data?.data.slice(0, 2).map((item: ProductListType) => (
-            <Link key={item.id} href={`/productList/detail/${item.id}`}>
+            <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <ProductItem item={item} />
             </Link>
           ))}
@@ -68,7 +68,7 @@ const MainPage = () => {
       <div className="w-full flex justify-center">
         <div className="mr-[47.5px] max-[1200px]:mr-[0px] max-w-[510px] flex flex-wrap justify-center">
           {data && data?.data.slice(0, 4).map((item: ProductListType) => (
-            <Link key={item.id} href={`/productList/detail/${item.id}`}>
+            <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <ProductItem item={item} />
             </Link>
           ))}
