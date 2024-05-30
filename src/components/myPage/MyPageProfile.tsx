@@ -25,7 +25,7 @@ const MyPageProfile = () => {
           </div>
           :
           <div className="flex items-center">
-            <div className="w-[100px] h-[100px] rounded-full relative">
+            <div className="w-[100px] h-[100px] rounded-full relative overflow-hidden">
               <Image src={data?.data.image ? data?.data.image : '/images/no_profile.png'} fill sizes="1" alt="프로필 이미지" />
             </div>
             <div className="ml-[16px] leading-9">
