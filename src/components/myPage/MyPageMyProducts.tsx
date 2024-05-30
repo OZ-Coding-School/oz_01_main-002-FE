@@ -9,7 +9,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 
 const MyPageMyProducts = () => {
   const { data, isLoading } = useUserProducts();
-
+  console.log(data)
   return (
     <div className="w-full rounded-xl px-8 py-4 bg-white mb-5">
       <div className="flex items-center">
@@ -50,33 +50,37 @@ const MyPageMyProducts = () => {
             <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
               <div className="w-[55px] h-[55px] rounded-full bg-white"></div>
             </div>
-          </div> : data?.data.slice(0, 3).map((product: MyProductsType) => (
-            <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
-              <div className="flex items-center">
-                <div className="w-[106px]">
-                  <div className="w-[50px] h-[50px] relative rounded-lg overflow-hidden">
-                    <Image src={product.img ? product.img : '/images/item05.jpg'} fill sizes='1' className='object-cover' alt='나의 등록 아이템' />
+          </div> :
+          <div className='flex flex-col-reverse'>
+            {data?.data.slice(-3).map((product: MyProductsType) => (
+              <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
+                <div className="flex items-center">
+                  <div className="w-[106px]">
+                    <div className="w-[50px] h-[50px] relative rounded-lg overflow-hidden">
+                      <Image src={product.images[0] ? product.images[0] : '/images/no_image.png'} fill sizes='1' className='object-cover' alt='나의 등록 아이템' />
+                    </div>
+                  </div>
+                  <div className="text-nowrap text-ellipsis line-clamp-1">
+                    <p>{product.name}</p>
                   </div>
                 </div>
-                <div className="text-nowrap text-ellipsis line-clamp-1">
-                  <p>{product.name}</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="w-[100px] max-[920px]:hidden">
-                  <p>{product.category}</p>
-                </div>
-                <div className={`w-[115px] text-nowrap text-end max-[670px]:rounded-lg max-[670px]:flex max-[670px]:items-center max-[670px]:justify-center max-[670px]:h-[40px] ${product.status ? 'max-[670px]:bg-[#D1B383] max-[670px]:cursor-pointer max-[670px]:text-white' : product.status === '검수완료' ? 'bg-blue-600' : 'bg-red-700'}`}>
-                  <p>{product.bid_price.toLocaleString()}원</p>
-                </div>
-                <div className='w-[175px] flex items-center justify-end max-[670px]:hidden'>
-                  <div className={`flex justify-center items-center border rounded-lg w-[70px] h-[40px] ${product.status ? 'bg-[#D1B383] cursor-pointer' : product.status === '검수완료' ? 'bg-blue-600' : 'bg-red-700'}`}>
-                    <p className="text-white">{product.status}</p>
+                <div className="flex items-center">
+                  <div className="w-[100px] max-[920px]:hidden">
+                    <p>{product.category}</p>
+                  </div>
+                  <div className={`w-[115px] text-nowrap text-end max-[670px]:rounded-lg max-[670px]:flex max-[670px]:items-center max-[670px]:justify-center max-[670px]:h-[40px] max-[670px]:text-white ${product.status === '경매중' ? 'max-[670px]:bg-[#D1B383]' : product.is_approved === false ? 'max-[670px]:bg-red-700' : 'max-[670px]:bg-blue-600 max-[670px]:cursor-pointer'}`}>
+                    <p>{product.bid_price.toLocaleString()}원</p>
+                  </div>
+                  <div className='w-[175px] flex items-center justify-end max-[670px]:hidden'>
+                    <div className={`flex justify-center items-center border rounded-lg w-[70px] h-[40px] ${product.status === '경매중' ? 'bg-[#D1B383]' : product.is_approved === false ? 'bg-red-700' : 'bg-blue-600 cursor-pointer'}`}>
+                      <p className="text-white">{product.status === '경매중' ? '경매중' : product.is_approved === true ? '검수완료' : '검수중'}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        }
       </div>
     </div>
   )

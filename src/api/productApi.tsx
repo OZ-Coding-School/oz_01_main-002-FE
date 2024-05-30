@@ -1,22 +1,30 @@
-import { AuctionProductDetailType, AuctionStatusType, ProductInsertType1, UpdateProductType, WinnerPostType } from "@/type/ProductType";
+import { AuctionProductDetailType, AuctionStatusType, UpdateProductType, WinnerPostType } from "@/type/ProductType";
 import { QueryFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import apiClient from "./baseApi";
 
 export const usePostProduct = () => {
-  const mutationFn = (postData: ProductInsertType1) => apiClient.post('/api/v1/products/', postData, {
+  const mutationFn = (postData: any) => apiClient.post('/api/v1/products/', postData, {
     headers: {
+      "Content-Type": "x-www-form-urlencoded",
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
     }
   });
   const mutation = useMutation({
-    mutationFn, onSuccess: (data) => {
+    mutationFn,
+    onSuccess: (data) => {
     },
     onError: (error) => {
       console.log('상품 등록 실패', error);
     }
   })
   return mutation.mutate;
+}
+
+export const useGetCategories = () => {
+  const queryFn = () => apiClient.get('/api/v1/categories/parent_id/1');
+  return useQuery({ queryKey: ['categories'], queryFn, enabled: false });
+
 }
 
 export const useGetAuctionProducts = () => {
@@ -37,7 +45,7 @@ export const useGetProduct = (id: number) => {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
     }
   });
-  return useQuery({ queryKey: ['product', id], queryFn });
+  return useQuery({ queryKey: ['product', id], queryFn, enabled: false });
 }
 
 export const useGetAuctionProductDetail = (auctionId: string) => {

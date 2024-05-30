@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from 'js-cookie';
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
@@ -8,11 +7,10 @@ const apiClient = axios.create({
 })
 
 async function postRefreshToken() {
-  const cookie = Cookies.get('refresh_token');
   const response = await apiClient.post('/api/v1/users/refresh', {
   }, {
     headers: {
-      Authorization: `Bearer ${cookie}`
+      Authorization: `Bearer ${localStorage.getItem('refresh_token')}`
     }
   })
   return response;
@@ -23,7 +21,7 @@ apiClient.interceptors.response.use((config) => {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
-})
+});
 
 apiClient.interceptors.response.use(
   (response) => {
@@ -31,37 +29,33 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const { config, response } = error;
-
     if (response) {
       const { status } = response;
-      try {
-        if (status === 401) {
-          const originalRequest = config;
-          if (!originalRequest._retry) { // 중복 요청 방지
-            originalRequest._retry = true;
-            try {
-              const tokenResponse = await postRefreshToken();
-              if (tokenResponse.status === 200) {
-                const newAccessToken = tokenResponse.data.access_token;
-                localStorage.setItem('access_token', newAccessToken);
-                localStorage.setItem('user_id', tokenResponse.data.user);
-                axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-                return axios(originalRequest);
-              }
-            } catch (refreshError) {
-              console.log('토큰 갱신 실패', refreshError);
+      if (status === 401) {
+        if (!config._retry) {
+          config._retry = true;
+          try {
+            const tokenResponse = await postRefreshToken();
+            if (tokenResponse.status === 200) {
+              const newAccessToken = tokenResponse.data.access_token;
+              localStorage.setItem('access_token', newAccessToken);
+              localStorage.setItem('user_id', tokenResponse.data.user);
+              axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+              config.headers.Authorization = `Bearer ${newAccessToken}`;
+              return axios(config);
             }
+          } catch (refreshError) {
+            console.log('토큰 갱신 실패', refreshError);
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_id');
           }
         }
-      } catch (error) {
-        console.error('Error:', error);
       }
     } else {
-      // 응답이 없는 경우 처리
       console.error('No response received:', error);
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user_id');
     }
-
     return Promise.reject(error);
   }
 );

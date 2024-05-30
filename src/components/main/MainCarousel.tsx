@@ -41,10 +41,10 @@ const MainCarousel = () => {
           <IoIosArrowForward className="text-white text-[64px]" />
         </div>
         <Image src={auctionItems[images].img} fill sizes="1" className="object-cover" alt="슬라이드이미지" priority />
-        <div className="absolute bottom-[100px] left-[200px]">
+        {/* <div className="absolute bottom-[100px] left-[200px]">
           <p className="z-20 font-[CoolGuy-Medium] text-[#D1B383] drop-shadow-[0_4px_4px_rgba(255,255,255,0.8)] font-bold text-[80px]">{auctionItems[images].name}</p>
           <p className="z-20 font-[CoolGuy-Medium] text-[#D1B383] drop-shadow-[0_4px_4px_rgba(255,255,255,0.8)] font-bold text-[80px]">{auctionItems[images].price}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   )

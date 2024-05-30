@@ -46,29 +46,33 @@ const MyPageMyBidding = () => {
             <div className="w-[70px] h-[70px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
               <div className="w-[55px] h-[55px] rounded-full bg-white"></div>
             </div>
-          </div> : data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).slice(0, 3).map((product: any) => (
-            <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
-              <div className=" flex items-center">
-                <div className="w-[106px]">
-                  <div className="w-[50px] h-[50px] relative rounded-lg overflow-hidden">
-                    <Image src={product.img ? product.img : '/images/item05.jpg'} fill sizes='1' className='object-cover' alt='나의 등록 아이템' />
+          </div> :
+          <div className="flex flex-col-reverse">
+            {data?.data.filter((item: any) => item.winner_user_id === Number(localStorage.getItem('user_id'))).slice(-3).map((product: any) => (
+              <div key={product.id} className="flex items-center justify-between ml-[80px] max-[920px]:ml-0 my-[6px]">
+                <div className=" flex items-center">
+                  <div className="w-[106px]">
+                    <div className="w-[50px] h-[50px] relative rounded-lg overflow-hidden">
+                      <Image src={product.images[0] ? product.images[0] : '/images/item05.jpg'} fill sizes='1' className='object-cover' alt='나의 등록 아이템' />
+                    </div>
+                  </div>
+                  <div className="text-nowrap text-ellipsis line-clamp-1">
+                    <p>{product.name}</p>
                   </div>
                 </div>
-                <div className="text-nowrap text-ellipsis line-clamp-1">
-                  <p>{product.name}</p>
+                <div className="flex items-center">
+                  <div className="w-[100px] max-[920px]:hidden">
+                    <p>{product.category}</p>
+                  </div>
+                  <div className="max-[920px]:hidden w-[175px]" />
+                  <div className={`w-[115px] text-nowrap text-end`}>
+                    <p>{product.bid_price.toLocaleString()}원</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="w-[100px] max-[920px]:hidden">
-                  <p>{product.category}</p>
-                </div>
-                <div className="max-[920px]:hidden w-[175px]" />
-                <div className={`w-[115px] text-nowrap text-end`}>
-                  <p>{product.bid_price.toLocaleString()}원</p>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        }
       </div>
     </div>
   )

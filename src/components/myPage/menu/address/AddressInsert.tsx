@@ -4,6 +4,7 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 import { postcodeScriptUrl } from "react-daum-postcode/lib/loadPostcode";
 
 const AddressInsert = ({ refetch }: any) => {
+  const postUserAddress = usePostUserAddress();
   const [userAddress, setUserAddress] = useState({
     name: '',
     zoneCode: '',
@@ -29,9 +30,9 @@ const AddressInsert = ({ refetch }: any) => {
   const handleClick = () => {
     open({ onComplete: handleComplete });
   }
-  const postUserAddress = usePostUserAddress();
+
   const handleUserAddressInsert = async () => {
-    if (!userAddress.name || !userAddress.zoneCode || !userAddress.address || !userAddress.buildingName || !userAddress.bname || !userAddress.detailAddress) {
+    if (!userAddress.name || !userAddress.zoneCode || !userAddress.address || !userAddress.bname || !userAddress.detailAddress) {
       alert('모든 정보를 입력해주세요');
       return;
     }

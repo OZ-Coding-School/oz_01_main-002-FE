@@ -40,6 +40,11 @@ const Bidding = () => {
   }, [productItem]);
 
   const handleMovePayment = () => {
+    if (productItem.length === 0) {
+      alert('결제 상품이 없습니다.');
+      return;
+    }
+
     setPaymentUserProducts(productItem);
     router.push('/payment');
   }

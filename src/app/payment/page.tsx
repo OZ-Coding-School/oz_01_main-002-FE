@@ -1,11 +1,14 @@
 "use client";
+import { useGetUser } from "@/api/userApi";
 import { useProductStore } from "@/store";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function PaymentPage() {
   const router = useRouter();
+  const { data } = useGetUser();
   const { paymentUserProducts } = useProductStore();
   const [totalCoins, setTotalCoins] = useState(100000); // 보유한 코인
   const [usedCoins, setUsedCoins] = useState(0); // 입력된 코인 금액
@@ -24,7 +27,7 @@ function PaymentPage() {
     (total, item) => total + item.winner_bid_price,
     0
   ); // 상품 총 금액
-  const totalShipping = 10000; // 배송비
+  const totalShipping = 0; // 배송비
   const totalCommission = paymentUserProducts.reduce(
     (acc, product) => acc + product.commission!,
     0
@@ -64,8 +67,8 @@ function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto p-8 max-w-screen-lg px-4 md:px-8">
+    <div className="min-h-screen bg-[#222]">
+      <div className="container mx-auto p-8 max-w-screen-lg px-4 rounded-lg bg-gray-100 md:px-8">
         <div className="text-3xl font-semibold my-2">
           <p>주문 / 결제</p>
         </div>
@@ -118,15 +121,17 @@ function PaymentPage() {
             <div className="flex justify-between gap-3 items-center mb-2 pl-4 pr-4">
               <div className=" flex flex-col gap-1">
                 <p className="font-bold text-lg">
-                  {userInfo.name}
-                  <span className="ml-2 px-2 py-1 text-gray-600 rounded-md text-sm border">
+                  {data?.data.name}
+                  <span className="ml-2 px-2 py-1 bg-[#edf7ff] text-[#0060ff] rounded-md text-sm border">
                     기본 배송지
                   </span>
                 </p>
-                <p className="text-gray-600">{userInfo.phone} </p>
-                <p className="text-gray-600">{userInfo.address}</p>
+                <p className="text-gray-600 my-1">{data?.data.contact} </p>
+                <p className="text-gray-600">{data?.data.address}</p>
               </div>
-              <button className="border rounded px-2 py-1">변경</button>
+              <Link href={'/myPage/address'}>
+                <button className="w-[80px] bg-[#D1B383] text-white rounded-lg px-2 py-1">변경</button>
+              </Link>
             </div>
             <div className="flex justify-between items-center mb-2  pl-4 pr-4">
               <input
@@ -149,7 +154,7 @@ function PaymentPage() {
               <div className="relative flex-grow">
                 <input
                   type="text"
-                  className="w-full border p-2 rounded text-black-600 text-right pr-10 relative"
+                  className="w-full border p-2 rounded text-black-600 pr-10 relative"
                   placeholder="사용할 코인을 입력해 주세요."
                   value={usedCoins ? `${usedCoins.toLocaleString()}원` : ""}
                   onChange={handleChangeUsedCoins}
@@ -163,7 +168,7 @@ function PaymentPage() {
                 </button>
               </div>
               <button
-                className="ml-2 border p-2 rounded text-black-500"
+                className="ml-2 p-2 rounded-lg  bg-[#D1B383] text-white"
                 onClick={handleClickUseAllCoins}
               >
                 전액사용
@@ -195,7 +200,7 @@ function PaymentPage() {
             <div className="flex justify-center items-center">
               <button
                 type="submit"
-                className="w-1/2 h-auto border rounded px-2 py-1 font-bold mt-4"
+                className="w-1/2 h-[50px] bg-[#D1B383] text-white border rounded-lg px-2 py-1 font-bold mt-4"
                 onClick={() => handleMoveConfirmation()}
               >
                 결제하기

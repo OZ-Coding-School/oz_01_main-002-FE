@@ -1,12 +1,11 @@
 'use client';
 
 import apiClient from "@/api/baseApi";
-import { useDeleteProduct, usePostProduct, useUpdateProduct } from "@/api/productApi";
+import { useDeleteProduct, useGetCategories, useGetProduct, usePostProduct, useUpdateProduct } from "@/api/productApi";
 import InsertButton from "@/components/productInsert/InsertButton";
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
 import { useProductIdStore } from "@/store";
 import { ProductInsertType1 } from "@/type/ProductType";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -25,6 +24,9 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   const { mutate: userUpdateProduct } = useUpdateProduct();
   const { productId } = useProductIdStore();
   const { mutate: userDeleteProduct } = useDeleteProduct();
+  const userPostProduct = usePostProduct();
+  const [categories, setCategories] = useState([]);
+  const { data: categoriesData, refetch: categoriesRefetch } = useGetCategories();
   const router = useRouter();
   const ref = useRef(null);
   const ref2 = useRef(null);
@@ -52,16 +54,16 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     { value: 'D' },
   ]
 
-  const categoryOptions = [
-    { value: 1, label: '가방' },
-    { value: 2, label: '시계' },
-    { value: 3, label: '상의' },
-    { value: 4, label: '하의' },
-    { value: 5, label: '나이키' },
-    { value: 6, label: '아디다스' },
-    { value: 7, label: '카메라' },
-    { value: 8, label: '주얼리' },
-  ];
+  // const categoryOptions = [
+  //   { value: 2, label: '가방' },
+  //   { value: 3, label: '시계' },
+  //   { value: 4, label: '상의' },
+  //   { value: 5, label: '하의' },
+  //   { value: 6, label: '나이키' },
+  //   { value: 7, label: '아디다스' },
+  //   { value: 8, label: '카메라' },
+  //   { value: 9, label: '주얼리' },
+  // ];
 
   const dateOptions = [
     { value: 1, label: '1일' },
@@ -73,19 +75,19 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     { value: 7, label: '7일' },
   ]
 
+  const getRandomGrade = () => {
+    const randomIndex = Math.floor(Math.random() * grade.length);
+    setProductItem({
+      ...productItem,
+      grade: grade[randomIndex].value
+    })
+  }
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');
     }
-    const getRandomGrade = () => {
-      const randomIndex = Math.floor(Math.random() * grade.length);
-      setProductItem({
-        ...productItem,
-        grade: grade[randomIndex].value
-      })
-    }
     getRandomGrade();
-  }, [])
+  }, [params.id])
 
   const handleClick = () => {
     fileInput.current?.click();
@@ -118,6 +120,16 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   const handleImageDelete = (index: number) => {
     setImages(prevImages => prevImages.filter((image, i) => i !== index));
     setPostImages(prevImages => prevImages.filter((image, i) => i !== index));
+  }
+
+  useEffect(() => {
+    if (params.id !== '1') return;
+    setCategories(categoriesData?.data);
+  }, [categoriesData?.data])
+
+  const handleCategoriesClick = () => {
+    setIsClicked(!isClicked);
+    categoriesRefetch();
   }
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -234,84 +246,75 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     }
     return false;
   }
-
-  const userPostProduct = usePostProduct();
   const handlePostProduct = () => {
-    userPostProduct(productItem);
-  }
-
-  const handleSubmit = async () => {
-    try {
-      const error = handleError();
-      if (error) return;
-
-      const formData = new FormData();
-      formData.append('name', productItem.name);
-      formData.append('category_id', productItem.category_id.toString());
-      formData.append('bid_price', productItem.bid_price.toString());
-      formData.append('content', productItem.content);
-      formData.append('status', productItem.status);
-      formData.append('modify', productItem.modify.toString());
-      formData.append('duration', productItem.duration.toString());
-      formData.append('grade', productItem.grade);
-      // formData.append('image', JSON.stringify(images));
-      // 이미지 수정해야됨.. 생각해보자
-      const data = {
-        name: productItem.name,
-        category_id: productItem.category_id,
-        bid_price: productItem.bid_price,
-        content: productItem.content,
-        status: productItem.status,
-        modify: productItem.modify,
-        duration: productItem.duration,
-        grade: productItem.grade,
-      }
-      try {
-        const response = await axios.post('http://localhost:8000/api/v1/products/', data, {
-          headers: {
-            'Content-Type': 'application/json',
-            // 'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-          }
-        });
-        if (response.status === 200) {
-          alert('상품이 등록되었습니다');
-          router.push('/myPage/myProducts');
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } catch (error) {
+    const error = handleError();
+    if (error) return;
+    const formData = new FormData();
+    formData.append('name', productItem.name);
+    formData.append('category_id', productItem.category_id.toString());
+    formData.append('bid_price', productItem.bid_price.toString());
+    formData.append('content', productItem.content);
+    formData.append('status', productItem.status);
+    formData.append('modify', productItem.modify.toString());
+    formData.append('duration', productItem.duration.toString());
+    formData.append('grade', productItem.grade);
+    if (postImages[0]) {
+      formData.append('file1', postImages[0]);
     }
+    if (postImages[1]) {
+      formData.append('file2', postImages[1]);
+    }
+    if (postImages[2]) {
+      formData.append('file3', postImages[2]);
+    }
+
+    userPostProduct(formData, {
+      onSuccess: () => {
+        alert('상품이 등록되었습니다');
+        router.push('/myPage/myProducts');
+      }
+    });
   }
+
   // ============================================= 검수 완료 후 =======================================================//
-  // const { data, isLoading } = useGetProduct(productId);
-  // console.log('데이터', data);
-  // useEffect(() => {
-  //   if (params.id === '1') return;
-  //   if (productId === 0) return;
-  //   setProductItem({
-  //     name: data?.data.name,
-  //     category_id: data?.data.category_id,
-  //     bid_price: data?.data.bid_price,
-  //     content: data?.data.content,
-  //     duration: data?.data.duration,
-  //     grade: data?.data.grade,
-  //     status: data?.data.status,
-  //     modify: data?.data.modify,
-  //   })
-  //   switch (data?.data.duration) {
-  //     case 1:
-  //     case 2: setDateName('1일'); break;
-  //     case 3: setDateName('2일'); break;
-  //     case 4: setDateName('3일'); break;
-  //     case 5: setDateName('4일'); break;
-  //     case 6: setDateName('5일'); break;
-  //     case 7: setDateName('6일'); break;
-  //     case 8: setDateName('7일'); break;
-  //     default: setDateName('3시간'); break;
-  //   }
-  // }, [data, productId])
+  const { data, isLoading, refetch } = useGetProduct(productId);
+  console.log('데이터', data);
+
+  useEffect(() => {
+    if (params.id === '1') return;
+    if (productId === 0) return;
+    console.log('productId', productId);
+    refetch();
+  }, [])
+
+  useEffect(() => {
+    if (params.id === '1') return;
+    if (productId === 0) return;
+    setProductItem({
+      name: data?.data.name,
+      category_id: data?.data.category_id,
+      bid_price: data?.data.bid_price,
+      content: data?.data.content,
+      duration: data?.data.duration,
+      grade: data?.data.grade,
+      status: data?.data.status,
+      modify: data?.data.modify,
+    })
+    setImages([data?.data.images[0], data?.data.images[1], data?.data.images[2]]);
+    setCategoryName(data?.data.category);
+    switch (data?.data.duration) {
+      case 1:
+      case 2: setDateName('1일'); break;
+      case 3: setDateName('2일'); break;
+      case 4: setDateName('3일'); break;
+      case 5: setDateName('4일'); break;
+      case 6: setDateName('5일'); break;
+      case 7: setDateName('6일'); break;
+      case 8: setDateName('7일'); break;
+      default: setDateName('3시간'); break;
+    }
+  }, [data])
+
 
   const finalProduct = async () => {
     try {
@@ -331,7 +334,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
 
   const handleGetProduct = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/products/${productId}`, {
+      const response = await apiClient.get(`/api/v1/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -345,8 +348,9 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
         case 6: setDateName('5일'); break;
         case 7: setDateName('6일'); break;
         case 8: setDateName('7일'); break;
-        default: setDateName('3시간'); break;
+        default: setDateName('기간 선택'); break;
       }
+
       setProductItem({
         name: response.data.name,
         category_id: response.data.category_id,
@@ -361,12 +365,12 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    if (params.id === '1') return;
-    if (productId === 0) return;
-    handleGetProduct();
-  }, [productId])
+  console.log('productItem 불러오기', productItem);
+  // useEffect(() => {
+  //   if (params.id === '1') return;
+  //   if (productId === 0) return;
+  //   handleGetProduct();
+  // }, [productId])
 
 
   const handleUpdate = async (id: number) => {
@@ -384,8 +388,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
       }
     })
   }
-
-
 
   const handleDelete = async (id: number) => {
     const deleteItem = confirm('정말 삭제하시겠습니까?');
@@ -416,8 +418,8 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
                 <FaCamera className="w-[50px] h-[50px] opacity-50 text-[#D1B383]" />
               </div> :
                 <div className="relative w-[250px] h-[250px] max-[885px]:w-[150px] max-[885px]:h-[150px] max-[620px]:w-[310px] max-[620px]:h-[100px]  m-5 max-[620px]:m-1 rounded-xl border overflow-hidden">
-                  <button className="absolute w-[60px] h-[30px] bottom-3 max-[620px]:bottom-1 right-3 max-[885px]:right-3  max-[620px]:right-1 rounded-lg bg-[#ff00009c] z-10 text-white" onClick={() => handleImageDelete(index)}>삭제</button>
-                  <Image src={images[index]} alt="이미지" fill sizes="1" className="object-cover" />
+                  {params.id === '1' ? <button className="absolute w-[60px] h-[30px] bottom-3 max-[620px]:bottom-1 right-3 max-[885px]:right-3  max-[620px]:right-1 rounded-lg bg-[#ff00009c] z-10 text-white" onClick={() => handleImageDelete(index)}>삭제</button> : null}
+                  <Image src={images[index] ? images[index] : '/images/no_image.png'} alt="이미지" fill sizes="1" className="object-cover" priority />
                 </div>
               }
             </div>
@@ -426,22 +428,22 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
         </div>
         <div className="w-full max-[885px]:max-w-[600px] max-[620px]:max-w-[350px] mx-auto">
           <div className="mx-5 mt-8 flex items-center text-white max-[620px]:justify-center">
-            <div className={`w-[259px] h-[72px] flex items-center px-4 cursor-pointer justify-between rounded-xl border text-center relative ${isClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => params.id === '1' ? setIsClicked(!isClicked) : null}>
+            <div className={`w-[259px] h-[72px] flex items-center px-4 cursor-pointer justify-between rounded-xl border text-center relative ${isClicked ? 'border-white' : 'border-[#D1B383]'}`} onClick={() => params.id === '1' ? handleCategoriesClick() : null}>
               <IoIosArrowDown className="opacity-0" />
               {categoryName}
               <IoIosArrowDown />
-              {isClicked ? <ul className="bg-white absolute border w-[259px] z-10 left-0 top-[72px] rounded-xl scrollbar-hide" ref={ref}>
-                {categoryOptions.map((category, index) => (
+              {isClicked && categories && <ul className="bg-white absolute border w-[259px] z-10 left-0 top-[72px] rounded-xl scrollbar-hide" ref={ref}>
+                {categories.map((category: any, index) => (
                   <li key={index} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:border-b-0 last:rounded-b-xl cursor-pointer`} onClick={() => {
                     setProductItem({
                       ...productItem,
-                      category_id: category.value
+                      category_id: category.id
                     });
-                    setCategoryName(category.label);
+                    setCategoryName(category.name);
                     setIsClicked(false);
-                  }}>{category.label}</li>
+                  }}>{category.name}</li>
                 ))}
-              </ul> : null}
+              </ul>}
             </div>
           </div>
           <div className=" mx-5 mt-8">
@@ -484,7 +486,13 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
             {error.content}
           </div>
           {params.id === '1' ? <div className="text-center py-10">
-            <button className="w-[518px] h-[72px] bg-[#D1B383] max-[620px]:w-[350px] text-white text-[20px] rounded-xl" onClick={() => handleSubmit()}>등록</button>
+            <button
+              className="w-[518px] h-[72px] bg-[#D1B383] max-[620px]:w-[350px] text-white text-[20px] rounded-xl"
+              onClick={
+                () =>
+                  handlePostProduct()
+                // handleSubmit()
+              }>등록</button>
           </div>
             :
             <div className="flex justify-center items-center py-10">

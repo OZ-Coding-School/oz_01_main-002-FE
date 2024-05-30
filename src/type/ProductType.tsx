@@ -18,6 +18,18 @@ export type ProductInsertType1 = {
   modify: boolean,
 };
 
+export type ProductInsertType2 = {
+  name: string,
+  category_id: number,
+  bid_price: number | string,
+  content: string,
+  duration: number,
+  grade: string,
+  status: string,
+  modify: boolean,
+  file: File | null,
+};
+
 export type MyProductsType = {
   name: string,
   content: string,
@@ -30,7 +42,7 @@ export type MyProductsType = {
   category_id: number,
   category: string,
   is_approved: boolean,
-  img: string,
+  images: any,
   id: number
   winner_bid_price?: number | null,
   winner_nickname?: string | null,

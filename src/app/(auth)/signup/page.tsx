@@ -27,6 +27,7 @@ const SignUp = () => {
   const [terms, setTerms] = useState<Terms[]>([]);
   const [checkedPassword, setCheckedPassword] = useState('');
   const [useDate, setUseDate] = useState<string>('');
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
   const router = useRouter();
   const ref = useRef(null);
   const emailCheck = useUserEmailCheck();
@@ -375,6 +376,7 @@ const SignUp = () => {
   }
 
   const handleEmailCheck = () => {
+    setIsEmailChecked(true);
     const emailRegEx = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if (signUpUser.request_data.email === '') return alert('이메일을 입력해주세요.');
     if (!emailRegEx.test(signUpUser.request_data.email)) {
@@ -384,9 +386,9 @@ const SignUp = () => {
       })
       return true;
     }
-
     emailCheck({ email: signUpUser.request_data.email }, {
       onSuccess: () => {
+        setIsEmailChecked(false);
         setEmailCodeInput(true);
       },
     });
@@ -467,74 +469,81 @@ const SignUp = () => {
   }, [signUpUser.request_data.contact]);
 
   return (
-    <div className="bg-[#222] flex flex-col justify-center items-center">
-      <div className="mt-[100px] mb-[80px] text-white text-[40px] leading-none">
-        <p>회원가입</p>
-      </div>
-      <div className="w-full max-w-[518px] max-[560px]:max-w-[390px] mx-auto">
-        <div className="flex items-center justify-between mb-[10px]">
-          <SignInput type={'text'} placeholder={'이메일'} value={signUpUser.request_data.email} onChange={(e) => handleEmail(e)} />
-          <CheckButton title={'이메일 확인'} onClick={handleEmailCheck} />
+    <>
+      {isEmailChecked && <div className="w-full h-(100vh-140px)">
+        <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-t from-[#D1B383] to-white flex justify-center items-center animate-spin">
+          <div className="w-[65px] h-[65px] rounded-full bg-[#222]"></div>
         </div>
-        <p className="text-red-700">{error.email}</p>
-        <div className={`flex items-center mb-[10px] ${emailCodeInput ? 'block' : 'hidden'}`}>
-          <SignInput type={'text'} placeholder={'코드'} value={emailCode} onChange={(e) => setEmailCode(e.target.value)} />
-          <button className="w-[80px] h-[40px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none" onClick={handleEmailCodeCheck}>확인</button>
+      </div>}
+      <div className="bg-[#222] flex flex-col justify-center items-center">
+        <div className="mt-[100px] mb-[80px] text-white text-[40px] leading-none">
+          <p>회원가입</p>
         </div>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <div className="w-full max-w-[518px] max-[560px]:max-w-[390px] mx-auto">
+          <div className="flex items-center justify-between mb-[10px]">
+            <SignInput type={'text'} placeholder={'이메일'} value={signUpUser.request_data.email} onChange={(e) => handleEmail(e)} />
+            <CheckButton title={'이메일 확인'} onClick={handleEmailCheck} />
+          </div>
+          <p className="text-red-700">{error.email}</p>
+          <div className={`flex items-center mb-[10px] ${emailCodeInput ? 'block' : 'hidden'}`}>
+            <SignInput type={'text'} placeholder={'코드'} value={emailCode} onChange={(e) => setEmailCode(e.target.value)} />
+            <button className="w-[80px] h-[40px] rounded-[10px] bg-[#D1B383] text-white text-[16px] leading-none" onClick={handleEmailCodeCheck}>확인</button>
+          </div>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div className="my-[10px]">
+              <SignInputOne type={'password'} placeholder={'비밀번호'} value={signUpUser.request_data.password} onChange={(e) => handlePassword(e)} />
+            </div>
+            <p className="text-red-700">{error.password}</p>
+            <div className="my-[10px]">
+              <SignInputOne type={'password'} placeholder={'비밀번호 확인'} value={checkedPassword} onChange={(e) => handlePassword1(e)} />
+            </div>
+          </form>
+          <p className="text-red-700">{error.password1}</p>
           <div className="my-[10px]">
-            <SignInputOne type={'password'} placeholder={'비밀번호'} value={signUpUser.request_data.password} onChange={(e) => handlePassword(e)} />
+            <SignInputOne type={'text'} placeholder={'이름'} value={signUpUser.request_data.name} onChange={(e) => handleName(e)} />
           </div>
-          <p className="text-red-700">{error.password}</p>
-          <div className="my-[10px]">
-            <SignInputOne type={'password'} placeholder={'비밀번호 확인'} value={checkedPassword} onChange={(e) => handlePassword1(e)} />
+          <p className="text-red-700">{error.name}</p>
+          <div className="flex items-center justify-between my-[10px]">
+            <SignInput type={'text'} placeholder={'닉네임'} value={signUpUser.request_data.nickname} onChange={(e) => handleNickname(e)} />
+            <CheckButton title={'닉네임 확인'} onClick={handleNickNameCheck} />
           </div>
-        </form>
-        <p className="text-red-700">{error.password1}</p>
-        <div className="my-[10px]">
-          <SignInputOne type={'text'} placeholder={'이름'} value={signUpUser.request_data.name} onChange={(e) => handleName(e)} />
-        </div>
-        <p className="text-red-700">{error.name}</p>
-        <div className="flex items-center justify-between my-[10px]">
-          <SignInput type={'text'} placeholder={'닉네임'} value={signUpUser.request_data.nickname} onChange={(e) => handleNickname(e)} />
-          <CheckButton title={'닉네임 확인'} onClick={handleNickNameCheck} />
-        </div>
-        <p className="text-red-700">{error.nickname}</p>
-        <div className={`w-[518px] h-[60px] mt-[10px] max-[560px]:w-full flex items-center text-white cursor-pointer ${isClicked ? 'border-white' : 'border-[#D1B383]'} border-[#D1B383] justify-center rounded-xl border text-center relative`} onClick={() => setIsClicked(!isClicked)}>
-          <div className="w-full px-4 flex justify-between items-center">
-            <IoIosArrowDown className="opacity-0" />
-            {gender}
-            <IoIosArrowDown />
+          <p className="text-red-700">{error.nickname}</p>
+          <div className={`w-[518px] h-[60px] mt-[10px] max-[560px]:w-full flex items-center text-white cursor-pointer ${isClicked ? 'border-white' : 'border-[#D1B383]'} border-[#D1B383] justify-center rounded-xl border text-center relative`} onClick={() => setIsClicked(!isClicked)}>
+            <div className="w-full px-4 flex justify-between items-center">
+              <IoIosArrowDown className="opacity-0" />
+              {gender}
+              <IoIosArrowDown />
+            </div>
+            {isClicked ? <ul className="bg-white absolute border w-full border-[#D1B383]  z-10 top-[60px] rounded-xl" ref={ref}>
+              {genderOptions.map((gender) => (
+                <li key={gender.id} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white border-[#D1B383] text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer `} onClick={() => {
+                  setGender(gender.label);
+                  handleGender(gender.label);
+                  setIsClicked(false);
+                }}>{gender.label}</li>
+              ))}
+            </ul> : null}
           </div>
-          {isClicked ? <ul className="bg-white absolute border w-full border-[#D1B383]  z-10 top-[60px] rounded-xl" ref={ref}>
-            {genderOptions.map((gender) => (
-              <li key={gender.id} className={`w-full box-border hover:bg-[#D1B383] text-black hover:text-white border-[#D1B383] text-lg border-b leading-10 flex items-center justify-center first:rounded-t-xl last:rounded-b-xl last:border-b-0 cursor-pointer `} onClick={() => {
-                setGender(gender.label);
-                handleGender(gender.label);
-                setIsClicked(false);
-              }}>{gender.label}</li>
-            ))}
-          </ul> : null}
-        </div>
-        <p className="text-red-700">{error.gender}</p>
-        <div className="flex items-center justify-between my-[10px]">
-          <SignInput type={'text'} placeholder={'연락처'} value={signUpUser.request_data.contact} onChange={(e) => handlePhone(e)} />
-          <CheckButton title={'휴대폰 인증'} onClick={handlePhoneCheck} />
-        </div>
-        <p className="text-red-700">{error.phoneNumber}</p>
-        <div className="mt-[10px]">
-          <input type="date" className="w-[518px] h-[60px] max-[560px]:w-full outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="생년월일" value={useDate} onChange={(e) => handleDate(e)} />
-        </div>
-        <p className="text-red-700">{error.age}</p>
-        <div className="h-[40px]" />
-        <TermCheck setSignUpUser={setSignUpUser} />
-        <p className="text-red-700">{error.checked1 || error.checked2 || error.checked3}</p>
-        <div className="h-[40px]" />
-        <div>
-          <button className="w-[518px] h-[74px] max-[560px]:w-full rounded-[10px] bg-[#D1B383] text-white text-lg" onClick={handleSignUpUser}>회원가입</button>
+          <p className="text-red-700">{error.gender}</p>
+          <div className="flex items-center justify-between my-[10px]">
+            <SignInput type={'text'} placeholder={'연락처'} value={signUpUser.request_data.contact} onChange={(e) => handlePhone(e)} />
+            <CheckButton title={'휴대폰 인증'} onClick={handlePhoneCheck} />
+          </div>
+          <p className="text-red-700">{error.phoneNumber}</p>
+          <div className="mt-[10px]">
+            <input type="date" className="w-[518px] h-[60px] max-[560px]:w-full outline-none focus:border-white border border-[#D1B383] rounded-[10px] bg-[#222] text-white pl-4" placeholder="생년월일" value={useDate} onChange={(e) => handleDate(e)} />
+          </div>
+          <p className="text-red-700">{error.age}</p>
+          <div className="h-[40px]" />
+          <TermCheck setSignUpUser={setSignUpUser} />
+          <p className="text-red-700">{error.checked1 || error.checked2 || error.checked3}</p>
+          <div className="h-[40px]" />
+          <div>
+            <button className="w-[518px] h-[74px] max-[560px]:w-full rounded-[10px] bg-[#D1B383] text-white text-lg" onClick={handleSignUpUser}>회원가입</button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

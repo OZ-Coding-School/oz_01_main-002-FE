@@ -1,7 +1,13 @@
+'use client';
+
+import DetailModal from "@/components/myPage/menu/sale/DetailModal";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Sale = () => {
+  const [isClicked, setIsClicked] = useState(false);
+  const [productId, setProductId] = useState(0);
   const products = [
     {
       id: 1,
@@ -40,8 +46,15 @@ const Sale = () => {
       category: "시계",
     },
   ];
+
+  const handleMore = (id: number) => {
+    setIsClicked(!isClicked);
+    setProductId(id);
+  }
+
   return (
-    <div>
+    <div className="relative">
+
       {products.map((product) => (
         <div key={product.id} className="flex items-center justify-between border-b last:border-b-0 relative">
           <Link href={'/'} className="hidden max-[630px]:block bg-opacity-45 w-[350px] h-[130px] rounded-lg z-10 absolute mt-2"></Link>
@@ -80,13 +93,12 @@ const Sale = () => {
               </div>
             </div>
           </div>
-          <Link href={`/`} className="max-[630px]:hidden">
-            <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg mr-1 cursor-pointer">
-              <p>상품 보기</p>
-            </div>
-          </Link>
+          <div className="w-[150px] h-[50px] border flex justify-center items-center rounded-lg mr-1 cursor-pointer max-[630px]:hidden" onClick={() => handleMore(product.id)}>
+            <p>상품 보기</p>
+          </div>
         </div>
       ))}
+      {isClicked && productId !== 0 && <DetailModal isClicked={isClicked} setIsClicked={setIsClicked} productId={productId} />}
     </div>
   );
 };

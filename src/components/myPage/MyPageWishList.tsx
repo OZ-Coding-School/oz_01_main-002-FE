@@ -9,11 +9,7 @@ const MyPageWishList = () => {
       </div>
       <div className="mt-5 ml-7 flex items-center">
         <div className="flex flex-col justify-center items-center mr-5">
-          <div className="flex items-center text-[#4078FF] justify-center w-[70px] h-[70px] rounded-[12px] border">2건</div>
-          <p className="mt-3">입찰중</p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <div className="flex items-center text-[#4078FF] justify-center w-[70px] h-[70px] rounded-[12px] border">1건</div>
+          <div className="flex items-center text-[#4078FF] justify-center w-[70px] h-[70px] rounded-[12px] border">0건</div>
           <p className="mt-3">입찰중</p>
         </div>
       </div>
