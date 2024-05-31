@@ -11,7 +11,7 @@ export const useGetUser = () => {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
     }
   })
-  return useQuery({ queryKey: ['user'], queryFn, });
+  return useQuery({ queryKey: ['user'], queryFn, enabled: false });
 }
 
 export const useUserEmailCheck = () => {

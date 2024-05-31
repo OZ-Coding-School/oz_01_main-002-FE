@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const ConfirmationPage = () => {
-  const { data } = useGetUser();
+  const { data, refetch } = useGetUser();
   const router = useRouter();
   const { paymentUserProducts } = useProductStore();
   const totalPrice = paymentUserProducts.reduce(
@@ -23,7 +23,9 @@ const ConfirmationPage = () => {
   useEffect(() => {
     if (paymentUserProducts.length === 0) {
       router.push('/');
+      return;
     }
+    refetch();
   }, [paymentUserProducts])
 
   return (

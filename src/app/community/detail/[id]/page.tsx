@@ -1,7 +1,6 @@
 'use client';
 
 import { useGetCommunity, useGetCommunityReply } from "@/api/\bcommunityApi";
-import apiClient from "@/api/baseApi";
 import { useGetUser } from "@/api/userApi";
 import List from "@/components/community/Detail/List";
 import OptionButton from "@/components/community/Detail/OptionButton";
@@ -21,13 +20,10 @@ import { SlOptions } from "react-icons/sl";
 const CommunityDetail = ({ params }: { params: { id: string } }) => {
   const paramsId = params.id;
   const [isDetailClicked, setIsDetailClicked] = useState(false);
-  const { data } = useGetUser();
+  const { data, refetch: userRefetch } = useGetUser();
   const { data: communityItem, isLoading, refetch } = useGetCommunity(paramsId);
   const router = useRouter();
   const [date, setdate] = useState('');
-  const [user, setUser] = useState({
-    nickname: '',
-  })
   const ref = useRef(null);
   const [token, setToken] = useState<string | null>(null);
   const { data: replyData, isLoading: replyLoading } = useGetCommunityReply(paramsId);
@@ -36,26 +32,9 @@ const CommunityDetail = ({ params }: { params: { id: string } }) => {
     return src;
   };
 
-  const getUser = async () => {
-    try {
-      const response = await apiClient.get('/api/v1/users/', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-      if (response.status === 200) {
-        setUser({
-          nickname: response.data.nickname,
-        })
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  }
-
   useEffect(() => {
     if (!localStorage.getItem('access_token')) return;
-    getUser();
+    userRefetch();
   }, [])
 
 
@@ -171,8 +150,8 @@ const CommunityDetail = ({ params }: { params: { id: string } }) => {
                 </div>
               </div>
             </div>
-            <ReplyInsert replyData={replyData} data={user.nickname} paramsId={paramsId} />
-            <ReplyList replyData={replyData} detailNickname={communityItem?.data().nickname} myNickname={user.nickname} paramsId={paramsId} />
+            <ReplyInsert replyData={replyData} data={data?.data.nickname} paramsId={paramsId} />
+            <ReplyList replyData={replyData} detailNickname={communityItem?.data().nickname} myNickname={data?.data.nickname} paramsId={paramsId} />
           </div>
           <List />
           <div className="max-[1200px]:h-10" />

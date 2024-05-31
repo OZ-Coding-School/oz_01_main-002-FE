@@ -14,7 +14,7 @@ type FinalModalProps = {
 };
 
 const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
-  const { data } = useGetUser();
+  const { data, refetch } = useGetUser();
   const { winner } = useWinnerStore();
   const { mutate: activeStatus } = useAuctionPutStatus();
   const router = useRouter();
@@ -40,6 +40,10 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
   }
 
   useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      return;
+    }
+    refetch();
     const random = Math.floor(Math.random() * auctionList?.data.length);
     setRandomItem(auctionList?.data[random]);
   }, [auctionList])

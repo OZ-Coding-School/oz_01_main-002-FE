@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ProfileButton from "./ProfileButton";
 const MyPageProfile = () => {
-  const { data, isLoading } = useGetUser();
+  const { data, isLoading, refetch } = useGetUser();
   const router = useRouter();
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');
+      return;
     }
+    refetch();
   }, [])
 
   return (
