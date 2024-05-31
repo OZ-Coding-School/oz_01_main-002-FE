@@ -11,14 +11,14 @@ const MainPage = () => {
   const { data } = useGetAuctionProducts();
 
   const categories = [
-    { id: 1, name: '가방', img: '/images/item02.jpg', link: '/productList/1' },
-    { id: 2, name: '시계', img: '/images/item01.png', link: '/productList/2' },
-    { id: 3, name: '상의', img: '/images/cate04.jpg', link: '/productList/3' },
-    { id: 4, name: '하의', img: '/images/cate03.jpg', link: '/productList/4' },
-    { id: 5, name: '나이키', img: '/images/cate02.png', link: '/productList/5' },
-    { id: 6, name: '아디다스', img: '/images/cate01.png', link: '/productList/6' },
-    { id: 7, name: '카메라', img: '/images/cate05.png', link: '/productList/7' },
-    { id: 8, name: '주얼리', img: '/images/cate06.png', link: '/productList/8' },
+    { id: 2, name: '가방', img: '/images/item02.jpg', link: '/productList/1' },
+    { id: 3, name: '시계', img: '/images/item01.png', link: '/productList/2' },
+    { id: 4, name: '상의', img: '/images/cate04.jpg', link: '/productList/3' },
+    { id: 5, name: '하의', img: '/images/cate03.jpg', link: '/productList/4' },
+    { id: 6, name: '나이키', img: '/images/cate02.png', link: '/productList/5' },
+    { id: 7, name: '아디다스', img: '/images/cate01.png', link: '/productList/6' },
+    { id: 8, name: '카메라', img: '/images/cate05.png', link: '/productList/7' },
+    { id: 9, name: '주얼리', img: '/images/cate06.png', link: '/productList/8' },
   ];
 
   return (

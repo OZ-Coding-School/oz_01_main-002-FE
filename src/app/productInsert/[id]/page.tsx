@@ -365,7 +365,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
       console.log(error);
     }
   }
-  console.log('productItem 불러오기', productItem);
+
   useEffect(() => {
     if (params.id === '1') return;
     if (productId === 0) return;

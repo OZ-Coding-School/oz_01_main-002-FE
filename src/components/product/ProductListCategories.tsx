@@ -21,14 +21,14 @@ const ProductListCategories = () => {
   }, []);
 
   const categories = [
-    { id: 1, name: '가방', img: '/images/item02.jpg' },
-    { id: 2, name: '시계', img: '/images/item01.png' },
-    { id: 3, name: '상의', img: '/images/cate04.jpg' },
-    { id: 4, name: '하의', img: '/images/cate03.jpg' },
-    { id: 5, name: '나이키', img: '/images/cate02.png' },
-    { id: 6, name: '아디다스', img: '/images/cate01.svg' },
-    { id: 7, name: '카메라', img: '/images/cate05.png' },
-    { id: 8, name: '주얼리', img: '/images/cate06.png' },
+    { id: 2, name: '가방', img: '/images/item02.jpg' },
+    { id: 3, name: '시계', img: '/images/item01.png' },
+    { id: 4, name: '상의', img: '/images/cate04.jpg' },
+    { id: 5, name: '하의', img: '/images/cate03.jpg' },
+    { id: 6, name: '나이키', img: '/images/cate02.png' },
+    { id: 7, name: '아디다스', img: '/images/cate01.svg' },
+    { id: 8, name: '카메라', img: '/images/cate05.png' },
+    { id: 9, name: '주얼리', img: '/images/cate06.png' },
   ];
   useOnclickOutside(ref, () => {
     setIsClicked(false);
