@@ -49,6 +49,10 @@ const Nav = () => {
     }
   };
 
+  const handleMove = () => {
+
+  }
+
   const handleScroll2 = () => {
     const scrollY = window.scrollY;
     if (targetRef2.current === null) return;
@@ -122,8 +126,13 @@ const Nav = () => {
                       setIsLogout(false);
                       router.push('/');
                     }
-                  } else {
-                    router.push(item!.link);
+                  } else if (item.name === '마이페이지') {
+                    if (!localStorage.getItem('access_token')) {
+                      alert('로그인이 필요합니다.');
+                      router.push('/login');
+                    } else {
+                      router.push(item!.link);
+                    }
                   }
                   setIsChecked(false)
                 }}>{item?.name}</li>
