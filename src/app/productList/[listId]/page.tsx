@@ -14,7 +14,7 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
   const paramsId = params.listId;
   const { data, refetch: auctionCategories } = useGetAuctionProductsCategories(paramsId);
   const [productList, setProductList] = useState<ProductListType[] | undefined>();
-
+  console.log('data', data)
   useEffect(() => {
     if (paramsId === 'list') {
       const handleAllAuctionList = async () => {
@@ -26,7 +26,7 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
         }
       }
       handleAllAuctionList();
-    } else if (['1', '2', '3', '4', '5', '6', '7', '8'].includes(paramsId)) {
+    } else if (['2', '3', '4', '5', '6', '7', '8', '9'].includes(paramsId)) {
       auctionCategories();
     }
   }, [paramsId]);
