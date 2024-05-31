@@ -55,8 +55,8 @@ const ProductList = ({ params }: { params: { listId: string } }) => {
                 <div className="">
                   <p className="text-white text-[20px] leading-[24px] mb-[6px]">{item.product_name}</p>
                   <p className="text-[#868686] text-[20px] leading-[24px] mb-[6px]">{item.category}</p>
-                  <p className="text-[#D1B383] text-[20px] leading-[24px]">시작가 {item.product_bid_price}</p>
-                  <p className="text-[#D1B383] text-[20px] leading-[24px]">현재가 {item.final_price}</p>
+                  <p className="text-[#D1B383] text-[20px] leading-[24px]">시작가 {item.product_bid_price.toLocaleString()}원</p>
+                  <p className="text-[#D1B383] text-[20px] leading-[24px]">현재가 {item.final_price.toLocaleString()}원</p>
                 </div>
               </div>
             </Link>
