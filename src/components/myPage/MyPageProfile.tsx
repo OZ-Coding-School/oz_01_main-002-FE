@@ -12,9 +12,15 @@ const MyPageProfile = () => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');
       return;
+    } else {
     }
+  }, [])
+
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) return;
     refetch();
   }, [])
+
 
   return (
     <div className="flex items-center justify-between w-full border rounded-xl px-8 py-4 bg-white mb-5">
