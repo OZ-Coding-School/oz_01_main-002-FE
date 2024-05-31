@@ -1,20 +1,23 @@
-# 우리동네 경매장
-명품 경매 사이트
+# 명품관
+믈품 경매 사이트
 
 ## 🤖 프로젝트 소개
 
-
+명품관 경매 사이트
+>명품관 서비스는 비싼 물건을 경매로 실시간 채팅을 통해 경매가 이루어지는 사이트
+입니다. 실시간 채팅을 통해 더욱 재미난 요소를 추가하여 사용자에게 재미요소를 넣어
+만든 사이트 입니다.
 ---
 ## :link: 배포 링크
 
-> ### [🔥 링크이름](https://)
+> ### [🔥 명품관 (경매사이트)](http://www.myoungpumgwan.store/)
 
 ---
 ## 🗣️ 프로젝트 발표 영상 & 발표 문서
 
-> ### 🗓️ 2024.05-.01 - 2024.05.30
-> ### [📺 발표 영상](https://drive.google.com/file/d/1iB3WScb1EYIq1zvhURsamtRVxevvaB8e/view?usp=sharing)
-> ### [📑 발표 문서](https://drive.google.com/file/d/16-NozQRW1q76KYxRPC0rpNdcetNitZ1_/view?usp=sharing)
+> ### 🗓️ 2024.04-.01 - 2024.04.25
+> ### [📺 발표 영상](https://drive.google.com/file/d/1azeC7Qnhg94tMq4DeLzpTDfV1dkNwF1u/view?usp=sharing)
+> ### [📑 발표 문서](https://gamma.app/docs/-imu8byb5scc36e3?mode=doc)
 
 ---
 
@@ -23,23 +26,24 @@
 ## 🖥️ 서비스 소개
 |   메인 화면  |  로그인  |   회원가입   |
 |:--------:|:------:|:--------:|
-| <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/6ffec31f-1afb-4358-ae5d-762e1ae6bb2c" alt="MainPage1"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/b9a5302f-a0e2-49de-a307-cc0e7881c919" alt="login">  | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/1ad22452-37ff-448b-8428-8fab84b4b4e3" alt="register"> |
+| <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/14e33249-ee11-4a75-bfa9-19ff4fb50f42" alt="MainPage1"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/5278cded-be20-4b6e-9411-481edcce380f" alt="login">  | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/ed1feaef-09a1-4cf0-9032-7fce500dd32c" alt="register"> |
 
-|                                                                                                          난이도 선택                                                                                                           |                                                                                                              날짜 선택                                                                                                               |                                                                                                             퀴즈 풀기                                                                                                            |
+                        
+채팅                                                                                                           |                                                                                                              커뮤니티 게시판                                                                                                              |                                                                                                             프로필                                                  |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/f7c3914b-9c14-4864-ba09-b25ce065a204" alt="level"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/be798a35-334a-4fd6-91ec-26437d786448" alt="week"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/99f13169-6f67-42bc-908a-9a135e1ecca4" alt="quiz"> |
+| <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/a74ace0d-4e47-42cd-b9fe-5a16e6255837" alt="chat"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/a705269a-24fc-48a4-b6fb-fda8c66a1b5f" alt="커뮤니티 게시판"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/c831465b-ef06-497e-8403-16b1b5a2739b" alt="프로필관리"> |
 
-|                                                                                                             결과 페이지                                                                                                             |      나의 학습 공간 페이지      |      나의 정보 페이지    |
+
+
+|                                                                                                            디테일                                                                                                            |      댓글     |      경매 리스트    |
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------:|:---------:|
-| <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/bcf01d89-f83e-4efc-b621-033e4f805f95" alt="result"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/e809e505-d623-4b2a-8b9c-550d7f62e8bf" alt="learning"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/43d84303-7e27-4c00-a18b-c97db2334c97" alt="user"> |
+| <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/3af2571e-e1ef-475c-8ad7-e2edac3edff1" alt="로그인 후 디테일 페이지"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/8bb64f9b-8944-4e55-9cea-c5c507cfb38c" alt="댓글씀"> | <img width="310" src="https://github.com/OZ-Coding-School/oz_01_main-002-BE/assets/94848819/96ffb1ff-4712-45e7-8638-9174a278731c" alt="경매리스트"> |
 
 
 
 ## 🧰 사용 스택
 
-### :wrench: System Architecture
-
-<img src="https://github.com/OZ-Coding-School/oz_01_collabo-003/assets/94848819/d2e1cee8-8008-4a29-a76a-cdf22a23d54b"/>
+### FE
 <div align=center>
 
   <img src="https://img.shields.io/badge/nextjs-000000?style=for-the-badge&logo=next.js&logoColor=white">
@@ -56,6 +60,22 @@
   <br>
 </div>
 
+### BE
+<div align=center>
+  
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white">
+  <img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black">
+  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+  <br>
+
+  <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=AWS&logoColor=green">
+  <img src="https://img.shields.io/badge/gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white">
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white">
+  <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <br>
+</div>
+
+### 공통
 <div align=center>
 
   <img src="https://img.shields.io/badge/figma-EF2D5E?style=for-the-badge&logo=figma&logoColor=black">
@@ -71,11 +91,17 @@
   
   ## :busts_in_silhouette: 팀 동료
   
-  | <a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/95726561?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> | <a href=https://github.com/hyerin1228><img src="https://avatars.githubusercontent.com/u/84621142?v=4" width=100px/><br/><sub><b>@hyerin1228</b></sub></a><br/>|
-|:------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
+  ### FE
+  
+  | <a href=https://github.com/alsendrha><img src="https://avatars.githubusercontent.com/u/95726561?v=4" width=100px/><br/><sub><b>@alsendrha</b></sub></a><br/> | <a href=https://github.com/hyerin1228><img src="https://avatars.githubusercontent.com/u/84621142?v=4" width=100px/><br/><sub><b>@hayeon010904</b></sub></a><br/> |
+  |:-----------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|
   |                                          김민영                     |                         황혜린                                           |
   
+  ### BE
   
+  | <a href=https://github.com/Fillsogood><img src="https://avatars.githubusercontent.com/u/94848819?v=4" width=100px/><br/><sub><b>@Fillsogood</b></sub></a><br/> | <a href=https://github.com/Samiiz><img src="https://avatars.githubusercontent.com/u/153697942?v=4" width=100px/><br/><sub><b>@Samiiz</b></sub></a><br/>| <a href=https://github.com/hyeongbin0516><img src="https://avatars.githubusercontent.com/u/153698027?v=4" width=100px/><br/><sub><b>@hyeongbin0516</b></sub></a><br/>
+  |:------------------------------------------------:|:----------------------------------------------------:|:-----------------------------------------------------------------|
+  |                                          유경록                                         |                                     박상훈                                                |                                            김형빈                                         |
   
 </div>
 
@@ -107,6 +133,14 @@
   > - [ ] FIX: 버그 수정
 
 ### Code Convention
+>BE
+> - 패키지명 전체 소문자
+> - 클래스 이름 명사 사용
+> - service 계층 메서드명 create, update, find, delete로 CRUD 통일(ex. createMember) 
+> - Test 클래스는 접미사로 Test 사용(ex. memberFindTest)
+
+
+> FE
 > - 클래스명, CamelCase
 > - Event handler 사용 (ex. handle ~)
 > - export방식 (ex. export default ~)
@@ -119,14 +153,12 @@
 
 
 ## :clipboard: Documents
-> [📜 API 명세서](https://docs.google.com/spreadsheets/d/1AFH4YLLzGhbERokrpfJSNKmwvdgEW6aDj527PBqrBYU/edit?usp=sharing)
+> [📜 API 명세서](https://docs.google.com/spreadsheets/d/1CdgsL5tPumcipD4VO98NTOoyJM83TITOYuyHKCjEcB4/edit?usp=sharing)
 > 
 > [📜 요구사항 정의서](https://docs.google.com/spreadsheets/d/1zDFlRZdJOFyQNddJfzPwFNyTIPWsx9-CRYmbmRZPs3w/edit#gid=937853649)
 > 
-> [📜 ERD](https://drive.google.com/file/d/1aVbnp8wHraSHzdpaGnompj59LrIaRu1Y/view?usp=sharing)
+> [📜 ERD](https://drive.google.com/file/d/1DRMPGcVfW6VyGsXBmrauFUebF_d-s1yt/view?usp=sharing)
 > 
-> [📜 테이블 명세서](https://docs.google.com/spreadsheets/d/117PKxWDHYBFpPntIc3Rmew0J8Wqyk5Be6GOj7CLBG_I/edit#gid=0)
-> 
-> [📜 와이어 프레임](https://www.figma.com/design/U2opvWv0VxWI6TOtigR59h/Untitled?node-id=0-1&t=MNt6DTW1hgyDE2Pq-0)
+> [📜 테이블 명세서](https://docs.google.com/spreadsheets/d/1JcnINvxXuXnjT6HFGAu8tia3Tm5IxAgTxWnp7cbUTrs/edit#gid=0)
 >
 > [📜 화면 정의서](https://docs.google.com/document/d/1F-V30OVciDeomDSfOuoKxwd-eWjeddXGXfV2WpfahKk/edit)
