@@ -14,9 +14,7 @@ type ReplyListProps = {
     id: string;
     nickname: string;
   }[],
-  myNickname: {
-    nickname: string;
-  };
+  myNickname: string;
   paramsId: string;
   detailNickname: string;
 }

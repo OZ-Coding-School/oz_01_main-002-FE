@@ -47,6 +47,7 @@ apiClient.interceptors.response.use(
           } catch (refreshError) {
             console.log('토큰 갱신 실패', refreshError);
             localStorage.removeItem('access_token');
+
             localStorage.removeItem('user_id');
           }
         }

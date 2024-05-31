@@ -10,9 +10,8 @@ type ReplyInsertProps = {
     id: string;
     nickname: string;
   }[],
-  data: {
-    nickname: string;
-  };
+
+  data: string;
   paramsId: string;
 }
 
