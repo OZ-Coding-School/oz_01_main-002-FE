@@ -350,6 +350,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
         case 8: setDateName('7일'); break;
         default: setDateName('기간 선택'); break;
       }
+      setCategoryName(response.data.category);
       setImages([response.data.images[0], response.data.images[1], response.data.images[2]]);
       setProductItem({
         name: response.data.name,
