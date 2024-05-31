@@ -142,7 +142,7 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
       </div>
       <div className="flex justify-between max-[1255px]:justify-evenly max-[640px]:justify-between items-center my-4">
         {buttonMenu.map((item) => (
-          <div key={item.id} className="w-[170px] h-[48px] max-[640px]:w-[145px] bg-[#D1B383] border border-[#D1B383] hover:bg-white hover:text-[#D1B383] flex justify-center items-center text-white rounded-[10px]" onClick={() => handleButton(item.name)}>
+          <div key={item.id} className="w-[170px] h-[48px] max-[640px]:w-[145px] cursor-pointer bg-[#D1B383] border border-[#D1B383] hover:bg-white hover:text-[#D1B383] flex justify-center items-center text-white rounded-[10px]" onClick={() => handleButton(item.name)}>
             <p className="text-[20px] leading-none">{item.name}</p>
           </div>
         ))}

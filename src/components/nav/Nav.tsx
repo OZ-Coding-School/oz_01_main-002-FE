@@ -49,9 +49,6 @@ const Nav = () => {
     }
   };
 
-  const handleMove = () => {
-
-  }
 
   const handleScroll2 = () => {
     const scrollY = window.scrollY;
@@ -90,9 +87,18 @@ const Nav = () => {
       <div className="w-full h-[40px] flex justify-end items-center pr-[150px] bg-[#222] max-[1200px]:hidden">
         <div className="flex text-white">
           {menu.slice(2, accessToken ? 4 : 5).map((item) => (
-            <Link key={item?.id} href={item!.link}>
-              <p className="mx-[10px] hover:text-[#D1B383]">{item?.name}</p>
-            </Link>
+            // <Link key={item?.id} href={item!.link}>
+            <p key={item?.id} className="mx-[10px] cursor-pointer hover:text-[#D1B383]" onClick={() => {
+              if (item.name === '마이페이지') {
+                if (!localStorage.getItem('access_token')) {
+                  alert('로그인이 필요합니다.');
+                  router.push('/login');
+                } else {
+                  router.push(item!.link);
+                }
+              }
+            }}>{item?.name}</p>
+            // </Link>
           ))}
         </div>
       </div>
