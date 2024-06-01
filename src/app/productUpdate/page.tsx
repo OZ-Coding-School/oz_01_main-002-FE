@@ -1,7 +1,7 @@
 'use client';
 
 import apiClient from "@/api/baseApi";
-import { useDeleteProduct, useGetCategories, usePostProduct, useUpdateProduct } from "@/api/productApi";
+import { useDeleteProduct, useGetCategories, useUpdateProduct } from "@/api/productApi";
 import InsertButton from "@/components/productInsert/InsertButton";
 import { useOnclickOutside, useOnclickOutside2 } from "@/hooks/useOnClickOutSide";
 import { useProductIdStore } from "@/store";
@@ -12,7 +12,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 
-const ProductInsert = ({ params }: { params: { id: string } }) => {
+const ProductUpdate = ({ params }: { params: { id: string } }) => {
   const [images, setImages] = useState<string[]>([]);
   const [postImages, setPostImages] = useState<File[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -24,7 +24,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   const { mutate: userUpdateProduct } = useUpdateProduct();
   const { productId } = useProductIdStore();
   const { mutate: userDeleteProduct } = useDeleteProduct();
-  const userPostProduct = usePostProduct();
   const [categories, setCategories] = useState([]);
   const { data: categoriesData, refetch: categoriesRefetch } = useGetCategories();
   const router = useRouter();
@@ -54,17 +53,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     { value: 'D' },
   ]
 
-  // const categoryOptions = [
-  //   { value: 2, label: '가방' },
-  //   { value: 3, label: '시계' },
-  //   { value: 4, label: '상의' },
-  //   { value: 5, label: '하의' },
-  //   { value: 6, label: '나이키' },
-  //   { value: 7, label: '아디다스' },
-  //   { value: 8, label: '카메라' },
-  //   { value: 9, label: '주얼리' },
-  // ];
-
   const dateOptions = [
     { value: 1, label: '1일' },
     { value: 2, label: '2일' },
@@ -93,29 +81,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     fileInput.current?.click();
   };
 
-  const handleImages = (e: ChangeEvent<HTMLInputElement>) => {
-    let files = e.target.files;
-    if (!files) {
-      return;
-    }
-    if (images.length + files.length > 3) {
-      alert('이미지는 최대 3개까지 선택할 수 있습니다.');
-      return;
-    }
-    setPostImages(prevImages => [...prevImages, ...Array.from(files).slice(0, 3 - images.length)]);
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      const file = files[i];
-
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        const result = reader.result;
-        if (typeof result === 'string') {
-          setImages(prevImages => [...prevImages, result]);
-        }
-      };
-    }
-  }
 
   const handleImageDelete = (index: number) => {
     setImages(prevImages => prevImages.filter((image, i) => i !== index));
@@ -123,26 +88,12 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   }
 
   useEffect(() => {
-    if (params.id !== '1') return;
     setCategories(categoriesData?.data);
   }, [categoriesData?.data])
 
   const handleCategoriesClick = () => {
     setIsClicked(!isClicked);
     categoriesRefetch();
-  }
-
-  const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 0 || e.target.value.length !== 0) {
-      setError({
-        ...error,
-        title: ''
-      })
-    }
-    setProductItem({
-      ...productItem,
-      name: e.target.value
-    })
   }
 
   const handlePrice = (e: ChangeEvent<HTMLInputElement>) => {
@@ -178,103 +129,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
     })
   };
 
-  const handleError = () => {
-    const titleRegex = /[^ㄱ-ㅎ가-힣a-zA-Z0-9\s]/;
-
-    if (images.length === 0) {
-      alert('이미지를 등록해주세요');
-      return true;
-    }
-
-    if (productItem.category_id === 0) {
-      alert('카테고리를 선택해주세요');
-      return true;
-    }
-
-    if (titleRegex.test(productItem.name)) {
-      setError({
-        ...error,
-        title: '특수문자는 사용할 수 없습니다'
-      })
-      return true;
-    }
-
-    if (productItem.name.length <= 2) {
-      setError({
-        ...error,
-        title: '제목은 2글자 이상 입력해주세요',
-      })
-      return true;
-    }
-
-    if (productItem.bid_price === 0) {
-      setError({
-        ...error,
-        min_price: '시작가를 입력해주세요'
-      })
-      return true;
-    }
-
-    if (Number(productItem.bid_price) < 50000) {
-      setError({
-        ...error,
-        min_price: '시작가는 50,000원 이상 입력해주세요'
-      })
-      return true;
-    }
-
-
-    if (productItem.duration === 0) {
-      alert('경매기간을 선택해주세요');
-      return true;
-    }
-
-    if (productItem.content === '') {
-      setError({
-        ...error,
-        content: '내용을 입력해주세요'
-      })
-      return true;
-    }
-
-    if (productItem.content.length < 6) {
-      setError({
-        ...error,
-        content: '내용은 6글자 이상 입력해주세요',
-      })
-      return true;
-    }
-    return false;
-  }
-  const handlePostProduct = () => {
-    const error = handleError();
-    if (error) return;
-    const formData = new FormData();
-    formData.append('name', productItem.name);
-    formData.append('category_id', productItem.category_id.toString());
-    formData.append('bid_price', productItem.bid_price.toString());
-    formData.append('content', productItem.content);
-    formData.append('status', productItem.status);
-    formData.append('modify', productItem.modify.toString());
-    formData.append('duration', productItem.duration.toString());
-    formData.append('grade', productItem.grade);
-    if (postImages[0]) {
-      formData.append('file1', postImages[0]);
-    }
-    if (postImages[1]) {
-      formData.append('file2', postImages[1]);
-    }
-    if (postImages[2]) {
-      formData.append('file3', postImages[2]);
-    }
-
-    userPostProduct(formData, {
-      onSuccess: () => {
-        alert('상품이 등록되었습니다');
-        router.push('/myPage/myProducts');
-      }
-    });
-  }
 
   // ============================================= 검수 완료 후 =======================================================//
   // const { data, isLoading, refetch } = useGetProduct(productId);
@@ -368,7 +222,6 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
   }
 
   useEffect(() => {
-    if (params.id === '1') return;
     if (productId === 0) return;
     handleGetProduct();
   }, [productId])
@@ -410,7 +263,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
       <div className="w-full max-w-[870px] max-[855px]:max-w-[600px] mx-auto">
         <div className="h-[60px]" />
         <div className="text-center my-10">
-          <p className="text-white text-[40px] leading-none">{params.id === '1' ? '물품 등록' : '최종 확인(수정)'}</p>
+          <p className="text-white text-[40px] leading-none">최종 확인(수정)</p>
         </div>
         <div className="w-full max-[885px]:max-w-[600px] max-[620px]:max-w-[370px] mx-auto flex justify-center max-[855px]:flex-wrap">
           {imageIndex.map(index => (
@@ -419,13 +272,12 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
                 <FaCamera className="w-[50px] h-[50px] opacity-50 text-[#D1B383]" />
               </div> :
                 <div className="relative w-[250px] h-[250px] max-[885px]:w-[150px] max-[885px]:h-[150px] max-[620px]:w-[310px] max-[620px]:h-[100px]  m-5 max-[620px]:m-1 rounded-xl border overflow-hidden">
-                  {params.id === '1' ? <button className="absolute w-[60px] h-[30px] bottom-3 max-[620px]:bottom-1 right-3 max-[885px]:right-3  max-[620px]:right-1 rounded-lg bg-[#ff00009c] z-10 text-white" onClick={() => handleImageDelete(index)}>삭제</button> : null}
                   <Image src={images[index] ? images[index] : '/images/no_image.png'} alt="이미지" fill sizes="1" className="object-cover" priority />
                 </div>
               }
             </div>
           ))}
-          <input type="file" disabled={params.id === '1' ? false : true} id="image_file" ref={fileInput} multiple accept="image/*" className="hidden" onChange={(e) => handleImages(e)} />
+          <input type="file" disabled id="image_file" ref={fileInput} multiple accept="image/*" className="hidden" />
         </div>
         <div className="w-full max-[885px]:max-w-[600px] max-[620px]:max-w-[350px] mx-auto">
           <div className="mx-5 mt-8 flex items-center text-white max-[620px]:justify-center">
@@ -449,7 +301,7 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
           </div>
           <div className=" mx-5 mt-8">
             <div className="flex items-center">
-              <input type="text" id="title" disabled={params.id === '1' ? false : true} value={productItem.name} className="w-[518px] max-[620px]:w-[350px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" onChange={(e) => handleTitle(e)} placeholder="상품명" />
+              <input type="text" id="title" disabled value={productItem.name} className="w-[518px] max-[620px]:w-[350px] h-[72px] border rounded-xl pl-4 text-white focus:border-white outline-none border-[#D1B383] bg-[#222]" placeholder="상품명" />
             </div>
           </div>
           <div className="mx-5 mt-2 text-red-700">
@@ -486,24 +338,14 @@ const ProductInsert = ({ params }: { params: { id: string } }) => {
           <div className="mx-5 mt-2 max-[620px]:mx-0 text-red-700">
             {error.content}
           </div>
-          {params.id === '1' ? <div className="text-center py-10">
-            <button
-              className="w-[518px] h-[72px] bg-[#D1B383] max-[620px]:w-[350px] text-white text-[20px] rounded-xl"
-              onClick={
-                () =>
-                  handlePostProduct()
-                // handleSubmit()
-              }>등록</button>
+          <div className="flex justify-center items-center py-10">
+            <InsertButton title={'등록'} onClick={() => handleUpdate(productId)} />
+            <InsertButton title={'삭제'} onClick={() => handleDelete(productId)} />
           </div>
-            :
-            <div className="flex justify-center items-center py-10">
-              <InsertButton title={'등록'} onClick={() => handleUpdate(productId)} />
-              <InsertButton title={'삭제'} onClick={() => handleDelete(productId)} />
-            </div>}
         </div>
       </div>
     </div>
   )
 }
 
-export default ProductInsert
+export default ProductUpdate

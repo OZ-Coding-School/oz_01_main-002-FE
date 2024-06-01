@@ -3,7 +3,7 @@
 import { useAuctionPutStatus, useGetAuctionProductDetail, useGetAuctionProducts } from "@/api/productApi";
 import { useGetUser } from "@/api/userApi";
 import { useWinnerStore } from "@/store";
-import { AuctionProductDetailType } from "@/type/ProductType";
+import { ProductListType } from "@/type/ProductType";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,13 +14,17 @@ type FinalModalProps = {
 };
 
 const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
   const { data, refetch } = useGetUser();
   const { winner } = useWinnerStore();
   const { mutate: activeStatus } = useAuctionPutStatus();
   const router = useRouter();
   const { data: auctionList } = useGetAuctionProducts();
   const { data: detailData } = useGetAuctionProductDetail(auctionId!);
-  const [randomItem, setRandomItem] = useState<AuctionProductDetailType>();
+  const [randomItem, setRandomItem] = useState<ProductListType>();
+
   const handleMovePage = () => {
     if (data?.data.nickname === winner) {
       activeStatus({ auctionId: auctionId, status: false, isActive: '결제대기' }, {
@@ -35,7 +39,7 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           itemRefetch();
         }
       });
-      router.push('/');
+      router.push(`/detail/${randomItem?.product_id}id=${randomItem?.id}`);
     };
   }
 
@@ -64,16 +68,16 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           <div className="flex flex-col justify-start mt-6">
             <div className="flex items-center bg-white rounded-xl p-4">
               <div className="w-[100px] h-[100px] rounded-xl object-cover bg-[gray] relative overflow-hidden">
-                <Image src={data?.data.nickname === winner ? detailData?.data.product_images[0]! : randomItem?.data.product_images[0]!} fill sizes="1" className="object-cover" alt="모달 이미지" />
+                <Image src={data?.data.nickname === winner ? detailData?.data.product_images[0]! : randomItem?.product_images[0]!} fill sizes="1" className="object-cover" alt="모달 이미지" loader={loader} />
               </div>
               <div className="ml-3">
                 <div className="flex items-center font-bold text-lg">
-                  <p className="mr-2">{data?.data.nickname === winner ? detailData?.data.product_grade : randomItem?.data.product_grade}</p>
-                  <p>{data?.data.nickname === winner ? data?.data.product_name : randomItem?.data.product_name}</p>
+                  <p className="mr-2">{data?.data.nickname === winner ? detailData?.data.product_grade : randomItem?.product_grade}</p>
+                  <p>{data?.data.nickname === winner ? data?.data.product_name : randomItem?.product_name}</p>
                 </div>
                 <div className="mt-5">
                   <p className="mr-2 text-[#868686]">{data?.data.nickname === winner ? '최종 입찰가' : '현재 입찰가'}</p>
-                  <p>{data?.data.nickname === winner ? detailData?.data.final_price : randomItem?.data.final_price}</p>
+                  <p>{data?.data.nickname === winner ? detailData?.data.final_price : randomItem?.final_price}</p>
                 </div>
               </div>
             </div>
