@@ -20,11 +20,11 @@ const Nav = () => {
   }, [prams])
 
   const menu = [
-    { id: 1, name: '경매', link: '/productList/list' },
-    { id: 2, name: '커뮤니티', link: '/community' },
-    { id: 3, name: '마이페이지', link: '/myPage' },
+    { id: 1, name: '경매', link: '/productList/list.html' },
+    { id: 2, name: '커뮤니티', link: '/community.html' },
+    { id: 3, name: '마이페이지', link: '/myPage.html' },
     { id: 4, name: '관심', link: '/' },
-    { id: 5, name: accessToken ? '로그아웃' : '로그인', link: !accessToken ? '/login' : '' }
+    { id: 5, name: accessToken ? '로그아웃' : '로그인', link: !accessToken ? '/login.html' : '' }
   ];
 
   useEffect(() => {
