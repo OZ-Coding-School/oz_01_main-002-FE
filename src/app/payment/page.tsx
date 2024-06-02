@@ -15,8 +15,6 @@ function PaymentPage() {
   const [totalCoins, setTotalCoins] = useState(100000); // 보유한 코인
   const [usedCoins, setUsedCoins] = useState(0); // 입력된 코인 금액
   const { mutate: productUpdate } = useUpdateProduct();
-
-  console.log('paymentUserProducts', paymentUserProducts);
   const loader = ({ src }: { src: string }) => {
     return src;
   };

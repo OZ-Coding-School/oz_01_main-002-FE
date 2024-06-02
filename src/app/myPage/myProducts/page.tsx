@@ -26,9 +26,8 @@ const MyProducts = () => {
         });
       }
     });
-
   }
-  console.log(data);
+
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');

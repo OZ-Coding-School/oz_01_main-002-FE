@@ -8,10 +8,11 @@ export async function generateStaticParams() {
     {
       listId: listIds.toString(),
       productId: `${item.product_id}id=${item.id}`.toString(),
-      fallback: true
     }
   ));
 }
+
+export const dynamicParams = true;
 
 const ProductDetail = ({ params }: { params: { listId: string, productId: string } }) => {
   const auctionId = params.productId.split('3D')[1];
