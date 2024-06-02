@@ -11,11 +11,11 @@ type Props = {
 
 const MyPageLayout = ({ children }: Props) => {
   const myPageMenuList = [
-    { id: 1, icon: <PiShoppingCartLight className="text-[#868686] text-[30px] mr-3" />, title: 'Orders', value: 'Order', link: '/myPage/order/sale' },
-    { id: 2, icon: <CiHeart className="text-[#868686] text-[30px] mr-3" />, title: 'WishList', value: 'WishList', link: '/myPage/wishList' },
-    { id: 3, icon: <PiTruckLight className="text-[#868686] text-[30px] mr-3" />, title: 'Address', value: 'Address', link: '/myPage/address' },
-    { id: 4, icon: <RiKey2Line className="text-[#868686] text-[30px] mr-3" />, title: 'Password', value: 'Password', link: '/myPage/password' },
-    { id: 5, icon: <BsPerson className="text-[#868686] text-[30px] mr-3" />, title: '프로필 관리', value: 'Profile', link: '/myPage/profile' },
+    { id: 1, icon: <PiShoppingCartLight className="text-[#868686] text-[30px] mr-3" />, title: 'Orders', value: 'Order', link: '/myPage/order/sale/' },
+    { id: 2, icon: <CiHeart className="text-[#868686] text-[30px] mr-3" />, title: 'WishList', value: 'WishList', link: '/myPage/wishList/' },
+    { id: 3, icon: <PiTruckLight className="text-[#868686] text-[30px] mr-3" />, title: 'Address', value: 'Address', link: '/myPage/address/' },
+    { id: 4, icon: <RiKey2Line className="text-[#868686] text-[30px] mr-3" />, title: 'Password', value: 'Password', link: '/myPage/password/' },
+    { id: 5, icon: <BsPerson className="text-[#868686] text-[30px] mr-3" />, title: '프로필 관리', value: 'Profile', link: '/myPage/profile/' },
   ]
 
   return (

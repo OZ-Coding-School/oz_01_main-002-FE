@@ -5,7 +5,7 @@ import PaymentModal from "@/components/payment/PaymentModal";
 import { useProductStore } from "@/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function PaymentPage() {
   const router = useRouter();
@@ -20,13 +20,6 @@ function PaymentPage() {
   const loader = ({ src }: { src: string }) => {
     return src;
   };
-  useEffect(() => {
-    if (paymentUserProducts.length === 0) {
-      router.push('/');
-      return;
-    }
-  }, [paymentUserProducts])
-
 
   const handleMoveConfirmation = () => {
     if (paymentUserProducts.length === 0) {

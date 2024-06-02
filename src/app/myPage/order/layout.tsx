@@ -11,6 +11,7 @@ type Props = {
 
 const OrderLayout = ({ children }: Props) => {
   const path = usePathname();
+  console.log('path', path);
   const router = useRouter();
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
@@ -18,7 +19,7 @@ const OrderLayout = ({ children }: Props) => {
     }
   }, [])
 
-  const categories = [{ id: 0, name: '판매', link: '/myPage/order/sale' }, { id: 1, name: '입찰', link: '/myPage/order/bidding' }];
+  const categories = [{ id: 0, name: '판매', link: '/myPage/order/sale/' }, { id: 1, name: '입찰', link: '/myPage/order/bidding/' }];
   return (
     <div className="w-full max-w-[900px] bg-white rounded-xl px-10 pb-10">
       <Link href={'/myPage'}>
