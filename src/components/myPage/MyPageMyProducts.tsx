@@ -67,12 +67,12 @@ const MyPageMyProducts = () => {
                   <div className="w-[100px] max-[920px]:hidden">
                     <p>{product.category}</p>
                   </div>
-                  <div className={`w-[115px] text-nowrap text-end max-[670px]:rounded-lg max-[670px]:flex max-[670px]:items-center max-[670px]:justify-center max-[670px]:h-[40px] max-[670px]:text-white ${product.status === '경매중' ? 'max-[670px]:bg-[#D1B383]' : product.is_approved === false ? 'max-[670px]:bg-red-700' : 'max-[670px]:bg-blue-600 max-[670px]:cursor-pointer'}`}>
+                  <div className={`w-[115px] text-nowrap text-end max-[670px]:rounded-lg max-[670px]:flex max-[670px]:items-center max-[670px]:justify-center max-[670px]:h-[40px] max-[670px]:text-white ${product.status === '경매중' || product.status === '결제대기' || product.status === '경매완료' ? 'max-[670px]:bg-[#D1B383]' : product.is_approved === false ? 'max-[670px]:bg-red-700' : 'max-[670px]:bg-blue-600 max-[670px]:cursor-pointer'}`}>
                     <p>{product.bid_price.toLocaleString()}원</p>
                   </div>
                   <div className='w-[175px] flex items-center justify-end max-[670px]:hidden'>
-                    <div className={`flex justify-center items-center border rounded-lg w-[70px] h-[40px] ${product.status === '경매중' ? 'bg-[#D1B383]' : product.is_approved === false ? 'bg-red-700' : 'bg-blue-600 cursor-pointer'}`}>
-                      <p className="text-white">{product.status === '경매중' ? '경매중' : product.is_approved === true ? '검수완료' : '검수중'}</p>
+                    <div className={`flex justify-center items-center border rounded-lg w-[70px] h-[40px] ${product.status === '경매중' || product.status === '결제대기' || product.status === '경매완료' ? 'bg-[#D1B383]' : product.is_approved === false ? 'bg-red-700' : 'bg-blue-600 cursor-pointer'}`}>
+                      <p className="text-white">{product.status === '경매중' ? '경매중' : product.status === '결제대기' ? '결제대기' : product.status === '경매종료' ? '경매종료' : product.is_approved === true ? '검수완료' : '검수중'}</p>
                     </div>
                   </div>
                 </div>
