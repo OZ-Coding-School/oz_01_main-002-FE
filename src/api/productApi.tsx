@@ -78,8 +78,7 @@ export const useUpdateProduct = () => {
   });
   return useMutation({
     mutationFn, onSuccess: (data) => {
-      alert('상품이 등록(수정)되었습니다.');
-      router.push('/');
+
       queryClient.invalidateQueries({ queryKey: ['userProducts'] });
     },
     onError: (error) => {
@@ -155,4 +154,9 @@ export const useGetWinnerUser = (productId: string | undefined) => {
     }
   });
   return useQuery({ queryKey: ['winnerUser'], queryFn, enabled: false });
+}
+
+export const useGetProducts = () => {
+  const queryFn = () => apiClient.get('/api/v1/products/');
+  return useQuery({ queryKey: ['products'], queryFn });
 }

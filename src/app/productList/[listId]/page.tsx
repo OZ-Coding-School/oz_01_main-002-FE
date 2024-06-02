@@ -11,8 +11,6 @@ export async function generateStaticParams() {
 
 const ProductList = ({ params }: { params: { listId: string } }) => {
   const paramsId = params.listId;
-  console.log('params', params);
-
 
   return (
     <div className="bg-[#222] w-full">

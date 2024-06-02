@@ -15,7 +15,6 @@ type ProductListFormProps = {
 const ProductListForm = ({ paramsId }: ProductListFormProps) => {
   const { data, refetch: auctionCategories } = useGetAuctionProductsCategories(paramsId);
   const [productList, setProductList] = useState<ProductListType[] | undefined>();
-
   useEffect(() => {
     if (paramsId === 'list') {
       const handleAllAuctionList = async () => {
@@ -44,7 +43,7 @@ const ProductListForm = ({ paramsId }: ProductListFormProps) => {
           <p className="text-[24px] ml-5 leading-[29px] max-[764px]:text-center max-[764px]:pl-0 text-white">인기상품</p>
         </div>
         <div className="w-full flex mx-auto flex-wrap">
-          {productList && productList.slice(0, 5).map((item) => (
+          {productList && productList.filter(item => item.is_active !== '결제대기').filter(item => item.is_active !== '경매종료').slice(0, 5).map((item) => (
             <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <div className="w-full max-w-[228px] max-[1260px]:w-[180px] max-[1015px]:w-[220px] mb-6 mx-[10px] max-[1015px]:mx-[15px]">
                 <div className="w-[228px] h-[228px] max-[1260px]:w-[180px] max-[1260px]:h-[180px] max-[1015px]:w-[220px] max-[1015px]:h-[220px] bg-white mb-2 relative rounded-lg overflow-hidden">
@@ -53,7 +52,7 @@ const ProductListForm = ({ paramsId }: ProductListFormProps) => {
                 <div className="">
                   <p className="text-white text-[20px] leading-[24px] mb-[6px]">{item.product_name}</p>
                   <p className="text-[#868686] text-[20px] leading-[24px] mb-[6px]">{item.category}</p>
-                  <p className="text-[#D1B383] text-[20px] leading-[24px] text-nowrap">시작가 {item.product_bid_price.toLocaleString()}원</p>
+                  <p className="text-white text-[20px] leading-[24px] text-nowrap">시작가 {item.product_bid_price.toLocaleString()}원</p>
                   <p className="text-[#D1B383] text-[20px] leading-[24px] text-nowrap">현재가 {item.final_price.toLocaleString()}원</p>
                 </div>
               </div>
@@ -67,7 +66,7 @@ const ProductListForm = ({ paramsId }: ProductListFormProps) => {
           <p className="text-[24px] ml-[10px] max-[1150px]:ml-[10%] leading-[29px] text-white">경매상품</p>
         </div>
         <div className="w-full flex flex-wrap mx-auto max-w-[1132px] max-[1150px]:max-w-[850px] max-[865px]:max-w-[566px] max-[585px]:max-w-[450px]">
-          {productList && productList.map((item) => (
+          {productList && productList.filter(item => item.is_active !== '결제대기').filter(item => item.is_active !== '경매종료').map((item) => (
             <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <ProductListItem item={item} />
             </Link>

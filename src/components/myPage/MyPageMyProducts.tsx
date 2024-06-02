@@ -9,7 +9,6 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 
 const MyPageMyProducts = () => {
   const { data, isLoading } = useUserProducts();
-  console.log(data)
   return (
     <div className="w-full rounded-xl px-8 py-4 bg-white mb-5">
       <div className="flex items-center">

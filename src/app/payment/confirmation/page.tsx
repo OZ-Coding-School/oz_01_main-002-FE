@@ -20,6 +20,10 @@ const ConfirmationPage = () => {
     0
   );
 
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
+
   useEffect(() => {
     if (paymentUserProducts.length === 0) {
       router.push('/');
@@ -69,6 +73,7 @@ const ConfirmationPage = () => {
                     fill
                     sizes="1"
                     className="object-cover"
+                    loader={loader}
                   />
                 </div>
                 <div className="ml-4">

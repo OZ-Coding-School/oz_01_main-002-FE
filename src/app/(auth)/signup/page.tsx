@@ -404,8 +404,6 @@ const SignUp = () => {
 
   const emailCodeCheck = useUserEmailCodeCheck();
   const handleEmailCodeCheck = () => {
-    console.log(typeof emailCode);
-    console.log(typeof Number(emailCode));
     emailCodeCheck({ email: signUpUser.request_data.email, code: Number(emailCode) }, {
       onSuccess: () => {
         setUserChecked({

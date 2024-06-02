@@ -1,5 +1,5 @@
 'use client';
-import { useUserProducts } from "@/api/productApi";
+import { useGetProducts } from "@/api/productApi";
 import DetailModal from "@/components/myPage/menu/sale/DetailModal";
 import { useProductStore } from "@/store";
 import Image from "next/image";
@@ -20,7 +20,7 @@ type Product = {
 const Bidding = () => {
   const [productItem, setProductItem] = useState<Product[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const { data } = useUserProducts();
+  const { data: productsItem } = useGetProducts();
   const { setPaymentUserProducts } = useProductStore();
   const [isClicked, setIsClicked] = useState(false);
   const [productId, setProductId] = useState(0);
@@ -58,7 +58,7 @@ const Bidding = () => {
     <div>
       <div className="flex justify-between relative max-[920px]:flex-wrap-reverse">
         <div className="w-[500px] h-fit flex flex-col-reverse px-1">
-          {data?.data.filter((item: any) => item.status === '결제대기' && item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
+          {productsItem?.data.filter((item: any) => item.status === '결제대기' && item.winner_user_id === Number(localStorage.getItem('user_id'))).map((product: any) => (
             <div key={product.id} className="flex items-center justify-between max-[650px]:justify-start border-b last:border-b-0">
               <div className="mr-2">
                 <input

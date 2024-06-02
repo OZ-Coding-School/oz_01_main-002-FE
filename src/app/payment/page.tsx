@@ -33,7 +33,7 @@ function PaymentPage() {
       for (let i = 0; i < paymentUserProducts.length; i++) {
         productUpdate({ id: paymentUserProducts[i].id, updateData: { status: "결제완료" } }, {
           onSuccess: (data) => {
-            console.log("상품 결제 완료", data);
+            alert('결제가 완료되었습니다.');
             router.push("/payment/confirmation");
           }
         });
@@ -107,7 +107,7 @@ function PaymentPage() {
               >
                 <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
                   <Image
-                    src={'/images/item05.jpg'}
+                    src={item.img}
                     alt={item.name}
                     fill
                     sizes="1"

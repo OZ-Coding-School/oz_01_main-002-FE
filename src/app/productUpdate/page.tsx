@@ -238,6 +238,8 @@ const ProductUpdate = ({ params }: { params: { id: string } }) => {
       }
     }, {
       onSuccess: () => {
+        alert('상품이 등록(수정)되었습니다.');
+        router.push('/');
         finalProduct();
       }
     })

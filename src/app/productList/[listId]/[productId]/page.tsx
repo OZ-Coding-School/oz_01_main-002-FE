@@ -13,7 +13,6 @@ export async function generateStaticParams() {
 }
 
 const ProductDetail = ({ params }: { params: { listId: string, productId: string } }) => {
-  console.log('params', params);
   const auctionId = params.productId.split('3D')[1];
   const productId = params.productId.split('id')[0];
   return (

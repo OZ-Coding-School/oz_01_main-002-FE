@@ -14,10 +14,8 @@ const DetailModal = ({ isClicked, productId, setIsClicked }: DetailModalProps) =
   const [images, setImages] = useState(0);
   const ref = useRef(null);
   useEffect(() => {
-    console.log('된다');
     refetch();
   }, [isClicked === true])
-  console.log(data);
 
   const next = () => {
     setImages(prev => prev + 1 >= data?.data.images.length ? 0 : prev + 1);
@@ -30,7 +28,6 @@ const DetailModal = ({ isClicked, productId, setIsClicked }: DetailModalProps) =
   useOnclickOutside(ref, () => {
     setIsClicked(false);
   })
-  console.log(data?.data.images.length)
   return (
     <div className="absolute w-full">
       <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-md">

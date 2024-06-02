@@ -50,7 +50,7 @@ const MainPage = () => {
           <Image src={'/images/image001.png'} fill sizes="1" alt="item01" />
         </div>
         <div className="ml-[60px] max-[625px]:ml-[10px]">
-          {data && data?.data.slice(0, 2).map((item: ProductListType) => (
+          {data && data?.data.filter((item: ProductListType) => item.is_active !== '결제대기').filter((item: ProductListType) => item.is_active !== '경매종료').slice(0, 2).map((item: ProductListType) => (
             <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <ProductItem item={item} />
             </Link>

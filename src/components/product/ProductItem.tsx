@@ -46,11 +46,11 @@ const ProductItem = ({ item }: ProductItemProps) => {
         <p className="text-[#868686] text-[16px] leading-[24px] mb-[6px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.category}</p>
         <div className="flex items-center max-[625px]:block mb-[6px]">
           <p className="text-white text-nowrap">시작가&nbsp;</p>
-          <p className="text-white text-nowrap text-[20px] leading-[24px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.product_bid_price}</p>
+          <p className="text-white text-nowrap text-[20px] leading-[24px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.product_bid_price.toLocaleString()}원</p>
         </div>
         <div className="flex items-center max-[625px]:block">
           <p className="text-[#D1B383] text-nowrap">현재가&nbsp;</p>
-          <p className="text-[#D1B383] text-nowrap text-[20px] leading-[24px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.final_price}</p>
+          <p className="text-[#D1B383] text-nowrap text-[20px] leading-[24px] max-[865px]:text-[16px] max-[625px]:text-[14px] max-[865px]:leading-none">{item.final_price.toLocaleString()}원</p>
         </div>
       </div>
     </div>

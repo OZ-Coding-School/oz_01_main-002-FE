@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuctionPutStatus, useGetAuctionProductDetail, useGetAuctionProducts } from "@/api/productApi";
+import { useAuctionPutStatus, useGetAuctionProductDetail, useGetAuctionProducts, useUpdateProduct } from "@/api/productApi";
 import { useGetUser } from "@/api/userApi";
 import { useWinnerStore } from "@/store";
 import { ProductListType } from "@/type/ProductType";
@@ -24,22 +24,40 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
   const { data: auctionList } = useGetAuctionProducts();
   const { data: detailData } = useGetAuctionProductDetail(auctionId!);
   const [randomItem, setRandomItem] = useState<ProductListType>();
-
+  const { mutate: productStatusUpdate } = useUpdateProduct();
   const handleMovePage = () => {
     if (data?.data.nickname === winner) {
       activeStatus({ auctionId: auctionId, status: false, isActive: '결제대기' }, {
         onSuccess: () => {
-          itemRefetch();
+          productStatusUpdate({
+            id: detailData?.data.product_id!,
+            updateData: {
+              status: "결제대기"
+            }
+          }, {
+            onSuccess: () => {
+              itemRefetch();
+            }
+          })
         }
       });
       router.push('/myPage/order/bidding');
     } else {
       activeStatus({ auctionId: auctionId, status: false, isActive: '결제대기' }, {
         onSuccess: () => {
-          itemRefetch();
+          productStatusUpdate({
+            id: detailData?.data.product_id!,
+            updateData: {
+              status: '결제대기'
+            }
+          }, {
+            onSuccess: () => {
+              itemRefetch();
+            }
+          })
         }
       });
-      router.push(`/detail/${randomItem?.product_id}id=${randomItem?.id}`);
+      router.push(`/productList/detail/${randomItem?.product_id}id=${randomItem?.id}`);
     };
   }
 
@@ -68,7 +86,15 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           <div className="flex flex-col justify-start mt-6">
             <div className="flex items-center bg-white rounded-xl p-4">
               <div className="w-[100px] h-[100px] rounded-xl object-cover bg-[gray] relative overflow-hidden">
-                <Image src={data?.data.nickname === winner ? detailData?.data.product_images[0]! : randomItem?.product_images[0]!} fill sizes="1" className="object-cover" alt="모달 이미지" loader={loader} />
+                {data?.data.nickname === winner ? (
+                  detailData?.data.product_images[0] && (
+                    <Image src={detailData?.data.product_images[0]} fill sizes="1" className="object-cover" alt="모달 이미지" loader={loader} priority />
+                  )
+                ) : (
+                  randomItem?.product_images[0] && (
+                    <Image src={randomItem?.product_images[0]} fill sizes="1" className="object-cover" alt="모달 이미지" loader={loader} priority />
+                  )
+                )}
               </div>
               <div className="ml-3">
                 <div className="flex items-center font-bold text-lg">
