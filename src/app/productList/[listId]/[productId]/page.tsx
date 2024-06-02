@@ -7,7 +7,8 @@ export async function generateStaticParams() {
   return response.map((item: any) => (
     {
       listId: listIds.toString(),
-      productId: `${item.product_id}id=${item.id}`.toString()
+      productId: `${item.product_id}id=${item.id}`.toString(),
+      fallback: true
     }
   ));
 }
