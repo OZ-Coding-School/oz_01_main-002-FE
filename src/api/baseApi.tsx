@@ -31,7 +31,7 @@ apiClient.interceptors.response.use(
     const { config, response } = error;
     if (response) {
       const { status } = response;
-      if (status === 401) {
+      if (localStorage.getItem('refresh_token') && status === 401) {
         if (!config._retry) {
           config._retry = true;
           try {

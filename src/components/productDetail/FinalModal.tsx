@@ -73,11 +73,11 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
               <div className="ml-3">
                 <div className="flex items-center font-bold text-lg">
                   <p className="mr-2">{data?.data.nickname === winner ? detailData?.data.product_grade : randomItem?.product_grade}</p>
-                  <p>{data?.data.nickname === winner ? data?.data.product_name : randomItem?.product_name}</p>
+                  <p>{data?.data.nickname === winner ? detailData?.data.product_name : randomItem?.product_name}</p>
                 </div>
                 <div className="mt-5">
                   <p className="mr-2 text-[#868686]">{data?.data.nickname === winner ? '최종 입찰가' : '현재 입찰가'}</p>
-                  <p>{data?.data.nickname === winner ? detailData?.data.final_price : randomItem?.final_price}</p>
+                  <p>{data?.data.nickname === winner ? detailData?.data.final_price.toLocaleString() : randomItem?.final_price.toLocaleString()}원</p>
                 </div>
               </div>
             </div>

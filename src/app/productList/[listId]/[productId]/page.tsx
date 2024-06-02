@@ -3,7 +3,7 @@ import ProductDetailForm from "@/components/productDetail/ProductDetailForm";
 
 export async function generateStaticParams() {
   const listIds = ['detail'];
-  const response = await fetch('http://myoungpumgwan.store/api/v1/auctions/', { method: 'GET' }).then((res) => res.json()).then((data) => data);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auctions/`, { method: 'GET' }).then((res) => res.json()).then((data) => data);
   return response.map((item: any) => (
     {
       listId: listIds.toString(),

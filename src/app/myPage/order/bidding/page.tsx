@@ -33,7 +33,6 @@ const Bidding = () => {
       setProductItem(productItem.filter((p) => p.id !== product.id));
     }
   };
-
   const totalCommission = productItem.reduce((acc, product) => acc + product.commission!, 0);
   const totalPrice = productItem.reduce((acc, product) => acc + product.winner_bid_price, 0);
 
