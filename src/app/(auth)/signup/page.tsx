@@ -32,6 +32,8 @@ const SignUp = () => {
   const router = useRouter();
   const ref = useRef(null);
   const emailCheck = useUserEmailCheck();
+  const nicknameCheck = useUserNicknameCheck();
+  const phoneCheck = useUserPhoneCheck();
   const [signUpUser, setSignUpUser] = useState<SignUpUser>({
     request_data: {
       email: '',
@@ -415,8 +417,9 @@ const SignUp = () => {
     });
   }
 
-  const nicknameCheck = useUserNicknameCheck();
+
   const handleNickNameCheck = () => {
+    if (signUpUser.request_data.nickname === '') return alert('닉네임을 입력해주세요.');
     nicknameCheck({ nickname: signUpUser.request_data.nickname }, {
       onSuccess: () => {
         setUserChecked({
@@ -427,7 +430,7 @@ const SignUp = () => {
     });
   }
 
-  const phoneCheck = useUserPhoneCheck();
+
   const handlePhoneCheck = () => {
     if (signUpUser.request_data.contact === '') return alert('휴대폰 번호를 입력해주세요.');
     phoneCheck({ contact: signUpUser.request_data.contact }, {
