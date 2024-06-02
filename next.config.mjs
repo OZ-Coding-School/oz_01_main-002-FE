@@ -7,7 +7,7 @@ const nextConfig = {
     domains: ["mpg-image-bucket.s3.amazonaws.com"],
     unoptimized: true,
   },
-  swcMinify: true,
+  // swcMinify: true,
 };
 
 export default nextConfig;
