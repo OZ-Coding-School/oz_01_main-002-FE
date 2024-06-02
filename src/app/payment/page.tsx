@@ -16,6 +16,10 @@ function PaymentPage() {
   const [usedCoins, setUsedCoins] = useState(0); // 입력된 코인 금액
   const { mutate: productUpdate } = useUpdateProduct();
 
+  console.log('paymentUserProducts', paymentUserProducts);
+  const loader = ({ src }: { src: string }) => {
+    return src;
+  };
   useEffect(() => {
     if (paymentUserProducts.length === 0) {
       router.push('/');
@@ -106,11 +110,12 @@ function PaymentPage() {
               >
                 <div className="w-[130px] h-[130px] bg-[gray] object-cover rounded-lg relative overflow-hidden">
                   <Image
-                    src={item.img}
+                    src={item.images}
                     alt={item.name}
                     fill
                     sizes="1"
                     className="object-cover"
+                    loader={loader}
                   />
                 </div>
                 <div className="ml-4">

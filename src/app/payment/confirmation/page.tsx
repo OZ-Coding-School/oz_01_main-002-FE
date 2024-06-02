@@ -68,7 +68,7 @@ const ConfirmationPage = () => {
               <div className="flex items-center mb-4  pl-4" key={product.id}>
                 <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden relative">
                   <Image
-                    src={product.img}
+                    src={product.images}
                     alt='상품 이미지'
                     fill
                     sizes="1"
@@ -84,13 +84,13 @@ const ConfirmationPage = () => {
             ))}
             <div className="mb-4">
               <p className="text-gray-800">
-                총 상품 금액
+                총 결제 금액
                 <span className="float-right font-bold text-[#D1B383]">
-                  {totalPrice.toLocaleString()}원
+                  {(totalPrice + totalCommission).toLocaleString()}원
                 </span>
               </p>
               <p className="text-gray-500 text-sm pl-4 my-1">
-                총 결제 금액
+                상품 금액
                 <span className="float-right">
                   {totalPrice.toLocaleString()}원
                 </span>

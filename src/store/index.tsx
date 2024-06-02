@@ -5,7 +5,7 @@ type Product = {
   id: number;
   grade: string;
   name: string;
-  img: string;
+  images: string;
   startPrice?: number;
   winner_bid_price: number;
   category: string;

@@ -10,7 +10,7 @@ type Product = {
   id: number;
   grade: string;
   name: string;
-  img: string;
+  images: string;
   startPrice?: number;
   winner_bid_price: number;
   category: string;
@@ -26,9 +26,11 @@ const Bidding = () => {
   const [productId, setProductId] = useState(0);
   const router = useRouter();
   const productImg = '/images/no_image.png';
+
+  console.log('productItem', productItem);
   const handleCheck = (e: ChangeEvent<HTMLInputElement>, product: Product) => {
     if (e.target.checked) {
-      setProductItem([...productItem, { id: product.id, grade: product.grade, name: product.name, img: product.img, winner_bid_price: product.winner_bid_price, category: product.category, commission: product.winner_bid_price * 0.1 }]);
+      setProductItem([...productItem, { id: product.id, grade: product.grade, name: product.name, images: product.images[0], winner_bid_price: product.winner_bid_price, category: product.category, commission: product.winner_bid_price * 0.1 }]);
     } else {
       setProductItem(productItem.filter((p) => p.id !== product.id));
     }
