@@ -15,7 +15,7 @@
 @font-face {
   font-family: 'Pretendard';
   font-weight: 400;
-  src: url('/fonts/Pretendard-Regular.ttf') format('truetype');
+  src: url('/static/fonts/Pretendard-Regular.ttf') format('truetype');
 }
 
 body {

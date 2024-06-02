@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import Nav from "../components/nav/Nav";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], preload: true });
 
 export const metadata: Metadata = {
   title: "명품관",
@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        className="Pretendard"
       // className={inter.className}
       >
         <Nav />
