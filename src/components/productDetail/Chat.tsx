@@ -15,7 +15,7 @@ type ChatTypeProps = {
 
 const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   const [isChat, setIsChat] = useState('');
-  const { data, refetch: userRefetch } = useGetUser();
+  const { data } = useGetUser();
   const { mutate: postBidding } = usePostWinner();
 
   const buttonMenu = [
@@ -25,12 +25,6 @@ const Chat = ({ productId, auctionId, finalPrice, refetch }: ChatTypeProps) => {
   ];
   const { mutate: userChatRoom } = useChatRoom();
   const { messages, isConnected, sendMessage } = useWebSocket();
-
-  useEffect(() => {
-    if (!localStorage.getItem('access_token')) return;
-    userRefetch();
-  }, [])
-
 
   useEffect(() => {
     if (isConnected) {

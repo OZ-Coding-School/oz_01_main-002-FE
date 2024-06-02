@@ -16,7 +16,7 @@ type InsertFormProps = {
 
 const InsertForm = ({ paramsId }: InsertFormProps) => {
   const fileInput = useRef<HTMLInputElement>(null);
-  const { data, isLoading, refetch: userRefetch } = useGetUser();
+  const { data, isLoading } = useGetUser();
   const { data: communityItem, isLoading: communityLoading, refetch } = useGetCommunity(paramsId.replace('update%3D', ''));
   const [file, setFile] = useState<File>();
   const [renderImage, setRenderImage] = useState<string>('');
@@ -40,7 +40,6 @@ const InsertForm = ({ paramsId }: InsertFormProps) => {
       router.push('/login');
       return;
     }
-    userRefetch();
     if (paramsId === 'insert') return;
     if (!paramsId || typeof paramsId !== 'string' || !paramsId.startsWith('update%') || paramsId.length !== 19) {
       // 유효하지 않은 ID이거나 존재하지 않는 경우 리디렉션

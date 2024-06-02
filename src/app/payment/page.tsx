@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 function PaymentPage() {
   const router = useRouter();
-  const { data, refetch } = useGetUser();
+  const { data } = useGetUser();
   const [isClick, setIsClick] = useState(false);
   const { paymentUserProducts } = useProductStore();
   const [totalCoins, setTotalCoins] = useState(100000); // 보유한 코인
@@ -21,7 +21,6 @@ function PaymentPage() {
       router.push('/');
       return;
     }
-    refetch();
   }, [paymentUserProducts])
 
 

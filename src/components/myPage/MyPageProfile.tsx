@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ProfileButton from "./ProfileButton";
 const MyPageProfile = () => {
-  const { data, isLoading, refetch } = useGetUser();
+  const { data, isLoading } = useGetUser();
   const router = useRouter();
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
@@ -15,12 +15,6 @@ const MyPageProfile = () => {
     } else {
     }
   }, [])
-
-  useEffect(() => {
-    if (!localStorage.getItem('access_token')) return;
-    refetch();
-  }, [])
-
 
   return (
     <div className="flex items-center justify-between w-full border rounded-xl px-8 py-4 bg-white mb-5">

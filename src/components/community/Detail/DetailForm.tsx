@@ -24,7 +24,7 @@ type DetailFormProps = {
 
 const DetailForm = ({ paramsId }: DetailFormProps) => {
   const [isDetailClicked, setIsDetailClicked] = useState(false);
-  const { data, refetch: userRefetch } = useGetUser();
+  const { data } = useGetUser();
   const { data: communityItem, isLoading, refetch } = useGetCommunity(paramsId);
   const router = useRouter();
   const [date, setdate] = useState('');
@@ -34,12 +34,6 @@ const DetailForm = ({ paramsId }: DetailFormProps) => {
   const loader = ({ src }: { src: string }) => {
     return src;
   };
-
-  useEffect(() => {
-    if (!localStorage.getItem('access_token')) return;
-    userRefetch();
-  }, [])
-
 
   useEffect(() => {
     setToken(localStorage.getItem('access_token'));
