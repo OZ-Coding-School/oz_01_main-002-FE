@@ -72,7 +72,7 @@ const MyPageMyProducts = () => {
                   </div>
                   <div className='w-[175px] flex items-center justify-end max-[670px]:hidden'>
                     <div className={`flex justify-center items-center border rounded-lg w-[70px] h-[40px] ${product.status === '경매중' || product.status === '결제대기' || product.status === '경매완료' ? 'bg-[#D1B383]' : product.is_approved === false ? 'bg-red-700' : 'bg-blue-600 cursor-pointer'}`}>
-                      <p className="text-white">{product.status === '경매중' ? '경매중' : product.status === '결제대기' ? '결제대기' : product.status === '경매종료' ? '경매종료' : product.is_approved === true ? '검수완료' : '검수중'}</p>
+                      <p className="text-white">{product.status}</p>
                     </div>
                   </div>
                 </div>

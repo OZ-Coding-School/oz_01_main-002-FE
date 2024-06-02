@@ -1,6 +1,6 @@
 'use client';
 
-import { useProductInspection, useUserProducts } from "@/api/productApi";
+import { useProductInspection, useUpdateProduct, useUserProducts } from "@/api/productApi";
 import { useProductIdStore } from "@/store";
 import { MyProductsType } from "@/type/ProductType";
 import Image from "next/image";
@@ -14,15 +14,21 @@ const MyProducts = () => {
   const { setProductId } = useProductIdStore();
   const { data, refetch, isLoading } = useUserProducts();
   const { mutate: productInspection } = useProductInspection();
+  const { mutate: updateProduct } = useUpdateProduct();
 
   const handleProduct = async (id: number) => {
     productInspection({ product_id: id, inspector: '관리자' }, {
       onSuccess: () => {
-        refetch();
+        updateProduct({ id, updateData: { status: '검수완료' } }, {
+          onSuccess: () => {
+            refetch();
+          }
+        });
       }
     });
-  }
 
+  }
+  console.log(data);
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       router.push('/login');
@@ -76,11 +82,11 @@ const MyProducts = () => {
               </div>
             </div>
             <div className="flex flex-col justify-center items-center" >
-              {product.is_approved ? <div className={`w-[150px] h-[50px] max-[620px]:w-[100px]  justify-center items-center mr-1 my-1 bg-blue-600 ${product.is_approved ? 'cursor-pointer' : ''} ${product.status !== '검수확인' ? 'hidden' : 'flex'} text-white rounded-lg`} onClick={() => product.is_approved ? handleProductCheck(product.id) : null}>
+              {product.is_approved ? <div className={`w-[150px] h-[50px] max-[620px]:w-[100px]  justify-center items-center mr-1 my-1 bg-blue-600 ${product.status === '검수완료' ? 'cursor-pointer' : ''} ${product.status !== '검수완료' ? 'hidden' : 'flex'} text-white rounded-lg`} onClick={() => product.is_approved ? handleProductCheck(product.id) : null}>
                 <p>최종 확인</p>
               </div> : null}
-              <div className={`w-[150px] h-[50px]  max-[620px]:w-[100px]  flex justify-center text-white cursor-pointer items-center rounded-lg mr-1 ${!product.is_approved ? 'bg-red-700' : 'bg-[#D1B383]'}`} onClick={() => !product.is_approved ? handleProduct(product.id) : null}>
-                <p>{!product.is_approved ? '검수중' : product.status === '경매중' ? '경매중' : product.status === '결제대기' ? '결제대기' : product.status === '결제완료' ? '결제완료' : '검수완료'}</p>
+              <div className={`w-[150px] h-[50px]  max-[620px]:w-[100px]  flex justify-center text-white cursor-pointer items-center rounded-lg mr-1 ${product.status === '검수중' ? 'bg-red-700' : 'bg-[#D1B383]'}`} onClick={() => !product.is_approved ? handleProduct(product.id) : null}>
+                <p>{product.status}</p>
               </div>
             </div>
           </div>
