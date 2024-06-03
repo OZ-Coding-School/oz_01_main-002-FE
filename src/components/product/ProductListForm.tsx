@@ -42,7 +42,7 @@ const ProductListForm = ({ paramsId }: ProductListFormProps) => {
         <div className="my-[25px]">
           <p className="text-[24px] ml-5 leading-[29px] max-[764px]:text-center max-[764px]:pl-0 text-white">인기상품</p>
         </div>
-        <div className="w-full flex mx-auto flex-wrap">
+        <div className="w-full flex mx-auto flex-wrap flex-row-reverse">
           {productList && productList.filter(item => item.is_active !== '결제대기').filter(item => item.is_active !== '경매종료').slice(0, 5).map((item) => (
             <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <div className="w-full max-w-[228px] max-[1260px]:w-[180px] max-[1015px]:w-[220px] mb-6 mx-[10px] max-[1015px]:mx-[15px]">
@@ -65,7 +65,7 @@ const ProductListForm = ({ paramsId }: ProductListFormProps) => {
         <div className="my-[25px]">
           <p className="text-[24px] ml-[10px] max-[1150px]:ml-[10%] leading-[29px] text-white">경매상품</p>
         </div>
-        <div className="w-full flex flex-wrap mx-auto max-w-[1132px] max-[1150px]:max-w-[850px] max-[865px]:max-w-[566px] max-[585px]:max-w-[450px]">
+        <div className="w-full flex flex-wrap-reverse flex-row-reverse mx-auto max-w-[1132px] max-[1150px]:max-w-[850px] max-[865px]:max-w-[566px] max-[585px]:max-w-[450px]">
           {productList && productList.filter(item => item.is_active !== '결제대기').filter(item => item.is_active !== '경매종료').map((item) => (
             <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
               <ProductListItem item={item} />
