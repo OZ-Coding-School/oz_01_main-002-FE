@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetCommunity } from "@/api/\bcommunityApi";
+import { useGetCommunity } from "@/api/communityApi";
 import { useGetUser } from "@/api/userApi";
 import { db, storage } from "@/firebase";
 import { collection, doc, setDoc, updateDoc } from "firebase/firestore";

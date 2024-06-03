@@ -1,11 +1,11 @@
 'use client';
 
 import { useSignUpUser, useUserEmailCheck, useUserEmailCodeCheck, useUserNicknameCheck, useUserPhoneCheck } from "@/api/userApi";
-import CheckButton from "@/components/\bsignup/CheckButton";
-import EmailLoading from "@/components/\bsignup/EmailLoading";
-import SignInput from "@/components/\bsignup/SignInput";
-import SignInputOne from "@/components/\bsignup/SignInputOne";
-import TermCheck from "@/components/\bsignup/TermCheck";
+import CheckButton from "@/components/signup/CheckButton";
+import EmailLoading from "@/components/signup/EmailLoading";
+import SignInput from "@/components/signup/SignInput";
+import SignInputOne from "@/components/signup/SignInputOne";
+import TermCheck from "@/components/signup/TermCheck";
 import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
 import { SignUpUser } from "@/type/UserType";
 import { useRouter } from "next/navigation";

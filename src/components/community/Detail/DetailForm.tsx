@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetCommunity, useGetCommunityReply } from "@/api/\bcommunityApi";
+
 import { useGetUser } from "@/api/userApi";
 import { db } from "@/firebase";
 import { useOnclickOutside } from "@/hooks/useOnClickOutSide";
@@ -8,6 +8,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useGetCommunity, useGetCommunityReply } from "@/api/communityApi";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BsEye } from "react-icons/bs";
