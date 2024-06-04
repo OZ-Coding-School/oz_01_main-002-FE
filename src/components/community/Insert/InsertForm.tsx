@@ -24,7 +24,7 @@ const InsertForm = ({ paramsId }: InsertFormProps) => {
   let imageUrl: any = null;
   const [communityData, setCommunityData] = useState({
     title: '',
-    content: ''
+    content: '',
   })
   const [errorMessage, setErrorMessage] = useState({
     title: '',
