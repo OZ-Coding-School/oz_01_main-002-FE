@@ -43,11 +43,14 @@ apiClient.interceptors.response.use(
               axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
               config.headers.Authorization = `Bearer ${newAccessToken}`;
               return axios(config);
+            } else {
+              console.error('error:', error);
+              localStorage.removeItem('access_token');
+              localStorage.removeItem('user_id');
             }
           } catch (refreshError) {
             console.log('토큰 갱신 실패', refreshError);
             localStorage.removeItem('access_token');
-
             localStorage.removeItem('user_id');
           }
         }
