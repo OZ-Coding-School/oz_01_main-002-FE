@@ -84,7 +84,7 @@ const Nav = () => {
 
   return (
     <div>
-      <div className="w-full h-[40px] flex justify-end items-center pr-[150px] bg-[#222] max-[1200px]:hidden">
+      <div className="w-full h-[40px] flex justify-end items-center  pr-[150px] bg-[#222] max-[1200px]:hidden">
         <div className="flex text-white">
           {menu.slice(2, accessToken ? 4 : 5).map((item) => (
             <p key={item?.id} className="mx-[10px] cursor-pointer hover:text-[#D1B383]" onClick={() => {
@@ -110,7 +110,7 @@ const Nav = () => {
             <Image ref={targetRef2} src={'/images/logo.png'} width={200} height={200} className={`w-[200px] h-auto transition-all duration-[0.3s] ease-out z-0 ${prams === '/login' ? 'opacity-0' : 'opacity-100'}
             `} alt="logo" priority />
           </Link>
-          <div className="w-[30px] h-[30px]  hidden max-[1200px]:block mr-[30px] relative">
+          <div className="w-[30px] h-[30px] cursor-pointer hidden max-[1200px]:block mr-[30px] relative">
             <div className={`w-[30px] h-[30px] absolute z-50 ${!isChecked ? 'hidden' : 'block'}`} />
             <div className="absolute">
               <div className="w-[30px] h-[30px]  hidden max-[1200px]:block mr-[30px] relative" onClick={(e) => handleClick(e)} >
