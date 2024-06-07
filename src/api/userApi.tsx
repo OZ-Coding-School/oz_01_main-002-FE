@@ -19,7 +19,6 @@ export const useUserEmailCheck = () => {
   );
   const mutation = useMutation({
     mutationFn, onSuccess: (data) => {
-      console.log('이메일 코드 발송 성공', data);
       alert('이메일 코드가 발송되었습니다.');
     },
     onError: (error) => {
