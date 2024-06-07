@@ -31,7 +31,6 @@ apiClient.interceptors.response.use(
     const { config, response } = error;
     if (response) {
       const { status, config: { url } } = response;
-      console.log('error', url);
       if (url === '/api/v1/users/refresh' && status === 401) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');

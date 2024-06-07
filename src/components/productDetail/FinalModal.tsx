@@ -37,11 +37,11 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           }, {
             onSuccess: () => {
               itemRefetch();
+              router.push('/myPage/order/bidding');
             }
           })
         }
       });
-      router.push('/myPage/order/bidding');
     } else {
       activeStatus({ auctionId: auctionId, status: false, isActive: '결제대기' }, {
         onSuccess: () => {
@@ -53,11 +53,11 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           }, {
             onSuccess: () => {
               itemRefetch();
+              router.push(`/productList/detail/?id=${randomItem?.product_id}&productId=${randomItem?.id}`);
             }
           })
         }
       });
-      router.push(`/productList/detail/?id=${randomItem?.product_id}&productId=${randomItem?.id}`);
     };
   }
 

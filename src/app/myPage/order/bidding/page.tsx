@@ -27,7 +27,6 @@ const Bidding = () => {
   const router = useRouter();
   const productImg = '/images/no_image.png';
 
-  console.log('productItem', productItem);
   const handleCheck = (e: ChangeEvent<HTMLInputElement>, product: Product) => {
     if (e.target.checked) {
       setProductItem([...productItem, { id: product.id, grade: product.grade, name: product.name, images: product.images[0], winner_bid_price: product.winner_bid_price, category: product.category, commission: product.winner_bid_price * 0.1 }]);

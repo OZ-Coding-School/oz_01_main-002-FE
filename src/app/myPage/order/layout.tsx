@@ -11,7 +11,6 @@ type Props = {
 
 const OrderLayout = ({ children }: Props) => {
   const path = usePathname();
-  console.log('path', path);
   const router = useRouter();
   useEffect(() => {
     if (!localStorage.getItem('access_token')) {

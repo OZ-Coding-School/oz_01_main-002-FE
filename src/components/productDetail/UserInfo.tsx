@@ -9,7 +9,6 @@ type UserInfoProps = {
 }
 
 const UserInfo = ({ user }: UserInfoProps) => {
-  console.log(user);
   const loader = ({ src }: { src: string }) => {
     return src;
   };
