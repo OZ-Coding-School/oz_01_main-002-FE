@@ -11,14 +11,14 @@ const MainPage = () => {
   const { data } = useGetAuctionProducts();
 
   const categories = [
-    { id: 2, name: '가방', img: '/images/item02.jpg', link: '/productList/2' },
-    { id: 3, name: '시계', img: '/images/item01.png', link: '/productList/3' },
-    { id: 4, name: '상의', img: '/images/cate04.jpg', link: '/productList/4' },
-    { id: 5, name: '하의', img: '/images/cate03.jpg', link: '/productList/5' },
-    { id: 6, name: '나이키', img: '/images/cate02.png', link: '/productList/6' },
-    { id: 7, name: '아디다스', img: '/images/cate01.png', link: '/productList/7' },
-    { id: 8, name: '카메라', img: '/images/cate05.png', link: '/productList/8' },
-    { id: 9, name: '주얼리', img: '/images/cate06.png', link: '/productList/9' },
+    { id: 2, name: '가방', img: '/images/item02.jpg', link: '/productList' },
+    { id: 3, name: '시계', img: '/images/item01.png', link: '/productList' },
+    { id: 4, name: '상의', img: '/images/cate04.jpg', link: '/productList' },
+    { id: 5, name: '하의', img: '/images/cate03.jpg', link: '/productList' },
+    { id: 6, name: '나이키', img: '/images/cate02.png', link: '/productList' },
+    { id: 7, name: '아디다스', img: '/images/cate01.png', link: '/productList' },
+    { id: 8, name: '카메라', img: '/images/cate05.png', link: '/productList' },
+    { id: 9, name: '주얼리', img: '/images/cate06.png', link: '/productList' },
   ];
 
   return (
@@ -27,7 +27,12 @@ const MainPage = () => {
       <div className="h-[97px] max-[625px]:h-[50px]" />
       <div className="flex justify-center max-w-[1181px] max-[1200px]:max-w-[877px] max-[865px]:max-w-[637px] max-[625px]:max-w-[477px] mx-auto flex-wrap">
         {categories.map((category) => (
-          <Link key={category.id} href={category.link}>
+          <Link key={category.id} href={{
+            pathname: category.link,
+            query: {
+              id: category.id
+            }
+          }}>
             <div className="mb-[26px]" >
               <div className="w-[261px] h-[261px] relative object-cover max-[1200px]:w-[180px] max-[1200px]:h-[180px] max-[865px]:w-[120px] max-[865px]:h-[120px] max-[625px]:w-[80px] max-[625px]:h-[80px] mb-2 overflow-hidden rounded-[8px] mx-[16px]">
                 <Image src={category.img} fill sizes="1" className="object-cover bg-white" alt="카테고리 이미지" />
@@ -51,7 +56,13 @@ const MainPage = () => {
         </div>
         <div className="ml-[60px] max-[625px]:ml-[10px]">
           {data && data?.data.filter((item: ProductListType) => item.is_active !== '결제대기').filter((item: ProductListType) => item.is_active !== '경매종료').slice(0, 2).map((item: ProductListType) => (
-            <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
+            <Link key={item.id} href={{
+              pathname: `/productList/detail`,
+              query: {
+                id: item.id,
+                productId: item.product_id
+              }
+            }}>
               <ProductItem item={item} />
             </Link>
           ))}
@@ -67,8 +78,14 @@ const MainPage = () => {
       </div>
       <div className="w-full flex justify-center">
         <div className="mr-[47.5px] max-[1200px]:mr-[0px] max-w-[510px] flex flex-wrap justify-center">
-          {data && data?.data.slice(0, 4).map((item: ProductListType) => (
-            <Link key={item.id} href={`/productList/detail/${item.product_id}id=${item.id}`}>
+          {data && data?.data.filter((item: ProductListType) => item.is_active !== '결제대기').filter((item: ProductListType) => item.is_active !== '경매종료').slice(0, 4).map((item: ProductListType) => (
+            <Link key={item.id} href={{
+              pathname: `/productList/detail`,
+              query: {
+                id: item.id,
+                productId: item.product_id
+              }
+            }}>
               <ProductItem item={item} />
             </Link>
           ))}
@@ -78,7 +95,12 @@ const MainPage = () => {
         </div>
       </div>
       <div className="h-[38px]" />
-      <Link href='/productList/list'>
+      <Link href={{
+        pathname: '/productList',
+        query: {
+          id: 'list',
+        }
+      }}>
         <div className="flex justify-center">
           <div className="w-[118px] h-[50px] max-[625px]:w-[80px] max-[625px]:h-[40px] rounded-full bg-[#D1B383] flex justify-center text-white items-center transition-all duration-[0.3s] ease-out border-[2px] border-[#D1B383] hover:bg-white hover:text-[#D1B383]">
             <p className="text-[20px] max-[625px]:text-[16px]">more</p>

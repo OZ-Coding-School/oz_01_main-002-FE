@@ -50,7 +50,12 @@ const CardForm = ({ item }: CardFormProps) => {
       <div className="text-gray-500 max-[920px]:text-[14px]">
         <p>{item.category}</p>
       </div>
-      <Link href={`/community/detail/${item.id}`}>
+      <Link href={{
+        pathname: `/community/detail`,
+        query: {
+          id: item.id
+        }
+      }}>
         <div className="flex justify-between items-start">
           <div className="flex flex-col jub">
             <div className="text-[22px] max-[920px]:text-[18px] line-clamp-1 font-bold text-ellipsis overflow-hidden">

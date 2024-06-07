@@ -43,7 +43,12 @@ const ProductListCategories = () => {
       </div>
       <div ref={ref} className={`w-full  max-[1135px]:w-[120px] h-[50px] border-x-0  z-10 bg-[#222] flex items-center justify-center max-[1135px]:block max-[1135px]:absolute max-[1135px]:top-[51px] max-[1135px]:left-5 ${isClicked ? 'max-[1135px]:block' : 'max-[1135px]:hidden'}`}>
         {categories.map((category) => (
-          <Link key={category.id} href={`/productList/${category.id}`}>
+          <Link key={category.id} href={{
+            pathname: `/productList`,
+            query: {
+              id: category.id
+            }
+          }}>
             <ProductListCategory category={category.name} setIsClicked={setIsClicked} />
           </Link>
         ))}

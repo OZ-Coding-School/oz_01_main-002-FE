@@ -57,7 +57,7 @@ const FinalModal = ({ auctionId, itemRefetch }: FinalModalProps) => {
           })
         }
       });
-      router.push(`/productList/detail/${randomItem?.product_id}id=${randomItem?.id}`);
+      router.push(`/productList/detail/?id=${randomItem?.product_id}&productId=${randomItem?.id}`);
     };
   }
 

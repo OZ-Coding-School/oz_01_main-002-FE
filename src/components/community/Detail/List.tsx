@@ -29,7 +29,12 @@ const List = () => {
         <p className="text-xl font-bold">게시물 목록</p>
         <div className="w-full mt-3 text-lg border-t pt-3">
           {communityList.map((item: any) => (
-            <Link key={item.id} href={`/community/detail/${item.id}`}>
+            <Link key={item.id} href={{
+              pathname: `/community/detail`,
+              query: {
+                id: item.id
+              }
+            }}>
               <div className="flex items-center cursor-pointer">
                 <p className="text-[red] text-2xl font-bold">·</p>
                 <p className="line-clamp-1 ml-2 text-ellipsis">{item.title}</p>
