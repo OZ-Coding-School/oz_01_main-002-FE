@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import ProductInsertButton from "@/components/product/ProductInsertButton";
 import ProductListCategories from "@/components/product/ProductListCategories";
@@ -15,15 +15,15 @@ import { useSearchParams } from "next/navigation";
 const ProductList = ({ params }: { params: { listId: string } }) => {
   // const paramsId = params.listId;
   const searchParams = useSearchParams();
-  const paramsId = searchParams.get('id')!;
+  const categoryName = searchParams.get("name")!;
   return (
     <div className="bg-[#222] w-full">
       <div className="h-[40px]" />
       <ProductListCategories />
-      <ProductListForm paramsId={paramsId} />
+      <ProductListForm categoryName={categoryName} />
       <ProductInsertButton />
     </div>
-  )
-}
+  );
+};
 
-export default ProductList
+export default ProductList;

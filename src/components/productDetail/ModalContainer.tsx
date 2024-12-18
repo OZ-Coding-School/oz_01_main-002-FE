@@ -1,18 +1,27 @@
-'use client';
+"use client";
 
 import FinalModal from "./FinalModal";
 type ModalContainerProps = {
   itemStatus: boolean | undefined;
   active: string;
   auctionId: string | undefined;
-  itemRefetch: () => void;
+  // itemRefetch: () => void;
 };
-const ModalContainer = ({ itemStatus, active, auctionId, itemRefetch }: ModalContainerProps) => {
+const ModalContainer = ({
+  itemStatus,
+  active,
+  auctionId,
+}: ModalContainerProps) => {
   return (
     <>
-      {active === '경매종료' ? < FinalModal auctionId={auctionId} itemRefetch={itemRefetch} /> : null}
+      {active === "경매종료" ? (
+        <FinalModal
+          auctionId={auctionId}
+          // itemRefetch={itemRefetch}
+        />
+      ) : null}
     </>
-  )
-}
+  );
+};
 
-export default ModalContainer
+export default ModalContainer;
