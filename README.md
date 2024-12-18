@@ -10,14 +10,14 @@
 ---
 ## :link: 배포 링크
 
-> ### [🔥 명품관 (경매사이트)](http://www.myoungpumgwan.store/)
+> ### [🔥 명품관 (경매사이트)](http://www.myoungpumgwan.store11/)
 
 ---
 ## 🗣️ 프로젝트 발표 영상 & 발표 문서
 
 > ### 🗓️ 2024.04-.01 - 2024.04.25
-> ### [📺 발표 영상](https://drive.google.com/file/d/1azeC7Qnhg94tMq4DeLzpTDfV1dkNwF1u/view?usp=sharing)
-> ### [📑 발표 문서](https://gamma.app/docs/-imu8byb5scc36e3?mode=doc)
+> ### [📺 발표 영상](https://drive.google.com/file/d/1azeC7Qnhg94tMq4DeLzpTDfV1dkNwF1u/view?usp=sharing11)
+> ### [📑 발표 문서](https://gamma.app/docs/-imu8byb5scc36e3?mode=doc11)
 
 ---
 
